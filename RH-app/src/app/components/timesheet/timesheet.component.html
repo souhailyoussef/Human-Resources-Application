@@ -1,0 +1,109 @@
+
+<div class="timesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
+<div class="container-xl px-4 mt-4">
+    
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <!-- Billing card 1-->
+            <div class="card h-100 border-start-lg border-start-primary" style="width: 400px;">
+                <div class="card-body">
+                    <div class="small text-muted">Employee</div>
+                    <div class="h3">John Doe</div>
+                    <div class="small text-muted">Role</div>
+                    <div class="h3">Chef de projet</div>
+                    <div class="small text-muted">Department</div>
+                    <div class="h3">IT</div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <!-- Billing card 2-->
+            <div class="card h-100 border-start-lg border-start-secondary" style="width: 400px; background-color: var(--background-color);">
+                <div class="card-body" >
+                    <div class="small text-muted " style="margin-left:11px;">Choose date</div>
+                    <div class="h3" id="initial_date">
+                      <mat-form-field color="black" appearance="fill">
+                        <mat-label>Initial date</mat-label>
+                        <input matInput [matDatepicker]="picker1">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                      </mat-form-field>
+    
+                    </div>
+                    <div class="h3" id="final_date">
+                      <mat-form-field color="accent" appearance="outline">
+                        <mat-label>Final</mat-label>
+                        <input matInput  [matDatepicker]="picker2">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2 ></mat-datepicker>
+                      </mat-form-field>
+    
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header"  style="display:align-flex; justify-content: space-between; vertical-align: center;">Timesheet
+            <div class="card-header filters">Filters
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                    <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                  </svg>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive table-billing-history">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="border-gray-200" scope="col">Project</th>
+                            <th class="border-gray-200" scope="col">Phase</th>
+                            <th class="border-gray-200" scope="col">Date</th>
+                            <th class="border-gray-200" scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#39201</td>
+                            <td>06/15/2021</td>
+                            <td>$29.99</td>
+                            <td><span class="badge bg-light text-dark">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>#38594</td>
+                            <td>05/15/2021</td>
+                            <td>$29.99</td>
+                            <td><span class="badge bg-success">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td>#38223</td>
+                            <td>04/15/2021</td>
+                            <td>$29.99</td>
+                            <td><span class="badge bg-success">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td>#38125</td>
+                            <td>03/15/2021</td>
+                            <td>$29.99</td>
+                            <td><span class="badge bg-success">Paid</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,8 @@
+.home {
+    background-color:var(--background-color);
+    width: 100%;
+    display:inline-block;
+    height: 90vh;
+    color:black;
+    padding:20px;
+}

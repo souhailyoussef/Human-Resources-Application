@@ -1,0 +1,6 @@
+<div class="home">
+    <h1>list of users :</h1>
+    <ul *ngIf="users">
+        <li *ngFor="let user of users">{{user.username}}</li>
+    </ul>
+</div>

@@ -1,0 +1,51 @@
+
+  <div *ngIf="role=='COLLABORATOR'" class="menu">
+     
+    <button *ngFor="let item of menu_collaborateur" [ngClass]="{'selected': selection === item[0]}" (click)="selection=item[0]"  mat-button class="menu-button"  routerLink="/{{item[0].toLowerCase()}}">
+    <mat-icon>{{item[1]}}</mat-icon>
+        <span>{{item[0]}}</span>
+      </button>
+   
+     
+  </div>
+  <div *ngIf="role=='MANAGER'" class="menu">
+      
+    <button *ngFor="let item of menu_manager" [ngClass]="{'selected': selection === item[0]}" (click)="selection=item[0]" mat-button class="menu-button"  routerLink="/{{item[0].toLowerCase()}}">
+    <mat-icon>{{item[1]}}</mat-icon>
+        <span>{{item[0]}}</span>
+      </button>
+   
+     
+  </div>
+  <div *ngIf="role=='COMPTABLE'" class="menu">
+     
+    <button *ngFor="let item of menu_comptable" mat-button class="menu-button"  [ngClass]="{'selected': selection === item[0]}" (click)="selection=item[0]" routerLink="/{{item[0].toLowerCase()}}">
+    <mat-icon>{{item[1]}}</mat-icon>
+        <span>{{item[0]}}</span>
+      </button>
+   
+     
+  </div>
+  <div *ngIf="role=='CHEF_DE_PROJET'" class="menu">
+     
+    <button *ngFor="let item of menu_chefDeProjet" mat-button class="menu-button"  [ngClass]="{'selected': selection === item[0]}" (click)="selection=item[0]" routerLink="/{{item[0].toLowerCase()}}">
+    <mat-icon>{{item[1]}}</mat-icon>
+        <span>{{item[0]}}</span>
+      </button>
+   
+     
+  </div>
+  <div *ngIf="role=='ADMIN'" class="menu">
+     
+    <button *ngFor="let item of menu_admin" mat-button class="menu-button"  [ngClass]="{'selected': selection === item[0]}" (click)="selection=item[0]">
+    <mat-icon>{{item[1]}}</mat-icon>
+        <span>{{item[0]}}</span>
+      </button>
+   
+     
+  </div>
+ 
+ 
+ 
+ 
+  

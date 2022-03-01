@@ -1,0 +1,24 @@
+
+mat-sidenav {
+  margin:0;
+  width:200px;
+  border-right:none;
+  background:white;
+  color:black;
+  text-align: center;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  overflow: hidden;
+
+
+}
+mat-sidenav-container {
+  /*height:calc(100vh - 65px);*/
+  background-color: red;
+  overflow: hidden;
+
+}
+mat-sidenav-content {
+  height:100%;
+  width: 100%;
+  overflow: hidden;
+}

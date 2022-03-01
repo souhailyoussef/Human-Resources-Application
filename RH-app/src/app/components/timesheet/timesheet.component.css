@@ -1,0 +1,56 @@
+.timesheet {
+    background-color:var(--background-color);
+    width: 100%;
+    height:100vh;
+    display:inline-block;
+    color:black;
+    margin: 0;
+}
+#initial_date,#final_date {
+  height:50px;
+  font-size: 18px;
+  color:black;
+} 
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: black;;
+}
+/* Font color */
+input.mat-input-element {
+  color: black;
+}
+
+ .filters {
+   width: 150px;
+  height:100%;
+   display: inline-flex;
+   float:right;
+   margin-top: 0px;
+   padding:0px;
+   border:none;
+   background-color: transparent;
+
+   /*justify-content: space-between;*/
+ }
+ .filters svg {
+   fill:var(--light-green);
+   margin:auto;
+ }
+
+ p {
+   width:100px;
+ }
+
+.mat-calendar {
+  background-color: lightgreen;
+}
+
+
+.h3 {
+  font-family: monospace ;
+  font-size: 16px;
+  padding:3px auto;
+  font-weight: bold;
+}
+.text-muted {
+  margin-bottom: 7px;
+}

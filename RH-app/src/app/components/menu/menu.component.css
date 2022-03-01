@@ -1,0 +1,64 @@
+ @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+  
+  .menu{
+    height:100%;
+    margin:0;
+    width:200px;
+    border-right:none;
+    background:white;
+    color:black;
+    text-align: center;
+    box-shadow: 0 -20px 3px 10px rgb(0 0 0 / 0.2);
+    overflow: hidden;
+  
+  }
+  .content {
+    height:calc(100vh - 98px);
+    margin:16px;
+    margin-left:32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color:lightgray;
+  }
+  
+  .menu-button {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1rem;
+    color:dimgray;
+  
+    
+  }
+  .menu-button mat-icon {
+    margin-right: 8px;
+  }
+  svg {
+    margin-right:8px;
+  }
+  
+  .menu button {
+    width:99%;
+    display: flex;
+    height:50px;
+    margin:1px;
+    font-family: 'BioRhyme', serif;
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: -0.5px;
+  
+  }
+  .selected mat-icon {
+    color:var(--light-green);
+  }
+  .selected {
+    color:var(--light-green);
+    background: rgb(242,242,242);
+  /*background: linear-gradient(90deg, rgba(242,242,242,1) 0%, rgba(255,255,255,1) 100%);*/
+  }
+  .selected svg {
+      fill:var(--light-green);
+  }

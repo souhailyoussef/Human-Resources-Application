@@ -1,0 +1,9 @@
+.timesheets {
+    background-color:var(--background-color);
+    width: 100%;
+    display:inline-block;
+    height: 100vh;
+    color:black;
+    padding:20px;
+    margin:0;
+}
