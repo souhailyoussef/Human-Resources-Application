@@ -1,8 +1,6 @@
 package com.example.app.service;
 
 import com.example.app.domain.AppUser;
-import com.example.app.domain.Role;
-import com.example.app.repository.RoleRepository;
 import com.example.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +20,6 @@ import java.util.Locale;
 @Service @RequiredArgsConstructor @Transactional @Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -36,43 +33,42 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         else {
             log.info("User found in databse: {}", username);
         }
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+       /* Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         appUser.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getRolename()));
-        });
-        return new org.springframework.security.core.userdetails.User(appUser.getUsername(),appUser.getPassword(),authorities);
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        });*/
+        Collection<SimpleGrantedAuthority> authority = new ArrayList<>();
+        authority.add(new SimpleGrantedAuthority(appUser.getRolename()));
+        return new org.springframework.security.core.userdetails.User(appUser.getUsername(),appUser.getPassword(),authority);
     }
     @Override
     public AppUser saveUser(AppUser user) {
-        log.info("saving new user {} to DB",user.getFirst_name());
+        log.info("saving new user {} to DB", user.getFirst_name());
         AppUser appUser = userRepository.findByUsernameIgnoreCase(user.getUsername());
         if (appUser != null) {
             log.info("user already exists");
             return null;
 
-        }
-        else {
+        } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
         }
-
-
     }
 
-    @Override
-    public Role saveRole(Role role) {
-        log.info("saving new role {} to DB", role.getRolename());
-        //TODO : handle duplicates
-
-        return roleRepository.save(role);
-    }
 
     @Override
     public void addRoleToUser(String username, String roleName) {
         log.info("adding role {} to user {} in DB",roleName,username);
         AppUser appUser = userRepository.findByUsernameIgnoreCase(username);
-        Role role= roleRepository.findByRolename(roleName);
-        appUser.getRoles().add(role);
+       // String role= userRepository.findByRolename(roleName);
+        if (appUser.getRolename()==roleName) {
+            log.info("Role {} already exists for user {} " , roleName , username);
+        }
+        else {
+            //appUser.getRoles().add(role);
+            log.info("trying to add role {} over {}", roleName, appUser.getRolename());
+            appUser.setRolename(roleName);
+        }
 
     }
 

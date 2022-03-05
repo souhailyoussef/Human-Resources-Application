@@ -16,19 +16,17 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Employee")
 public class AppUser {
    // public enum Roles {ADMIN,COLLABORATOR,PROJECT_MANAGER,MANAGER,ACCOUNTANT}
     //TODO : add default values for fields that should not be null?
     @Id @GeneratedValue(strategy = IDENTITY)
     private Integer id;
     private String first_name;
-    @Column(unique = true)
     private String username;
     private String password;
     @Column(name="cnss")
     private Boolean cnss;
-    @ManyToMany(fetch= FetchType.EAGER) // when we load a user, we load their roles
-    private Collection<Role> roles= new ArrayList<>();
+    private String rolename;
+
 
 }

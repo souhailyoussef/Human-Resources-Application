@@ -1,4 +1,4 @@
-package com.example.app.domain;
+/* package com.example.app.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,11 +13,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="Roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Integer role_id;
-    @Column(unique = true)
-    private String rolename;
+    private Integer id;
+    private String name;
 }
+*/
