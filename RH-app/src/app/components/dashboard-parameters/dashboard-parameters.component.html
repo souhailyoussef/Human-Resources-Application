@@ -1,0 +1,61 @@
+<body>
+
+  <div class="table-buttons">
+    <button class="btn btn-primary"(click)="treeControl.collapseAll()">Collapse All</button>
+    <button  class="btn btn-outline-primary" (click)="treeControl.expandAll()">Expand All</button>
+
+    <form class="form-inline md-form form-sm active-purple-2">
+      <input class="form-control form-control-sm mr-3 w-150" type="text" placeholder="Search By Name" aria-label="Search"
+        mdbInput [(ngModel)]="searchText" name="searchText" > <mat-icon id="search-icon">search</mat-icon>
+      
+    </form>
+  </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="rubrique" >
+        <th mat-header-cell *matHeaderCellDef id="rubrique-column"> 
+          <span [style.paddingLeft.px]="40"> Rubrique </span>
+        </th>
+        <td mat-cell *matCellDef="let data "  [ngClass]="{'expandable': data.expandable === true}"> 
+          <button mat-icon-button id="expand-button"
+                  [style.visibility]="!data.expandable ? 'hidden' : ''"
+                  
+                
+                  [style.marginLeft.px]="data.level * 32"
+                  (click)="treeControl.toggle(data)"
+                  >
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(data) ? 'arrow_drop_down' : 'arrow_right'}}
+            </mat-icon>
+          </button>
+    
+          {{data.name}}
+        </td>
+      </ng-container > 
+    
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef id="edit-column"> Edit </th>
+        <td mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}">
+          
+           <div class="buttons">
+            
+          <button id="add-button" (click)="openDialogBox('add',data)" matTooltip="Add rubrique"
+          matTooltipClass="example-tooltip" ><mat-icon >add</mat-icon></button>
+          <button id="delete-button" (click)="openDialogBox('delete',data)" matTooltip="Delete rubrique"
+          matTooltipClass="example-tooltip">	<mat-icon>delete_forever</mat-icon></button>
+          <button id="edit-button" (click)="openDialogBox('edit',data)" matTooltip="Edit name"
+          matTooltipClass="example-tooltip"><mat-icon >edit</mat-icon></button>
+          
+        </div> 
+      </td>
+      </ng-container> 
+     
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"  [style.display]="filterParentNode(row) ? 'none' : ''" ></tr>
+    </table>
+    
+
+
+
+</body>
+

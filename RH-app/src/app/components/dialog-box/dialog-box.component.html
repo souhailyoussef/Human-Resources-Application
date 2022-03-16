@@ -1,0 +1,36 @@
+<div mat-dialog-content>
+ 
+
+  <ng-container *ngIf="data.event === 'add'" class="add-container">
+    <p>Please type the name of the new rubrique</p>
+    <form class="form-inline md-form form-sm active-purple-2">
+      <input class="form-control form-control-sm mr-3 w-150" type="text" placeholder="{{data.event}} name" 
+      mdbInput [(ngModel)]="nodename" id="nodename" >
+    
+    </form>
+    
+  </ng-container>
+
+<ng-container *ngIf="data.event === 'delete'" class="delete-container">
+    <h5>Are you sure?</h5>
+    <p>Permanently delete rubrique '{{data.node.name}}'</p>
+</ng-container>
+
+<ng-container *ngIf="data.event === 'edit'">
+  <p>Edit the name of rubrique '{{data.node.name}}'</p>
+  <form class="form-inline md-form form-sm active-purple-2">
+    <input class="form-control form-control-sm mr-3 w-150" type="text" placeholder="{{data.node.name}}" 
+    mdbInput [(ngModel)]="newName" id="newName" >
+  
+  </form>
+</ng-container>
+
+
+</div>
+
+
+<div mat-dialog-actions>
+  <button (click)="confirmChanges()" id="confirm-button" >{{data.event}}</button>
+  <button (click)="closeDialogBox()"  >Cancel</button>
+</div>
+<mat-progress-bar mode="query"></mat-progress-bar>

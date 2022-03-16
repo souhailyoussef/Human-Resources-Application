@@ -1,0 +1,71 @@
+mat-dialog-container {
+    margin:0px;
+    padding:0px;
+   
+}
+ p {
+    height:50px;
+    font-size: 17px;
+    text-align: center;
+    margin:10px auto 10px auto;
+    padding:10px;
+    width:100%;
+    color:black;
+}
+
+ #nodename {
+    width:60%;
+    margin: auto;
+    display: block;
+    padding:5px;
+}
+#nodename:focus {
+    border-color:var(--light-green);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px var(--light-green)
+  }
+#newName {
+    width:60%;
+    margin: auto;
+    display: block;
+    padding:5px;
+}
+#newName:focus {
+    border-color:var(--light-green);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px var(--light-green)
+  }
+
+div.mat-dialog-actions {
+    justify-content: center;
+    padding:0px;
+    position:absolute;
+    bottom : 40px;
+    right:90px;
+}
+
+button {
+    box-sizing: border-box;
+    padding: 12px 24px;
+    margin: 0 8px;
+    width:100px;
+    line-height: 20px;
+    background: #FFF;
+    display: inline-block;
+    font-family: 'Lato';
+    border: 1px solid #ccc;
+    color: #666;
+    text-decoration: none;
+    border-radius: 25px;
+}
+#confirm-button {
+    color:var(--light-green);
+    border: 1px solid  var(--light-green);
+}
+
+ p,  h5{
+    color:black;
+    text-align: center;
+}
+mat-progress-bar {
+    position:absolute;
+    bottom:0px;
+}
