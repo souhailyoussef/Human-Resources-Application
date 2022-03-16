@@ -13,8 +13,8 @@ mat-sidenav {
 }
 mat-sidenav-container {
   /*height:calc(100vh - 65px);*/
-  background-color: red;
   overflow: hidden;
+  background-color: var(--background-color);
 
 }
 mat-sidenav-content {

@@ -60,7 +60,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void addRoleToUser(String username, String roleName) {
         log.info("adding role {} to user {} in DB",roleName,username);
         AppUser appUser = userRepository.findByUsernameIgnoreCase(username);
-       // String role= userRepository.findByRolename(roleName);
         if (appUser.getRolename()==roleName) {
             log.info("Role {} already exists for user {} " , roleName , username);
         }

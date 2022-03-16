@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { TimesheetComponent } from './components/timesheet/timesheet.component';
 import { TimesheetsComponent } from './components/timesheets/timesheets.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
+import { DashboardParametersComponent } from './components/dashboard-parameters/dashboard-parameters.component';
 import { AuthGuard } from './helpers/AuthGuard';
 
 
@@ -12,6 +14,10 @@ const routes: Routes = [
   { path: 'login', component: UserLoginComponent },
   {path: 'timesheets', component:TimesheetsComponent},
   { path: 'timesheet/:id', component: TimesheetComponent },
+  {
+    path: 'profiles/profile/:username' , component:ProfileComponent,canActivate:[AuthGuard]
+  },
+  { path: 'dashboard_parameters', component: DashboardParametersComponent },
 
   // otherwise redirect to home
   { path: '**', redirectTo: '' }

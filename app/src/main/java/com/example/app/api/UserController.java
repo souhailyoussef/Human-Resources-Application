@@ -9,8 +9,13 @@ import com.example.app.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +28,10 @@ import java.util.stream.Collectors;
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@RestController @RequiredArgsConstructor @RequestMapping(value = "/api")
+@RestController @RequiredArgsConstructor @RequestMapping(value = "/api" )
 
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
@@ -37,16 +43,22 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
+    @GetMapping(value = "/users/user/{username}", produces = "application/json")
+    public ResponseEntity<AppUser>getUser(@PathVariable String username, HttpServletResponse response) {
+        AppUser user = userService.getUser(username);
+        if (user == null) {
+           // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("username : {} does not exist!" + username);
+            return ResponseEntity.status(NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok().body(userService.getUser(username));
+    }
+
     @PostMapping("/user/save")
     public ResponseEntity<AppUser>saveUser(@RequestBody AppUser user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
-   /* @PostMapping("/role/save")
-    public ResponseEntity<String>saveRole(@RequestBody String role) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
-        return ResponseEntity.created(null).body(userService.saveRole(role));
-    }*/
+
     @PostMapping("/role/addtouser")
     public ResponseEntity<?>addRoleToUser(@RequestBody RoleToUserForm form) {
         userService.addRoleToUser(form.getUsername(),form.getRoleName());
@@ -65,7 +77,7 @@ public class UserController {
                 AppUser user = userService.getUser(username);
                 String access_token= JWT.create()
                         .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10*60*1000)) //token expires after 10 mns
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 60*60*1000)) //token expires after 10 mns
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles",user.getRolename())
                         .sign(algorithm);
@@ -92,9 +104,15 @@ public class UserController {
         }
     }
 
+
 }
 @Data
 class RoleToUserForm {
     private String username;
     private String roleName;
+}
+//TODO : make controller accept json format and remove this class
+@Data
+class Username {
+    private String username;
 }

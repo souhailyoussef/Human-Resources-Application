@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.authorizeRequests().antMatchers("/api//login","/api/token/refresh/**").permitAll();
-        httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET,"/api/user/**").hasAnyAuthority("COLLABORATEUR","CHEF_DE_PROJET","MANAGER","ADMIN","COMPTABLE");
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET,"/api/user/**").hasAnyAuthority("COLLABORATOR","PROJECT_MANAGER","MANAGER","ADMIN","ACCOUNTANT");
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/save/**").hasAnyAuthority("ADMIN");
         httpSecurity.authorizeRequests().anyRequest().authenticated();
         httpSecurity.addFilter(customAuthenticationFilter);
@@ -70,8 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token","Access-Control-Allow-Methods"));
+        configuration.setExposedHeaders(Arrays.asList("x-auth-token","Access-Control-Allow-Methods"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
