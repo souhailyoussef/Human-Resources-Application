@@ -6,6 +6,7 @@ export interface Rubrique {
     parent ?: Node;
     depth : number;
     rootNode : boolean;
-    leafNode : boolean
+    leafNode : boolean;
+    file_id : number;
 
 }

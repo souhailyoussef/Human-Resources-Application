@@ -1,11 +1,11 @@
-<div mat-dialog-content>
+<div mat-dialog-content style="overflow:hidden;">
  
 
   <ng-container *ngIf="data.event === 'add'" class="add-container">
     <p>Please type the name of the new rubrique</p>
-    <form class="form-inline md-form form-sm active-purple-2">
-      <input class="form-control form-control-sm mr-3 w-150" type="text" placeholder="{{data.event}} name" 
-      mdbInput [(ngModel)]="nodename" id="nodename" >
+    <form >
+      <input  type="text" 
+      mdbInput [(ngModel)]="nodename" id="nodename" name="nodename" >
     
     </form>
     
@@ -18,19 +18,36 @@
 
 <ng-container *ngIf="data.event === 'edit'">
   <p>Edit the name of rubrique '{{data.node.name}}'</p>
-  <form class="form-inline md-form form-sm active-purple-2">
-    <input class="form-control form-control-sm mr-3 w-150" type="text" placeholder="{{data.node.name}}" 
-    mdbInput [(ngModel)]="newName" id="newName" >
+  <form >
+    <input  type="text" placeholder="{{data.node.name}}" 
+    mdbInput [(ngModel)]="newName" id="newName" name="newName" >
   
   </form>
 </ng-container>
 
+<ng-container *ngIf="data.event === 'upload'" class="upload-container">
+  <p class="upload-title">Upload a script</p>
+  <form  class="upload-form" >
+    <div class="upload-button">
+      <label for="fileUpload" class="label-btn">Select script <mat-icon>upload</mat-icon></label>
+      <input type="file"  (change)="onFileSelected($event)" #fileUpload id="fileUpload" style="display:none">
+      <div id="filename"  >{{fileName}}</div>
+
+  </div>
+
+  
+
+    
+
+   </form>
+
+</ng-container>
 
 </div>
 
 
 <div mat-dialog-actions>
-  <button (click)="confirmChanges()" id="confirm-button" >{{data.event}}</button>
+  <button (click)="confirmChanges()" id="confirm-button">{{data.event}}</button>
   <button (click)="closeDialogBox()"  >Cancel</button>
 </div>
 <mat-progress-bar mode="query"></mat-progress-bar>

@@ -47,6 +47,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { SearchByRubriqueNamePipe } from './pipes/search-by-rubrique-name.pipe'; 
 import {MatTooltipModule} from '@angular/material/tooltip'; 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { AlertComponent } from './modules/alert/alert.component';
+
 
 
 
@@ -63,7 +66,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     DashboardParametersComponent,
     TableRowComponent,
     DialogBoxComponent,
-    SearchByRubriqueNamePipe
+    SearchByRubriqueNamePipe,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -96,7 +100,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     ButtonModule,
     MatDialogModule,
     MatProgressBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule,
 
   ],
   providers: [

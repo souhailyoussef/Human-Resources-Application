@@ -1,7 +1,9 @@
 package com.example.app.service;
 
 import com.example.app.domain.AppUser;
+import com.example.app.domain.FileDB;
 import com.example.app.domain.Node;
+import com.example.app.repository.FileDBRepository;
 import com.example.app.repository.NodeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,10 @@ public class NodeServiceImpl implements NodeService{
     @Autowired
     private  NodeRepository nodeRepository;
 
+    @Autowired
+    private FileDBRepository fileDBRepository;
+
+
     @Override
     public Node saveNode(Node node) { // check if it exists in parent node, if not save, if yes , dont save(dont check whole db)
         log.info("saving new node {} to DB", node.getName());
@@ -39,7 +45,7 @@ public class NodeServiceImpl implements NodeService{
             return nodeRepository.save(node);
         }
         else {
-            if(nodeRepository.findByNameIgnoreCase(node.getName())!=null) {
+            if(nodeRepository.findByNameIgnoreCaseOrderById(node.getName())!=null) {
                 log.info("root node already exists");
                 return null ;
             }
@@ -51,18 +57,18 @@ public class NodeServiceImpl implements NodeService{
     @Override
     public Node getNode(String nodeName) {
         log.info("fetching node {}",nodeName);
-        return nodeRepository.findByNameIgnoreCase(nodeName);
+        return nodeRepository.findByNameIgnoreCaseOrderById(nodeName);
     }
 
     @Override
     public void addChildToNode(String parentNode, String childNode) {
         log.info("adding child {} to node {} in DB",childNode,parentNode);
-        Node parent= nodeRepository.findByNameIgnoreCase(parentNode);
+        Node parent= nodeRepository.findByNameIgnoreCaseOrderById(parentNode);
         log.info("parent : {}",parent.toString());
 
-        Node child= nodeRepository.findByNameIgnoreCase(childNode);
+        Node child= nodeRepository.findByNameIgnoreCaseOrderById(childNode);
         log.info("child: {}",child.toString());
-        Node previous_parent= nodeRepository.findByNameIgnoreCase(child.getParent().getName());
+        Node previous_parent= nodeRepository.findByNameIgnoreCaseOrderById(child.getParent().getName());
         //previous_parent.setValue(previous_parent.getValue()- child.getValue());
 
         if (parent.getChildren().contains(child) ) {
@@ -80,7 +86,7 @@ public class NodeServiceImpl implements NodeService{
 
     @Override
     public void setNodeValue(String nodeName,double value) {
-        Node node = nodeRepository.findByNameIgnoreCase(nodeName);
+        Node node = nodeRepository.findByNameIgnoreCaseOrderById(nodeName);
         if (node == null || node.isLeafNode()!=true) {
             log.info("node {} does not exist", node.getName());
         }
@@ -97,7 +103,7 @@ public class NodeServiceImpl implements NodeService{
 
     @Override
     public double sumNode(String nodeName) {
-        Node node = nodeRepository.findByNameIgnoreCase(nodeName);
+        Node node = nodeRepository.findByNameIgnoreCaseOrderById(nodeName);
 
         node.sumNode();
 
@@ -110,7 +116,37 @@ public class NodeServiceImpl implements NodeService{
 
     }
 
-/*
+    @Override
+    public List<Node> findByScriptId(Long id) {
+        try {
+            List<Node> nodes = nodeRepository.findByScriptId(id);
+            return nodes;
+        }
+        catch (Exception e) {
+            log.warn("{}", e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public void addScriptToNode (Long node_id,Long script_id) {
+        try  {
+
+            Node node = nodeRepository.findById(node_id).get();
+            if (script_id==null) {
+                node.setScript(null);
+            }
+            else {
+                FileDB script = fileDBRepository.findById(script_id).get();
+                node.setScript(script);
+            }
+        }
+         catch (Exception e) {
+            log.warn(e.getMessage());
+         }
+
+    }
+    /*
 
     public List<Node> getChildNodes(long id) {
         Date startTime = new Date();

@@ -22,6 +22,7 @@ public class AppUser {
     @Id @GeneratedValue(strategy = IDENTITY)
     private Integer id;
     private String first_name;
+    @Column(unique=true)
     private String username;
     private String password;
     @Column(name="cnss")

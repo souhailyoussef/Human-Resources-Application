@@ -49,3 +49,34 @@ body {
     background: var(--light-green) !important;
     font-size: 13px;
 }
+tr.mat-row {
+
+    height: 10px !important;
+    }
+
+
+
+
+    
+.center-div {
+        text-align:center;
+        width: 50%;
+        margin: 0 auto
+      }
+      
+      .mat-form-field-flex {
+        background-color: #ffffff !important;
+      }
+      
+      .mat-card-header-text {
+        margin: 0 0px !important;
+      }
+      
+      .mat-card-header {
+        font-size: 16pt;
+        margin-bottom: 30px;
+      }
+      
+      .card-content {
+        font-size: 12pt;
+      }

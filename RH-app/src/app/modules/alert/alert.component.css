@@ -1,0 +1,101 @@
+.alert {
+    padding: 0;
+    margin-bottom: 1rem;
+    border-radius: 0.42rem;
+    height:100%;
+    position: absolute ;
+    bottom: 80px;
+    left:0;
+  }
+  
+  .alert-primary {
+    background-color: #3F51B5;
+    border-color: #3F51B5;
+    color: #FFFFFF;
+  }
+  
+  .alert-success {
+    background-color: #EBF9EB;
+    border-color: #EBF9EB;
+    color: gray;
+    border : 1px solid var(--light-grey);
+
+  }
+  .alert-success .close-div a{ 
+    color :#41AE41;
+  }
+  
+  .alert-info {
+    background-color: #8950FC;
+    border-color: #8950FC;
+    color: #ffffff;
+  }
+  
+  .alert-warning {
+    background-color: #FFA800;
+    border-color: #FFA800;
+    color: #ffffff;
+  }
+  
+  .alert-danger {
+    background-color:  #FDF4F5 ;
+    border-color:  #FDF4F5 ;
+    color: gray;
+    border : 1px solid #D43533;
+
+  }
+  .alert-danger .close-div a{ 
+    color :#D43533;
+  }
+  
+  .close {
+    float: right;
+    cursor: pointer;
+  }
+  
+  .message-div {
+    flex: 0 0 85%;
+    margin:auto;
+    text-align: left;
+    padding-left: 15px;
+  }
+  
+  .close-div {
+    flex: 1;
+    margin-right : 10px;
+    margin-top:0;
+  }
+  .close-div a {
+          font-weight: bolder;
+          text-decoration: none;
+          color:gray;
+
+  }
+  
+
+  .banner {
+      height:100%;
+      width:38px;
+      padding: 0;
+  }
+  .banner mat-icon  {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .banner.error {
+    background-color: #D43533;
+  }
+  .banner.success {
+    background-color: #41AE41 ;
+  }
+  .banner.info {
+    background-color: #3793FF;
+  }
+  .banner.warning {
+    background-color: #FFAB01;
+  }

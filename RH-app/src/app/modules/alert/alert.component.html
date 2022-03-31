@@ -1,0 +1,19 @@
+<div *ngFor="let alert of alerts" class="{{cssClass(alert)}}" style="display: flex; text-align: center; width: 300px; margin: 0 auto; height:70px;">
+    <div class="banner" [ngClass]="{
+        'success':alert.alertType === 'success',
+        'error':alert.alertType === 'error',
+        'info':alert.alertType === 'info',
+        'warning':alert.alertType === 'warning'
+      }">
+      <ng-container *ngIf="alert.alertType==='error'"><mat-icon>error</mat-icon></ng-container>
+      <ng-container *ngIf="alert.alertType==='success'"><mat-icon>done</mat-icon></ng-container>
+      <ng-container *ngIf="alert.alertType==='info'"><mat-icon>info</mat-icon></ng-container>
+      <ng-container *ngIf="alert.alertType==='warn'"><mat-icon>warn</mat-icon></ng-container>
+
+    </div>
+    <div class="message-div" >
+        <span><strong>{{alert.alertType | titlecase}}</strong></span>
+        <br>
+        <span [innerHTML]="alert.message |titlecase"></span></div>
+    <div class="close-div"><a class="close" (click)="removeAlert(alert)">&times;</a></div>
+  </div>

@@ -9,7 +9,6 @@ import { Rubrique } from '../rubrique';
 export class NodeService {
 
   constructor(private http: HttpClient) { }
-
   private _refreshNeeded$ = new Subject<void>();
 
   get refreshNeeded$() {

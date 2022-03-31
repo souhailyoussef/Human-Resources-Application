@@ -6,12 +6,11 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Check;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
 @Data
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Node {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -45,7 +43,36 @@ public class Node {
     @OneToMany(mappedBy = "parent", orphanRemoval = true,fetch=FetchType.EAGER) //add column definitions as needed
     private List<Node> children;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "script_id")
+    @JsonIgnore
+    private FileDB script;
 
+    @JsonIgnore
+    private Long january;
+    @JsonIgnore
+    private Long february;
+    @JsonIgnore
+    private Long march;
+    @JsonIgnore
+    private Long april;
+    @JsonIgnore
+    private Long may;
+    @JsonIgnore
+    private Long june;
+    @JsonIgnore
+    private Long july;
+    @JsonIgnore
+    private Long august;
+    @JsonIgnore
+    private Long september;
+    @JsonIgnore
+    private Long october;
+    @JsonIgnore
+    private Long november;
+    @JsonIgnore
+    private Long december;
+  //  private File scriptFile;
 
     public Node(final Node parent, String name) {
         if(parent==null) throw new IllegalArgumentException("parent required");
@@ -62,7 +89,7 @@ public class Node {
     }
     public Node() {
         this.children = new ArrayList<>();
-        this.name="root";
+        this.name="TOTAL";
         this.value=0;
         if (parent==null) {
             this.depth=0;
@@ -86,6 +113,9 @@ public class Node {
             this.depth = (parent.getDepth() + 1);
         }
     }
+
+
+
 
     public List<Node> getChildren() {
         return this.children;

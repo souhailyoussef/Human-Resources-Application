@@ -1,6 +1,7 @@
 package com.example.app.service;
 
 import com.example.app.domain.AppUser;
+import com.example.app.domain.FileDB;
 import com.example.app.domain.Node;
 
 import java.util.HashMap;
@@ -14,4 +15,7 @@ public interface NodeService {
     void setNodeValue(String nodeName,double value);
     void deleteNode(Long id);
     double sumNode(String nodeName);
+    List<Node> findByScriptId(Long id);
+    void addScriptToNode(Long node_id, Long script_id);
+
 }
