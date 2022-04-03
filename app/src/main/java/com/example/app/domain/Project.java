@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import java.sql.Date;
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -31,6 +32,9 @@ public class Project {
 
     @OneToOne(mappedBy = "project")
     private Contract contract;
+
+    @OneToMany(mappedBy="project",fetch = FetchType.EAGER)
+    private List<Task> tasks;
 
 
 

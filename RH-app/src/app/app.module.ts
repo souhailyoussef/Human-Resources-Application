@@ -19,7 +19,6 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { MenuComponent } from './components/menu/menu.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatDividerModule } from '@angular/material/divider';
 import { TimesheetsComponent } from './components/timesheets/timesheets.component';
 import { TimesheetComponent } from './components/timesheet/timesheet.component';
 import { MatCardModule } from '@angular/material/card';
@@ -49,6 +48,15 @@ import { SearchByRubriqueNamePipe } from './pipes/search-by-rubrique-name.pipe';
 import {MatTooltipModule} from '@angular/material/tooltip'; 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AlertComponent } from './modules/alert/alert.component';
+import {MatDividerModule} from '@angular/material/divider'; 
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { AreaComponent } from './widgets/area/area.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { PieComponent } from './widgets/pie/pie.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+
+
 
 
 
@@ -67,7 +75,10 @@ import { AlertComponent } from './modules/alert/alert.component';
     TableRowComponent,
     DialogBoxComponent,
     SearchByRubriqueNamePipe,
-    AlertComponent
+    AlertComponent,
+    DashboardComponent,
+    AreaComponent,
+    PieComponent
   ],
   imports: [
     BrowserModule,
@@ -102,6 +113,10 @@ import { AlertComponent } from './modules/alert/alert.component';
     MatProgressBarModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatDividerModule,
+    HighchartsChartModule,
+    FlexLayoutModule
+
 
   ],
   providers: [

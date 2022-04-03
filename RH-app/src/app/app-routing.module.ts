@@ -7,17 +7,22 @@ import { TimesheetsComponent } from './components/timesheets/timesheets.componen
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { DashboardParametersComponent } from './components/dashboard-parameters/dashboard-parameters.component';
 import { AuthGuard } from './helpers/AuthGuard';
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard],
+  children: [{
+    path:'',
+    component:DashboardComponent
+  }] },
   { path: 'login', component: UserLoginComponent },
   {path: 'timesheets', component:TimesheetsComponent},
   { path: 'timesheet/:id', component: TimesheetComponent },
   {
     path: 'profiles/profile/:username' , component:ProfileComponent,canActivate:[AuthGuard]
   },
-  { path: 'dashboard_parameters', component: DashboardParametersComponent },
+  { path: 'settings', component: DashboardParametersComponent },
 
   // otherwise redirect to home
   { path: '**', redirectTo: '' }

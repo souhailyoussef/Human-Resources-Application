@@ -1,15 +1,9 @@
 package com.example.app;
 
-import com.example.app.domain.FileDB;
-import com.example.app.domain.Node;
-import com.example.app.domain.AppUser;
-import com.example.app.domain.TreeNode;
+import com.example.app.domain.*;
 import com.example.app.repository.FileDBRepository;
 import com.example.app.repository.NodeRepository;
-import com.example.app.service.ClientService;
-import com.example.app.service.FileDBService;
-import com.example.app.service.NodeService;
-import com.example.app.service.UserService;
+import com.example.app.service.*;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -33,6 +27,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +51,9 @@ public class AppApplication {
 	@Autowired
 	private ClientService clientService;
 
+	@Autowired
+	private TaskService taskService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(AppApplication.class, args);
 	}
@@ -73,24 +73,30 @@ public class AppApplication {
 			//	userService.saveRole("ADMIN");
 			//	userService.saveRole("PROJECT_MANAGER");
 			//	userService.saveRole("MANAGER");
-			//	userService.saveRole("ACCOUNTANT");
-
-			userService.saveUser(new AppUser(null, "John Doe", "John", "1234", null, "COLLABORATORR"));
-			userService.saveUser(new AppUser(null, "Michael", "Michael", "xyz", true, "ACCOUNTANT"));
-			userService.saveUser(new AppUser(null, "Emma Stone", "Emma", "1234", true, "ADMIN"));
-			userService.saveUser(new AppUser(null, "Jack Smith", "Jack", "a1b2c3", false, "MANAGER"));
-
+			//	userService.saveRole("ACCOUNTANT")
+			userService.saveUser(new AppUser(null, "John Doe", "John", "1234", null, "COLLABORATOR",LocalDate.of(1998,10,22),null));
+			userService.saveUser(new AppUser(null, "Michael", "Michael", "xyz", true, "ACCOUNTANT",LocalDate.of(2000,5,10),null));
+			userService.saveUser(new AppUser(null, "Emma Stone", "Emma", "1234", true, "ADMIN",LocalDate.of(1997,9,11),null));
+			userService.saveUser(new AppUser(null, "Jack Smith", "Jack", "a1b2c3", false, "MANAGER",LocalDate.of(1980,01,31),null));
+			userService.saveUser(new AppUser(null,"ADMIN","ADMIN","admin",null,"ADMIN",null,null));
 			userService.addRoleToUser("John", "MANAGER");
 			userService.addRoleToUser("Jack", "ACCOUNTANT");
 			userService.addRoleToUser("Emma", "COLLABORATOR");
 			userService.addRoleToUser("Michael", "MANAGER");
 
+			/*taskService.saveTask(new Task(null,"task 1","description for task1",LocalDate.of(2022,04,01),LocalDate.of(2022,04,12),null));
+			taskService.saveTask(new Task(null,"task 2","description for task2",LocalDate.of(2022,01,01),LocalDate.of(2022,01,28),null));
+			taskService.saveTask(new Task(null,"task 4","description for task4",LocalDate.of(2022,01,03),LocalDate.of(2022,02,03),null));
+			taskService.saveTask(new Task(null,"task 5","description for task5",LocalDate.of(2022,02,2),LocalDate.of(2022,02,3),null));
+			taskService.saveTask(new Task(null,"task 10","description for task10",LocalDate.of(2022,3,15),LocalDate.of(2022,04,27),null));
 
-			/*String currentRelativePath = Paths.get(".").toAbsolutePath().normalize().toString().concat("\\src\\main\\java\\scripts\\script_test.groovy");
-			Path fileName = Path.of(currentRelativePath);
-			String content = Files.readString(fileName);
-			GroovyShell shell = new GroovyShell();
-			shell.evaluate(content); */
+			userService.addTaskToUser(6,"Emma");
+			userService.addTaskToUser(7,"Emma");
+			userService.addTaskToUser(8,"John");
+			userService.addTaskToUser(9,"Michael");
+			userService.addTaskToUser(10,"jack");
+*/
+
 
 
 			//Binding binding = new Binding() ;
@@ -111,6 +117,7 @@ public class AppApplication {
 
 			Node root = new Node();
 			nodeService.saveNode(root);
+
 			//String currentRelativePath = Paths.get(".").toAbsolutePath().normalize().toString().concat("\\src\\main\\resources\\static\\script_somme.groovy");
 			//Path path = Path.of(currentRelativePath);
 			/*byte[] content = null;

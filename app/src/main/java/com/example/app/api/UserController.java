@@ -42,6 +42,10 @@ public class UserController {
     public ResponseEntity<List<AppUser>>getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
     }
+    @GetMapping("/users/birthday")
+    public ResponseEntity<List<AppUser>>getUsersBirthdays() {
+        return ResponseEntity.ok().body(userService.getUsersBirthdays());
+    }
 
     @GetMapping(value = "/users/user/{username}", produces = "application/json")
     public ResponseEntity<AppUser>getUser(@PathVariable String username, HttpServletResponse response) {

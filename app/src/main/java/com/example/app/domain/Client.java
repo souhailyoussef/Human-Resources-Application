@@ -26,4 +26,6 @@ public class Client {
     @OneToMany(mappedBy="client",fetch = FetchType.EAGER)
     private List<Project> projects;
 
+
+
 }

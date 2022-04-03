@@ -1,6 +1,8 @@
 package com.example.app.service;
 
 import com.example.app.domain.AppUser;
+import com.example.app.domain.Task;
+import com.example.app.repository.TaskRepository;
 import com.example.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,15 +14,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
+import static java.time.LocalTime.now;
+
 @Service @RequiredArgsConstructor @Transactional @Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private final TaskRepository taskRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -81,6 +88,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<AppUser> getUsers() {
         log.info("fetching all users");
         return userRepository.findAll();
+    }
+    @Override
+    public AppUser addTaskToUser(long task_id, String username) {
+        Task task = taskRepository.findById(task_id);
+        log.info("adding task {} to {}", task.getName(),username);
+        AppUser user = userRepository.findByUsernameIgnoreCase(username);
+        user.getTasks().add(task);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public List<AppUser> getUsersBirthdays() {
+        // TODO: Consider time zones, calendars etc
+
+        return null;
     }
 
 
