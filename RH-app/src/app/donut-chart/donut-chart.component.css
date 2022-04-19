@@ -1,0 +1,244 @@
+.container {
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction:row;
+    margin: auto;
+    justify-content: space-evenly;
+}
+
+.sales,.income,.expenses {
+    margin:0;
+    height:200px;
+    width:320px;
+    padding:20px;
+    background-color: white;
+    color:black;
+    border-radius:10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+}
+
+.header  {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-between;
+    vertical-align: middle;
+}
+.main {
+    display:table;
+}
+span {
+    margin-left:10px;
+    padding-left:6px;
+    font-family: 'Raleway';
+    font-size: 18px;
+    font-weight: 500;
+    color:#303030;
+    display: table-cell;
+    vertical-align:middle;
+
+
+}
+.progress {
+    height:100px;
+}
+.container {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1.6rem;
+}
+.materiel-icons-sharp {
+    border-radius: 50%;
+    color:white;
+    font-size: 2rem;
+    height:40px;
+    width:40px;
+    padding:4px;
+}
+.middle {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:0 20px 0 0;
+    margin:10px 0 0px;
+}
+ h3 {
+    font-size: 2rem;
+    margin:0px;
+    font-family:'Trebuchet MS';
+    font-weight: 600;
+}
+
+ .progress {
+    position: relative;
+    width:85px;
+    height:85px;
+}
+svg {
+    width:7rem;
+    height:7rem;
+    background-color: var(--background-color);
+ 
+}
+svg circle {
+    fill : white;
+    stroke : var(--light-green);
+    stroke-width:14px;
+    stroke-linecap: round;
+    transform: translate(5px,5px);
+}
+.sales svg {
+    background-color: black
+}
+.income svg {
+   background-color : rgba(241,231,103,1)
+}
+
+.sales svg circle {
+    stroke: rgba(32,124,229,1)
+
+}
+.income svg circle {
+    stroke : rgba(254,182,69,1)
+}
+.expenses svg circle {
+    stroke : rgba(109,0,25,1)
+}
+.sales svg circle {
+    stroke-dasharray: 110;
+    stroke-dashoffset: 92;
+}
+
+.income svg circle {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 50;
+
+}
+.expenses svg circle {
+    stroke-dasharray: -30;
+    stroke-dashoffset: 200;
+
+}
+.sales mat-icon{
+    background: linear-gradient(to right, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
+
+}
+.income mat-icon {
+    background: linear-gradient(to right, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 100%);
+}
+.expenses mat-icon {
+    background: linear-gradient(to right, rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%);
+}
+small {
+    font-style:italic
+}
+
+.datepicker {
+    margin:auto 0 auto auto;
+}
+
+.sales ::ng-deep.mat-progress-spinner circle,.mat-spinner circle {stroke: rgba(32,124,229,1) !important;}
+.expenses ::ng-deep.mat-progress-spinner circle,.mat-spinner circle {stroke: rgba(109,0,25,1) !important;}
+.income ::ng-deep.mat-progress-spinner circle,.mat-spinner circle {stroke: rgba(254,182,69,1) !important;}
+
+    
+
+    
+.expenses-spinner, .sales-spinner, .income-spinner {
+    position: relative;
+}
+.expenses-spinner .spinner-value {
+    color:rgba(109,0,25,1);
+    font-weight: 600;
+}
+.income-spinner .spinner-value {
+    color:rgba(254,182,69,1);
+    font-weight: 600;
+}
+.sales-spinner .spinner-value{
+    color:rgba(32,124,229,1);
+    font-weight: 600;
+}
+.spinner-value {
+    position: absolute;
+    top:35%;
+    right:35%;
+    margin:auto;
+}
+
+
+.date {
+    width:400px;
+    background: red;
+}
+mat-label {
+    color:black;
+}
+.mat-input {
+    background: green;
+}
+mat-datepicker-toggle {
+    background: yellow;
+    width:30px;
+    height:30px;
+}
+mat-form-field-flex {
+    background: blue;
+}
+
+.date-filter {
+    width: 100px;
+    height:30px;
+    border-radius: 5px;
+    display: flex;
+    padding:0;
+    justify-content: space-between;
+    overflow: hidden;
+    margin:auto;
+    margin-right:0;
+
+}
+.date-filter input {
+    width: 70px;
+    background-color: var(--light-grey);
+    color:black;
+    font-size: 12px;
+    border:0;
+    text-align: center;
+}
+.date-btn {
+    width:30px;
+    height:30px;
+    padding:0;
+    overflow: hidden;
+    background: var(--light-green);
+    font-weight: bold;
+    box-shadow: none;
+    border: none;
+    position: relative;
+}
+ .date-btn mat-icon {
+     color:white;
+     background: transparent;
+    height:50%;
+    width:50%;
+    margin:auto;
+    display: block;
+    position: absolute;
+    top:0%;
+    left:0%;
+    padding-top:3px;
+    padding-left:3px;
+}
+.date-filter .picker .mat-datepicker-content {
+    background-color: #ffffff !important;
+    color: green !important;
+    width:500px;
+}
+
+
+
+.date-picker {
+    background-color: #ffffff !important;
+}

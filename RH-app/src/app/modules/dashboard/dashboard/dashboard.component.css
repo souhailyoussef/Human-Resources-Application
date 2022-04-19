@@ -1,0 +1,83 @@
+.dashboard {
+    background-color:var(--background-color);
+    height: 100%;
+    width:85%;
+    padding:20px;
+    display:inline-block;
+}
+.info  {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:92%;
+    padding:0;
+    margin-bottom:20px;
+    font-family: 'Raleway';
+    color:var(--light-grey) !important;
+}
+.charts {
+    display:flex;
+    flex-direction:row;
+    width:100%;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding:0 15px;
+    
+
+}
+
+.boxes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:100%;
+    padding:0;
+    margin-bottom:20px;
+    font-family: 'Raleway';
+    color:var(--light-grey) !important
+
+    
+}
+.box {
+    margin:auto;
+    height:75px;
+    width:22%;
+    padding:auto;
+    display: inline-flex;
+    background: linear-gradient(to right, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
+    border-radius: 2px;
+    
+
+}
+.box mat-icon {
+    display: block;
+    margin:auto;
+    width:50px;
+    height:50px;
+    text-align: center;
+    padding:auto;
+    font-size:50px;
+    color:var(--light-grey) !important
+}
+.box .info {
+    width:50%;
+    padding:5px;
+    margin:0;
+}
+.box .info h5 {
+    margin: 0;
+    padding:0;
+    vertical-align: middle;
+    display:table-cell;
+    height:75px;
+}
+.box .info small {
+    font-size: 18px;
+}
+
+.widgets {
+    padding:0;
+    width:103%;
+}
+
+

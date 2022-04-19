@@ -1,0 +1,132 @@
+<div class="container">
+<div class="sales">
+    <div class="header">
+        <div class="main">
+            <mat-icon class="materiel-icons-sharp"  >
+                analytics
+            </mat-icon>
+            <span>Total Production </span>
+        </div>
+        
+           
+        <div class="date-filter">
+            <input class="mat-input" [matDatepicker]="dp1" disabled placeholder="MM/YYYY">
+    
+              <mat-datepicker-toggle class="date-btn" matSuffix [for]="dp1" style="background: rgba(32,124,229,1);">
+                <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker class="picker" #dp1 disabled="false" color="accent" [style.background]="'white'"></mat-datepicker>
+    
+    
+    
+          </div>
+    </div>
+        
+
+        <div class="middle">
+            <div class="left">
+                <h3>286,800 €</h3>
+            </div>
+            <div class="sales-spinner">
+                <mat-progress-spinner mode="determinate" class="progress-spinner"
+                [value]="70">
+            </mat-progress-spinner>
+
+                <p class="spinner-value">70%</p>
+            </div>
+            
+        </div>
+        <small class="text-muted" style="margin:0px; padding:0px">Last month</small>
+    </div>
+
+    
+    <!--END OF CLIENTS-->
+    <div class="income">
+        <div class="header">
+            <div class="main">
+                <mat-icon class="materiel-icons-sharp">
+                    bar_chart
+                </mat-icon>
+                <span>Total Expenses </span>
+            </div>
+            
+               
+            <div class="date-filter">
+                <input class="mat-input" [matDatepicker]="dp2" disabled placeholder="MM/YYYY">
+        
+                  <mat-datepicker-toggle class="date-btn" matSuffix [for]="dp2" style="background: rgba(254,182,69,1);">
+                    <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker class="picker"  #dp2 disabled="false"></mat-datepicker>
+        
+         
+        
+              </div>
+        </div>
+            
+        <div class="middle">
+            <div class="left">
+                <h3>280,884 €</h3>
+            </div>
+            <div class="income-spinner">
+                <mat-progress-spinner mode="determinate" class="progress-spinner"  [value]="60">
+            </mat-progress-spinner>
+
+                <p class="spinner-value">60%</p>
+            </div>
+            
+        </div>
+        <small class="text-muted">Last month</small>
+    </div>
+    
+    <!--END OF INCOME-->
+    
+    <div class="expenses">
+        <div class="header">
+            <div class="main">
+                <mat-icon class="materiel-icons-sharp">
+                    bar_chart
+                </mat-icon>
+                <span>CJM </span>
+            </div>
+            
+            <div class="date-filter">
+                <input class="mat-input" [matDatepicker]="dp3" disabled placeholder="MM/YYYY">
+        
+                  <mat-datepicker-toggle class="date-btn" matSuffix [for]="dp3" style="background: rgba(109,0,25,1);">
+                    <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #dp3 disabled="false" class="picker" ></mat-datepicker>
+        
+        
+        
+              </div>
+           
+              
+        </div>
+        
+        <div class="middle">
+            <div class="left">
+                <h3>120 €</h3>
+            </div>
+            <div class="expenses-spinner">
+                <mat-progress-spinner mode="determinate" class="progress-spinner"
+                [value]="35">
+            </mat-progress-spinner>
+                <p class="spinner-value">35%</p>
+            </div>
+            
+                
+           
+        </div>
+        <small class="text-muted">Last month</small>
+    
+    </div>
+
+  
+     
+
+
+
+
+
