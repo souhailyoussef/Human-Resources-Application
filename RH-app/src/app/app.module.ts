@@ -49,13 +49,15 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AlertComponent } from './modules/alert/alert.component';
 import {MatDividerModule} from '@angular/material/divider'; 
-import { DashboardComponent } from './modules/dashboard/dashboard.component';
-import { AreaComponent } from './widgets/area/area.component';
-import { HighchartsChartModule } from 'highcharts-angular';
-import { PieComponent } from './widgets/pie/pie.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
-
+import { PieComponent } from './modules/dashboard/widgets/pie/pie.component';
+import { AreaComponent } from './modules/dashboard/widgets/area/area.component';
+import { NgChartsModule } from 'ng2-charts';
+import { DonutChartComponent } from './donut-chart/donut-chart.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { DashboardComponent } from './modules/dashboard/dashboard/dashboard.component';
+import {MatGridListModule} from '@angular/material/grid-list'; 
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -76,9 +78,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     DialogBoxComponent,
     SearchByRubriqueNamePipe,
     AlertComponent,
-    DashboardComponent,
+    PieComponent,
     AreaComponent,
-    PieComponent
+    DonutChartComponent,
+    DashboardComponent
+
   ],
   imports: [
     BrowserModule,
@@ -114,9 +118,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatDividerModule,
+    FlexLayoutModule,
+    NgChartsModule,
     HighchartsChartModule,
-    FlexLayoutModule
-
+    MatGridListModule,
+    MatPaginatorModule
 
   ],
   providers: [

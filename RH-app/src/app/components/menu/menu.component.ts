@@ -26,6 +26,7 @@ export class MenuComponent implements OnInit {
     this.selection="Home";
     this.role=this.getUserRole();
 
+    
   }
  
   getDecodedAccessToken(token: string): any {

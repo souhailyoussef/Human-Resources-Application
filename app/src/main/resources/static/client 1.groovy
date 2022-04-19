@@ -52,6 +52,7 @@ try {
     println(result)
 
 }
+
 //TODO : CALCULATE COST OF EVERY PROJECT
 
 //TODO : - nbre de consultant
@@ -60,6 +61,11 @@ try {
 catch (Exception e ) {
     println("exception , " + e.toString())
 }
+
+
+var res  =new Resultat();
+
+println(res.aggregate())
 
 def fetchData(String query)  {
     return sql.rows(query)

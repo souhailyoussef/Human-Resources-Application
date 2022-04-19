@@ -1,5 +1,6 @@
 package com.example.app.domain;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,15 +27,23 @@ public class AppUser {
     @Id @GeneratedValue(strategy = IDENTITY)
     private Integer id;
     private String first_name;
+    private String last_name;
     @Column(unique=true)
     private String username;
     private String password;
     private Boolean cnss;
     private String rolename;
+    private String gender;
     @Column(columnDefinition = "DATE")
     private LocalDate birthdate;
+    private String address;
+    private Double salary;
+    private String department;
 
-    @ManyToMany
+
+
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "employee_task",
             joinColumns = @JoinColumn(name = "employee_id"),

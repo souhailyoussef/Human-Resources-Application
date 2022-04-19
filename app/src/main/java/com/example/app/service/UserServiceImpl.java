@@ -1,7 +1,6 @@
 package com.example.app.service;
 
-import com.example.app.domain.AppUser;
-import com.example.app.domain.Task;
+import com.example.app.domain.*;
 import com.example.app.repository.TaskRepository;
 import com.example.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -100,10 +100,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public List<AppUser> getUsersBirthdays() {
-        // TODO: Consider time zones, calendars etc
-
-        return null;
+       return  userRepository.getUsersBirthdays();
     }
 
+    @Override
+    public List<TaskAndProject> getCurrentTasksAndProjects(long user_id, LocalDate date) {
+        return userRepository.getCurrentTasksAndProjects(user_id,date);
+    };
+
+    @Override
+    public GenderRepartition getGenderRepartition() {
+        return userRepository.getGenderRepartition();
+    }
+
+    @Override
+    public long countUsers() {
+        return userRepository.count();
+    }
 
 }

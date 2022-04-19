@@ -8,5 +8,6 @@ export class User {
     access_token?:string;
     refresh_token?:string;
     rolename: string;
+    id:number;
 
 }

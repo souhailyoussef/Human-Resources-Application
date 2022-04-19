@@ -2,6 +2,7 @@ package com.example.app.service;
 
 import com.example.app.domain.Client;
 import com.example.app.domain.ClientDetails;
+import com.example.app.domain.Project;
 import com.example.app.repository.ClientRepository;
 import com.example.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +41,19 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public List<ClientDetails> fetchClientDetails(long id) {
         return clientRepository.fetchClientDetails(id);
+    }
+
+    @Override
+    public List<Project> fetchProjectsByClientId(long id) {
+        Client client = clientRepository.findById(id);
+        if (client==null) return null;
+        else {
+            return client.getProjects() ;
+        }
+    }
+
+    @Override
+    public long countClients() {
+        return clientRepository.count();
     }
 }

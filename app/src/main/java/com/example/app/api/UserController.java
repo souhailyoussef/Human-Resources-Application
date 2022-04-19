@@ -5,25 +5,22 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.app.domain.AppUser;
+import com.example.app.domain.GenderRepartition;
+import com.example.app.domain.TaskAndProject;
 import com.example.app.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -42,10 +39,23 @@ public class UserController {
     public ResponseEntity<List<AppUser>>getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
     }
-    @GetMapping("/users/birthday")
+    @GetMapping("/users/birthdays")
     public ResponseEntity<List<AppUser>>getUsersBirthdays() {
         return ResponseEntity.ok().body(userService.getUsersBirthdays());
     }
+
+    @GetMapping("/users/gender")
+    public ResponseEntity<GenderRepartition>getGenderRepartition() {
+        return ResponseEntity.ok().body(userService.getGenderRepartition());
+    }
+    @GetMapping("/user/projects")
+    public ResponseEntity<List<TaskAndProject>> getCurrentTasksAndProjects(@RequestParam long id) {
+        LocalDate date = LocalDate.now();
+        return ResponseEntity.ok().body( userService.getCurrentTasksAndProjects(id,date));
+    }
+
+
+
 
     @GetMapping(value = "/users/user/{username}", produces = "application/json")
     public ResponseEntity<AppUser>getUser(@PathVariable String username, HttpServletResponse response) {
@@ -120,3 +130,5 @@ class RoleToUserForm {
 class Username {
     private String username;
 }
+
+

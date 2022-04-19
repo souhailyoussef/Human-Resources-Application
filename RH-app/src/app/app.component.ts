@@ -15,7 +15,7 @@ export class AppComponent {
 
   currentUser: User;
   firstSelected:boolean;
-  leftOpened = true;
+  public leftOpened = true;
   
 
     constructor(

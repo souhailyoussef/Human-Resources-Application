@@ -1,8 +1,9 @@
 package com.example.app.service;
 
-import com.example.app.domain.AppUser;
-import com.example.app.domain.Task;
+import com.example.app.domain.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface UserService {
@@ -15,4 +16,9 @@ public interface UserService {
 
 
     List<AppUser> getUsersBirthdays();
+    List<TaskAndProject> getCurrentTasksAndProjects(long user_id, LocalDate date);
+
+    GenderRepartition getGenderRepartition();
+    long countUsers();
+
 }

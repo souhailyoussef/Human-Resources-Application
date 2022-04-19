@@ -80,3 +80,7 @@ tr.mat-row {
       .card-content {
         font-size: 12pt;
       }
+
+      mat-card {
+        background-color: white !important;
+      }

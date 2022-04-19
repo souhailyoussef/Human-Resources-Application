@@ -1,5 +1,8 @@
 package com.example.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,24 +21,32 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Project {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private int id;
+    private Long id;
     private String name;
     private String description;
     private Date start_date;
     private Date end_date;
     private String status;
-    private int priority;
+    private Integer priority;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="client_id",nullable = false)
     private Client client;
 
+
     @OneToOne(mappedBy = "project")
     private Contract contract;
 
-    @OneToMany(mappedBy="project",fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @OneToMany(mappedBy="project",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Task> tasks;
 
+    public void addTask(Task task) {
+
+        this.tasks.add(task);
+        task.setProject(this);
+    }
 
 
 

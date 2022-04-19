@@ -1,10 +1,217 @@
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet"> 
+
 <div class="home">
-  <!--  <h1>list of users :</h1>
-    <ul *ngIf="users">
-        <li *ngFor="let user of users">{{user.username}}</li>
-    </ul>
+  
+  <mat-grid-list cols="5" rowHeight="100px" [gutterSize]="'10px'">
+   
+    <mat-grid-tile  colspan="2" rowspan="3" class="employees">
+      <div class="wrapper">
+      <div class="title">
+        <small>total employees</small>
+      </div>
+      <div class="graph">
+        <svg height="70%" width="70%" viewBox="0 0 120 120">       
+          <circle  *ngFor="let item of items;let i=index" cx="60" cy="60" r="45" fill="transparent" [attr.stroke-width]="(i+1)*12"
+          [attr.stroke-dasharray]="getPerimeter(50)" [attr.stroke-dashoffset]="getOffset(50,i)" [attr.stroke]="getColor(i)"/>             
+       </svg>
+       <div class="legend">
+         <div *ngFor="let item of items" class="key">
+           <div style="display:flex; height:30px; justify-content: space-evenly;">
+            <span class="key-color" [style.background]="item.color"></span> <span>{{item.name | titlecase}}</span> 
+           </div>
+           <div style="text-align: center;"><strong>{{item.count}}</strong></div>
+         </div>
+       </div>
+        <!-- <highcharts-chart
+            [Highcharts]="highcharts"
+            [options]="options"
 
-  -->
-  <router-outlet>        </router-outlet>
+            style="width:100%; height:100%; display:block;"
+></highcharts-chart> -->
+      </div>
+    </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2" rowspan="1" class="reminder">
+      <div class="stripe"></div>
 
+      <div class="wrapper">
+
+        <div class="title">
+
+          <small>reminder</small>
+        </div>
+        <div class="container">
+
+          <div class="stripe"></div>
+
+          <div class="row" *ngFor="let birthday of birthdays">
+
+            <div class="avatar">
+              <img  src="/assets/person1.png" alt="">
+            </div>
+            <div class="text">
+              <div class="text">
+                <span class="header"><strong>{{birthday.first_name}} {{birthday.last_name}} has birthday today!</strong> </span>
+                <span class="note">Prepare gift & buy a birthday cake</span>
+              </div>
+            </div>
+          </div>
+          <hr>
+         
+      
+        </div>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="1" rowspan="6" class="calendar">
+      <div class="wrapper">
+        <div class="title">
+
+          <small>calendar</small>
+        </div>
+        <div class="calendar-header">
+            <h5 class="date">Today <br>
+            {{current_date |date :'longDate'}}</h5>
+             <mat-icon>add</mat-icon>
+        </div>
+        <div class="calendar-events">
+          <small>Upcoming Events</small>
+          <div class="event" *ngFor="let note of NOTES; let i =index">
+            <div class="selected">
+              <span ></span>
+            </div>
+            <div class="event-info">
+              <div class="time"><span>{{note.start_time | date: 'HH:mm'}} - {{note.end_time | date: 'HH:mm'}}</span></div>
+              <div class="event-description">{{note.title}} blab bla</div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="2" rowspan="2" class="holidays">
+      <div class="wrapper">
+        <div class="title">
+          <small>employees on holidays</small>
+        </div>
+        <div class="container">
+
+          <div class="row">
+            <div class="avatar">
+              <img  src="/assets/person2.png" alt="">
+            </div>
+            <div class="text">
+              <span class="header"><strong>Tom Drake</strong> </span>
+              <span class="note">Phone available on Mondays</span>
+            </div>
+            <span class="duration">Only Today</span>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="avatar">
+              <img  src="/assets/person3.png" alt="">
+            </div>
+            <div class="text">
+              <span class="header"><strong>Caroline Waldorf</strong> </span>
+              <span class="note">You can reach me on my phone</span>
+            </div>
+            <span class="duration">10/04 - 30/04</span>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="avatar">
+              <img  src="/assets/person4.png" alt="">
+            </div>
+            <div class="text">
+              <span class="header"><strong>Natasha Newman</strong> </span>
+              <span class="note">Please contact me in case of need</span>
+            </div>
+            <span class="duration">Only Today</span>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="4" rowspan="3" class="projects">
+      <div class="wrapper">
+        <div class="title">
+          <small>current project summary</small>
+        </div>
+        <div class="container">
+
+          <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource">
+          
+              <!-- Position Column -->
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> Id </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+              </ng-container>
+          
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Project Manager </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+          
+              <!-- Weight Column -->
+              <ng-container matColumnDef="team">
+                <th mat-header-cell *matHeaderCellDef> Team </th>
+                <td mat-cell *matCellDef="let element; let i=index"> 
+                  <div class="team"> 
+                    <div class="avatar">
+                      
+                      <img  src="/assets/person8.png" alt="">
+                    </div>
+                    <div class="avatar">
+                      <img  src="/assets/person5.png" alt="">
+                    </div>
+                    <div class="avatar">
+                      <img  src="/assets/person6.png" alt="">
+                    </div>
+                    <div class="extra" *ngIf="element.team -3 > 0">
+                      +{{element.team-3| number}}
+                      
+                    </div>
+                  </div>
+                   </td>
+              </ng-container>
+          
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Deadline </th>
+                <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status </th>
+                <td mat-cell *matCellDef="let element" > 
+                  <div class="status">
+                    <div class="status-color" [ngClass]="{'pending': element.status==='pending', 'finished':element.status=='finished', 'not-started': element.status==='not started' }" ></div>
+                    <small> {{element.status |titlecase}} </small>
+                  </div>
+                  
+                 </td>
+              </ng-container>
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          
+            <mat-paginator class="paginator" [pageSizeOptions]="[3, 10, 20]"
+                           showFirstLastButtons 
+                           aria-label="Select page of periodic elements">
+            </mat-paginator>
+          </div>
+          
+
+        </div>
+      </div>
+    </mat-grid-tile>   
+
+
+  </mat-grid-list>
+  
 </div>

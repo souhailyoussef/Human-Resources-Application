@@ -1,5 +1,6 @@
 package com.example.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,8 @@ public class Client {
     private String phoneNumber;
     private String mail;
     private String country;
+
+    @JsonManagedReference
     @OneToMany(mappedBy="client",fetch = FetchType.EAGER)
     private List<Project> projects;
 

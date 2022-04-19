@@ -7,15 +7,11 @@ import { TimesheetsComponent } from './components/timesheets/timesheets.componen
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { DashboardParametersComponent } from './components/dashboard-parameters/dashboard-parameters.component';
 import { AuthGuard } from './helpers/AuthGuard';
-import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { DashboardComponent } from './modules/dashboard/dashboard/dashboard.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [AuthGuard],
-  children: [{
-    path:'',
-    component:DashboardComponent
-  }] },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard]},
   { path: 'login', component: UserLoginComponent },
   {path: 'timesheets', component:TimesheetsComponent},
   { path: 'timesheet/:id', component: TimesheetComponent },
@@ -23,6 +19,7 @@ const routes: Routes = [
     path: 'profiles/profile/:username' , component:ProfileComponent,canActivate:[AuthGuard]
   },
   { path: 'settings', component: DashboardParametersComponent },
+  { path: 'dashboard', component: DashboardComponent },
 
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
