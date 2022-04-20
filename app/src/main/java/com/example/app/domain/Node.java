@@ -11,10 +11,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -42,6 +39,8 @@ public class Node {
 
     @OneToMany(mappedBy = "parent", orphanRemoval = true,fetch=FetchType.EAGER) //add column definitions as needed
     private List<Node> children;
+
+    private String parameters;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "script_id")
@@ -165,6 +164,24 @@ public class Node {
         return out;
     }
 
+    public List<Long> getValues() {
+        return Arrays.asList(this.january,this.february,this.march,this.april,may,june,july,august,september,october,november,december);
+    }
+
+    public void setValues(ArrayList<Long> values) {
+       january=values.get(0);
+       february=values.get(1);
+       march=values.get(2);
+       april=values.get(3);
+       may=values.get(4);
+       june=values.get(5);
+       july=values.get(6);
+       august=values.get(7);
+       september=values.get(8);
+       october=values.get(9);
+       november=values.get(10);
+       december=values.get(11);
+    }
 
     public void sumNode() {
         // for empty trees or leafs tree, do nothing

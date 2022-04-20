@@ -73,11 +73,7 @@ public class AppApplication {
 	CommandLineRunner run(UserService userService) { //this runs after the app is initialized, so no need for
 		//manual input
 		return args -> {
-			//	userService.saveRole("COLLABORATOR");
-			//	userService.saveRole("ADMIN");
-			//	userService.saveRole("PROJECT_MANAGER");
-			//	userService.saveRole("MANAGER");
-			//	userService.saveRole("ACCOUNTANT")
+
 			userService.saveUser(new AppUser(null, "John", "Doe","John", "1234", null, "COLLABORATOR","Male",LocalDate.of(1998,10,22),"sousse",Double.valueOf(1850),"IT",null));
 			userService.saveUser(new AppUser(null, "Michael", "Scott", "Michael","xyz", true, "ACCOUNTANT","Male",LocalDate.of(2000,5,10),"sousse",1500.25,"HR",null));
 			userService.saveUser(new AppUser(null, "Emma", "Stone","Emma", "1234", true, "ADMIN","Female",LocalDate.of(1997,9,11),"Ben Arous",Double.valueOf(1850),"HR",null));
@@ -87,57 +83,10 @@ public class AppApplication {
 			userService.addRoleToUser("Jack", "ACCOUNTANT");
 			userService.addRoleToUser("Emma", "COLLABORATOR");
 			userService.addRoleToUser("Michael", "MANAGER");
-/*
-			taskService.saveTask(new Task(null,"task 1","description for task1",LocalDate.of(2022,04,01),LocalDate.of(2022,04,12),null,null));
-			taskService.saveTask(new Task(null,"task 2","description for task2",LocalDate.of(2022,01,01),LocalDate.of(2022,01,28),null,null));
-			taskService.saveTask(new Task(null,"task 4","description for task4",LocalDate.of(2022,01,03),LocalDate.of(2022,02,03),null,null));
-			taskService.saveTask(new Task(null,"task 5","description for task5",LocalDate.of(2022,02,2),LocalDate.of(2022,02,3),null,null));
-			taskService.saveTask(new Task(null,"task 10","description for task10",LocalDate.of(2022,3,15),LocalDate.of(2022,04,27),null,null));
-*/
-/*
-			userService.addTaskToUser(1,"Emma");
-			userService.addTaskToUser(2,"Emma");
-			userService.addTaskToUser(3,"John");
-			userService.addTaskToUser(4,"Michael");
-			userService.addTaskToUser(5,"jack");
-*/
-			/*
-			projectService.addTask(taskService.getTask(1),1);
-			projectService.addTask(taskService.getTask(2),1);
-			projectService.addTask(taskService.getTask(3),2);
-			projectService.addTask(taskService.getTask(4),2);
-			projectService.addTask(taskService.getTask(5),4);
-			projectService.addTask(taskService.getTask(5),3);
-			projectService.addTask(taskService.getTask(5),5);
-*/
-
-//			var projects = userService.getCurrentTasksAndProjects(3,LocalDate.of(1998,10,22));
-			//System.out.println(userService.getUsersBirthdays().get(0).getUsername());
-
-/*
-			userService.addTaskToUser(1,"Emma");
-			userService.addTaskToUser(2,"Emma");
-			userService.addTaskToUser(3,"John");
-			userService.addTaskToUser(4,"Michael");
-			userService.addTaskToUser(5,"jack");
-			System.out.println(userService.getUser("emma").getTasks().size());
-
-*/
-
-
-
-
-
-
-			//Binding binding = new Binding() ;
-			//binding.setVariable( "rootNode", rootNode ) ;
-			//this creates SRESULT variable in script with value foo
-			//System.out.println("binding variable = " + binding.getVariable("rootNode"));;
-			//GroovyShell gs = new GroovyShell( binding ) ;
-			//gs.evaluate( new File( currentRelativePath ) ) ;  // THIS RUNS THE SCRIPT
 
 		};
 	}
+
 
 	@Transactional
 	@Bean
@@ -149,31 +98,7 @@ public class AppApplication {
 			nodeService.saveNode(root);
 
 
-			//String currentRelativePath = Paths.get(".").toAbsolutePath().normalize().toString().concat("\\src\\main\\resources\\static\\script_somme.groovy");
-			//Path path = Path.of(currentRelativePath);
-			/*byte[] content = null;
-			try {
-				content = Files.readAllBytes(path);
-				MultipartFile result = new MockMultipartFile("script_somme.groovy",
-						"script_somme.groovy","application/octet-stream", content);
-
-				fileDBService.saveFile(result);
-			} catch (final IOException e) {
-			}
-			catch (Exception e)  {System.out.println(e.getMessage());}
-	*/
 			/*
-			try {
-				var binding = new Binding();
-				binding.setVariable( "fileDBService", fileDBService );
-				binding.setVariable( "a", 2 );
-				GroovyShell gs = new GroovyShell( binding );
-				fileDBService.executeScript(27,binding);
-			}
-			catch (Exception e ) {
-				System.out.println(e.getMessage());
-			}
-*/
 
 			try {
 				GroovyShell shell = new GroovyShell();
@@ -187,20 +112,7 @@ public class AppApplication {
 			catch (Exception e) {
 				System.out.println(e.toString());
 			}
-
-				//String currentRelativePath = Paths.get(".").toAbsolutePath().normalize().toString().concat("\\src\\main\\java\\scripts\\script_somme.groovy");
-				//Path fileName = Path.of(currentRelativePath);
-			//	String content = Files.readString(fileName);
-				//var  file = fileDBRepository.findByName("script_somme.groovy").getData();
-				//var  file = fileDBService.loadFileByNodeId(2).getData();
-
-				//gs.evaluate(content);
-				//this works!
-
-
-
-
-
+*/
 
 
 		};

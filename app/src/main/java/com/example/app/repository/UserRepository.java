@@ -52,5 +52,7 @@ public interface UserRepository extends JpaRepository<AppUser, Long> {
             "DATE_PART('month', birthdate) = date_part('month', CURRENT_DATE)", nativeQuery = true)
     List<AppUser> getUsersBirthdays();
 
+
+    //List<Integer> getWorkDaysPerMonth(long employee_id, long client_id);
 }
 

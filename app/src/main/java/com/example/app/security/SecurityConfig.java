@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -40,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception  {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+
         super.configure(auth);
     }
 
@@ -53,11 +55,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.authorizeRequests().antMatchers("/api//login","/api/token/refresh/**").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET,"/dashboard").permitAll();
+        //httpSecurity.authorizeRequests().antMatchers("/dashboard").denyAll();
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET,"/api/user/**").hasAnyAuthority("COLLABORATOR","PROJECT_MANAGER","MANAGER","ADMIN","ACCOUNTANT");
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/save/**").hasAnyAuthority("ADMIN");
         httpSecurity.authorizeRequests().anyRequest().authenticated();
         httpSecurity.addFilter(customAuthenticationFilter);
         httpSecurity.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/dashboard/**");
     }
 
     @Bean
