@@ -24,5 +24,6 @@ public interface FileDBService {
      Stream<FileDBParams> getAllFilesWithoutData();
      FileDB loadFileByNodeId(long nodeId);
      void executeScript(long id, Binding binding);
+     List<FileDB> getScripts();
 
 }

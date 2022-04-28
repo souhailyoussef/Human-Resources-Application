@@ -1,4 +1,4 @@
-.container {
+/*.container {
     display:flex;
     flex-wrap: wrap;
     flex-direction:row;
@@ -8,13 +8,14 @@
 
 .sales,.income,.expenses {
     margin:0;
-    height:200px;
+    height:120px;
     width:320px;
     padding:20px;
     background-color: white;
     color:black;
     border-radius:10px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
 
 }
 
@@ -61,11 +62,13 @@ span {
     align-items: center;
     justify-content: space-between;
     padding:0 20px 0 0;
-    margin:10px 0 0px;
+    margin:0;
+    text-align: center;
+    height:50px;
 }
  h3 {
-    font-size: 2rem;
-    margin:0px;
+    font-size: 1rem;
+    margin:auto;
     font-family:'Trebuchet MS';
     font-weight: 600;
 }
@@ -121,8 +124,8 @@ svg circle {
 
 }
 .sales mat-icon{
-    background: linear-gradient(to right, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
-
+    background: white;
+    color:rgba(32,124,229,1) 
 }
 .income mat-icon {
     background: linear-gradient(to right, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 100%);
@@ -241,4 +244,77 @@ mat-form-field-flex {
 
 .date-picker {
     background-color: #ffffff !important;
-}
+}*/
+
+.row {
+    background: whitesmoke;
+    height:120px;
+    margin:10px;
+    width:95%;
+    justify-content: space-evenly;
+  }
+  .production,.charges,.tjm {
+    width: 33%;
+    padding:10px 20px;
+    height:100%;
+    position: relative;
+
+    background: white;
+  }
+ 
+  .production h4,.production h5{
+    color:rgba(32,124,229,1) ;
+  }
+  .charges h4,.charges h5  {
+    color:crimson ;
+  }
+  .tjm h4,.tjm h5  {
+    color:darkgoldenrod ;
+
+  }
+
+h5{
+    font-size: 15px;
+font-weight: 500;
+margin-bottom: 15px;
+margin:0;
+text-transform:capitalize;
+
+  }
+  .production h4, .tjm h4 , .charges h4 {
+    font-size: 30px;
+    font-weight: 700;
+    font-family: 'merriweather sans';
+    font-weight:900;
+    text-transform:capitalize;
+    margin:5px 0;
+
+    margin:0;
+  }
+  .production div, .charges div , .tjm div {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .d-flex {
+    display: flex !important;
+  }
+  .d-flex div {
+      margin-right:5px;
+      font-weight: 600;
+      color:black;
+  }
+  .d-flex span {
+      color:black;
+      font-weight: bold;
+
+  }
+  mat-icon {
+      position: absolute;
+      top:0;
+      right: 0;
+      margin-right: 20px;
+      margin-top: 20px;
+      height:60px;
+      width:60px;
+      font-size: 50px;
+  }

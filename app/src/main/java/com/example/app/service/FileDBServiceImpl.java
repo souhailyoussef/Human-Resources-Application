@@ -79,4 +79,9 @@ public class FileDBServiceImpl implements FileDBService{
         catch (Exception e) {log.warn("{}",e.getMessage());}
 
     }
+
+    @Override
+    public List<FileDB> getScripts() {
+        return fileDBRepository.findAll();
+    }
 }

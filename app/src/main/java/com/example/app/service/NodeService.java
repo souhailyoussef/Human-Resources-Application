@@ -17,5 +17,6 @@ public interface NodeService {
     double sumNode(String nodeName);
     List<Node> findByScriptId(Long id);
     void addScriptToNode(Long node_id, Long script_id);
+    void calculateSum();
 
 }

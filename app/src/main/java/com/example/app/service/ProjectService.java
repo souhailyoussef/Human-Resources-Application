@@ -12,4 +12,5 @@ public interface ProjectService {
     List<Project> getProjects();
     Project addTask(Task task, long project_id);
     long countProjects(LocalDate date);
+    List<List<Integer>> countCurrentProjectsAndClients();
 }

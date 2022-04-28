@@ -146,46 +146,11 @@ public class NodeServiceImpl implements NodeService{
          }
 
     }
-    /*
 
-    public List<Node> getChildNodes(long id) {
-        Date startTime = new Date();
-        List<Node> result = nodeRepository.getAllNodes();
-
-        Map<Node, List<Node>> tree = new TreeMap<Node, List<Node>>();
-        List<Node> opList = new ArrayList<Node>();
-        for (Node n : result) {
-            if (n.getParent() == null) {
-                continue;
-            }
-            if (!tree.containsKey(n.getParent()))
-                tree.put(n.getParent(), new ArrayList<Node>());
-            tree.get(n.getParent()).add(n);
-
-        }
-
-        for (Map.Entry<Node, List<Node>> elem : tree.entrySet()) {
-            if (elem.getKey().getId() == id || opList.contains(elem.getKey())) {
-                opList.addAll(elem.getValue());
-            }
-
-        }
-
-
-        log.info("size of child list " + opList.size());
-        Date endTime = new Date();
-        log.info(" Execution time " + (startTime.getTime() - endTime.getTime()) / 1000);
-        return opList;
+    @Override
+    public void calculateSum() {
+        nodeRepository.calculateSum();
     }
 
-
-    public Node replaceParent(long nodeId, long parentId) {
-        Node currNode = nodeRepository.findById(nodeId).get();
-        Node parNode = nodeRepository.findById(parentId).get();
-        currNode.setParent(parNode);
-        nodeRepository.save(currNode);
-        return currNode;
-    }
-*/
 
 }

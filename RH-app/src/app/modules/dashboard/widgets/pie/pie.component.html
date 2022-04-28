@@ -1,8 +1,19 @@
-<highcharts-chart
-[Highcharts]="highcharts"
-[options]="options"
-
-style="width:500px; height:100%; display:block;"
-></highcharts-chart>
+<body>
+    <highcharts-chart
+    [Highcharts]="highcharts"
+    [options]="options"
     
+    style="width:500px; height:100%; display:block;"
+    >
+    
+  
+    </highcharts-chart> 
+ 
+    <select class="form-select form-select-sm" aria-label=".form-select-sm example" aria-placeholder="random text" (change)="modo($event)">
+            <option *ngFor="let d of dates; let i = index" [ngValue]="i+1">{{d |titlecase}}</option>
+
+      </select>
+</body>
+
+
     

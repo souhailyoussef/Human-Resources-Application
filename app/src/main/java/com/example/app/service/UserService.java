@@ -21,4 +21,5 @@ public interface UserService {
     GenderRepartition getGenderRepartition();
     long countUsers();
 
+
 }

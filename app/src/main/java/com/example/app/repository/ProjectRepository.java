@@ -14,6 +14,13 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     Project findById(long id);
     //long countByStart_date(LocalDate date);
 
+    @Query(value="select count(client_id) as clients, count(projects) as projects from\n" +
+            "(SELECT client_id, count(id) as projects FROM project\n" +
+            "where project.status != 'finished'\n" +
+            "group by client_id)\n" +
+            "as t1",nativeQuery = true)
+    List<List<Integer>> countCurrentProjectsAndClients();
+
    /* @Query(" SELECT * FROM\n" +
             "(SELECT project.id as project_id,client.id as client_id, contract.id as contract_id ,\n" +
             "project.name as project_name, client.name as client_name, contract.cost as contract_cost \n" +

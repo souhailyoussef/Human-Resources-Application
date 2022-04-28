@@ -16,7 +16,7 @@ export class MenuComponent implements OnInit {
   menu_admin : any[] = [['Home','home'],['Employees','person'],['Settings','settings']];
   menu_collaborateur : any[] = [['Home','home'],['Timesheets','calendar_today'],['Tasks','work'],['Projects','file_copy']];
   menu_chefDeProjet : any[] = [['Home','home'],['Timesheets','calendar_today'],['Projects','file_copy'],['Employees','person'],['Settings','settings'],['Dashboard','bubble_chart']];
-  menu_manager : any[] = [['Home','home'],['Timesheets','calendar_today'],['Projects','file_copy'],['Employees','person'],['Dashboard','bubble_chart']];
+  menu_manager : any[] = [['Home','home'],['Timesheets','calendar_today'],['Projects','file_copy'],['Employees','person'],['Dashboard','bubble_chart'],['Settings','settings']];
   menu_comptable : any[] = [['Home','home'],['Projects','file_copy'],['Bills','attach_money']];
 
     constructor(private loginUserService : LoginuserService) { }

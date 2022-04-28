@@ -7,6 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.app.domain.AppUser;
 import com.example.app.domain.GenderRepartition;
 import com.example.app.domain.TaskAndProject;
+import com.example.app.service.ProjectService;
 import com.example.app.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
@@ -35,6 +36,8 @@ public class UserController {
 
 
     private final UserService userService;
+    private final ProjectService projectService;
+
     @GetMapping("/users")
     public ResponseEntity<List<AppUser>>getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
@@ -118,6 +121,15 @@ public class UserController {
         }
     }
 
+    @GetMapping(value = "/dashboard/info", produces = "application/json")
+    public ResponseEntity<GeneralInfo> getDashboardInfo() {
+        List<Integer> list = projectService.countCurrentProjectsAndClients().get(0);
+        list.add((int)userService.countUsers());
+        GeneralInfo result = new GeneralInfo(list.get(0),list.get(1),list.get(2));
+
+        return ResponseEntity.ok().body(result);
+    }
+
 
 }
 @Data
@@ -129,6 +141,17 @@ class RoleToUserForm {
 @Data
 class Username {
     private String username;
+}
+@Data
+class GeneralInfo{
+    private Integer clients;
+    private Integer projects;
+    private Integer employees;
+    public GeneralInfo(Integer clients, Integer projects, Integer employees) {
+        this.clients=clients;
+        this.projects=projects;
+        this.employees=employees;
+    }
 }
 
 

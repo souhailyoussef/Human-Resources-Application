@@ -4,53 +4,42 @@ import {FormControl} from '@angular/forms';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatDatepicker} from '@angular/material/datepicker';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
-
-//import * as _moment from 'moment';
-// tslint:disable-next-line:no-duplicate-imports
-//import {default as _rollupMoment, _moment} from 'moment';
+import { Rubrique } from '../rubrique';
+import { NodeService } from '../services/node.service';
 
 
 
-//const moment = _rollupMoment || _moment;
-
-// See the Moment.js docs for the meaning of these formats:
-// https://momentjs.com/docs/#/displaying/format/
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   selector: 'app-donut-chart',
   templateUrl: './donut-chart.component.html',
   styleUrls: ['./donut-chart.component.css'],
-  providers: [
-    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-    // application's root module. We provide it at the component level here, due to limitations of
-    // our example generation script.
-  ],
+
 })
 
 export class DonutChartComponent implements OnInit {
 
-  constructor() { }
+  production : Rubrique;
+  charges : Rubrique;
+  constructor(private nodeService : NodeService) { }
 
   ngOnInit(): void {
-  }
-  date = new FormControl();
+    this.nodeService.getData().subscribe( (data :any) => {
 
-  setMonthAndYear(normalizedMonthAndYear: any, datepicker: MatDatepicker<any>) {
-    const ctrlValue = this.date.value;
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
+    
+      var rubrique_production = data.children.filter((obj : Rubrique) => {
+        return obj.name.toLowerCase() === 'production'
+      })[0]
+      this.production=rubrique_production
+      var rubrique_charges = data.children.filter((obj : Rubrique) => {
+        return obj.name.toLowerCase() === 'charges'
+      })[0]
+      this.charges = rubrique_charges;
+    })
+
+    
+    
   }
+
+ 
 }

@@ -51,4 +51,9 @@ public class ProjectServiceImpl implements ProjectService{
     public long countProjects(LocalDate date) {
         return projectRepository.count();
     }
+
+    @Override
+    public List<List<Integer>> countCurrentProjectsAndClients() {
+        return projectRepository.countCurrentProjectsAndClients();
+    }
 }

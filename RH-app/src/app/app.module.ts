@@ -52,7 +52,6 @@ import {MatDividerModule} from '@angular/material/divider';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PieComponent } from './modules/dashboard/widgets/pie/pie.component';
 import { AreaComponent } from './modules/dashboard/widgets/area/area.component';
-import { NgChartsModule } from 'ng2-charts';
 import { DonutChartComponent } from './donut-chart/donut-chart.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { DashboardComponent } from './modules/dashboard/dashboard/dashboard.component';
@@ -119,7 +118,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatProgressSpinnerModule,
     MatDividerModule,
     FlexLayoutModule,
-    NgChartsModule,
     HighchartsChartModule,
     MatGridListModule,
     MatPaginatorModule

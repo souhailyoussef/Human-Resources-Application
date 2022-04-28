@@ -1,9 +1,11 @@
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet"> 
+
 <div class="dashboard">
 <div class="boxes">
     <div class="box">
       <mat-icon>device_hub</mat-icon>
       <div class="info">
-          <h5>12
+          <h5>{{info?.projects}}
             <br>
             <small>Projects</small>
           </h5>
@@ -13,7 +15,7 @@
     <div class="box" style="background: linear-gradient(to right, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 100%);">
       <mat-icon>people</mat-icon>
       <div class="info">
-          <h5>9
+          <h5>{{info?.clients}}
             <br>
             <small>Clients</small>
           </h5>
@@ -22,7 +24,7 @@
     <div class="box" style="background: linear-gradient(to right, rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%);">
       <mat-icon>work</mat-icon>
       <div class="info" >
-          <h5>25
+          <h5>{{info?.employees}}
             <br>
             <small>Workforce</small>
           </h5>
@@ -52,5 +54,128 @@
     <app-donut-chart></app-donut-chart>
   </div>
 
+  
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container class="text-center" matColumnDef="rubrique" >
+        <th mat-header-cell *matHeaderCellDef id="rubrique-column"> 
+          <span [style.paddingLeft.px]="5"> Rubrique </span>
+        </th>
+        <td mat-cell *matCellDef="let data "  [ngClass]="{'expandable': data.expandable === true}" class="td-rubrique" > 
+          <button mat-icon-button id="expand-button"
+                  [style.visibility]="!data.expandable ? 'hidden' : ''"
+                  
+                
+                  [style.marginLeft.px]="data.level * 25"
+                  (click)="treeControl.toggle(data)"
+                  >
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(data) ? 'arrow_drop_down' : 'arrow_right'}}
+            </mat-icon>
+          </button>
+    
+          {{data.name.toLowerCase()}}
+        </td>
+      </ng-container > 
+    
+      <ng-container matColumnDef="parameters">
+        <th class="text-center" class="text-center" mat-header-cell *matHeaderCellDef id="parameters-column">parameters</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}">
+              {{data.parameters}}
+     </td>
+      </ng-container> 
+
+     
+
+      <ng-container matColumnDef="value">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">Value</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" >
+              {{data.value | number}} €
+     </td>
+      </ng-container> 
+    
+
+      <ng-container matColumnDef="january">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">january</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" >
+              {{data.january | number}} €
+     </td>
+      </ng-container> 
+ 
+      <ng-container matColumnDef="february">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">february</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" >
+              {{data.february | number}} €
+     </td>
+      </ng-container> 
+      <ng-container matColumnDef="march">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">march</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" >
+              {{data.march | number}} €
+     </td>
+      </ng-container> 
+      <ng-container matColumnDef="april">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">April</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" >
+              {{data.april| number}} €
+     </td>
+      </ng-container> 
+      <ng-container matColumnDef="may">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">may</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" >
+              {{data.may| number}} €
+     </td>
+      </ng-container> 
+      <ng-container matColumnDef="june">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">june</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" >
+              {{data.june| number}} €
+     </td>
+      </ng-container> 
+
+      <ng-container matColumnDef="july">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">july</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}">
+              {{data.july| number}} €
+     </td>
+      </ng-container> 
+
+      <ng-container matColumnDef="august">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">august</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" [ngClass]="{'charges': data.name.toLowerCase() === 'charges'}" [ngClass]="{'production': data.name.toLowerCase() === 'production'}">
+              {{data.august| number}} €
+     </td>
+      </ng-container> 
+      <ng-container matColumnDef="september">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">september</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" [ngClass]="{'charges': data.name.toLowerCase() === 'charges'}" [ngClass]="{'production': data.name.toLowerCase() === 'production'}">
+              {{data.september| number}} €
+     </td>
+      </ng-container> 
+      <ng-container matColumnDef="october">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">october</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" [ngClass]="{'charges': data.name.toLowerCase() === 'charges'}" [ngClass]="{'production': data.name.toLowerCase() === 'production'}">
+              {{data.october | number}} €
+     </td>
+      </ng-container> 
+      <ng-container matColumnDef="november">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">november</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" [ngClass]="{'charges': data.name.toLowerCase() === 'charges'}" [ngClass]="{'production': data.name.toLowerCase() === 'production'}">
+              {{data.november | number}} €
+     </td>
+      </ng-container> 
+      <ng-container matColumnDef="december">
+        <th class="text-center" mat-header-cell *matHeaderCellDef class="value-column">december</th>
+        <td   mat-cell *matCellDef="let data"   [ngClass]="{'expandable': data.expandable === true}" >
+              {{data.december | number}} €
+     </td>
+
+      </ng-container> 
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row [style.minHeight.px]="20" *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  
+  
 
 </div>

@@ -39,6 +39,9 @@ public class AppUser {
     private String address;
     private Double salary;
     private String department;
+    private String contract;
+    private boolean onSite;
+    private LocalDate hireDate;
 
 
 

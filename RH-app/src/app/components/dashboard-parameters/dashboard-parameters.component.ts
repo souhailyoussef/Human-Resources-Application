@@ -87,6 +87,7 @@ export class DashboardParametersComponent implements OnInit {
   constructor(private nodeService : NodeService,private matDialog: MatDialog, 
     private fileService : FileService,private alertService: AlertService) { 
     
+
     this.loadContent();
     this.fileService.getFiles().subscribe(data => this.files);
   }
@@ -96,6 +97,7 @@ export class DashboardParametersComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     
     this.nodeService.refreshNeeded$.subscribe(() => this.loadContent())
     this.fileService.refreshNeeded$.subscribe(()=> this.loadContent())
@@ -154,7 +156,7 @@ export class DashboardParametersComponent implements OnInit {
     try {
        script_name = this.files.find((script : any) => script.rubrique_id===rubrique_id)?.name ;
        if (script_name==null || undefined) {
-         return 'no script available'
+         return ''
        }
        return script_name;
     }

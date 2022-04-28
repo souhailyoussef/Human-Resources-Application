@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
 <div class="sales">
     <div class="header">
         <div class="main">
@@ -25,7 +25,7 @@
 
         <div class="middle">
             <div class="left">
-                <h3>286,800 €</h3>
+                <h3>{{production.january | number }} €</h3>
             </div>
             <div class="sales-spinner">
                 <mat-progress-spinner mode="determinate" class="progress-spinner"
@@ -40,8 +40,7 @@
     </div>
 
     
-    <!--END OF CLIENTS-->
-    <div class="income">
+   <div class="income">
         <div class="header">
             <div class="main">
                 <mat-icon class="materiel-icons-sharp">
@@ -66,7 +65,7 @@
             
         <div class="middle">
             <div class="left">
-                <h3>280,884 €</h3>
+                <h3>{{charges.value | number }} €</h3>
             </div>
             <div class="income-spinner">
                 <mat-progress-spinner mode="determinate" class="progress-spinner"  [value]="60">
@@ -79,7 +78,6 @@
         <small class="text-muted">Last month</small>
     </div>
     
-    <!--END OF INCOME-->
     
     <div class="expenses">
         <div class="header">
@@ -123,7 +121,48 @@
     
     </div>
 
-  
+-->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&display=swap');
+    </style> 
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;800&display=swap');
+        </style> 
+<div class="row">
+    <div class="production">
+        <mat-icon [ngStyle]="{'color':'rgba(32,124,229,1)'}">timeline</mat-icon>
+            <h5>Total {{production?.name}}</h5>
+            <h4>€ <span class="counter">{{production?.value |number}}</span> </h4>
+            <div class="d-flex">
+                <div>+3.78%  </div>
+                <span> This year</span>
+        </div>
+        
+    </div>
+    <div class="charges">
+        <mat-icon [ngStyle]="{'color':'crimson'}">poll</mat-icon>
+        <h5>Total {{charges?.name}}</h5>
+        <h4>€ <span class="counter">{{charges?.value |number}}</span> </h4>
+        <div class="d-flex">
+            <div>-2%  </div>
+            <span> This year</span>
+    </div>
+
+    
+</div>
+<div class="tjm">
+    <mat-icon [ngStyle]="{'color':'darkgoldenrod'}">rate_review</mat-icon>
+
+    <h5>CJM</h5>
+    <h4>€ <span class="counter"><strong>120</strong> </span> </h4>
+    <div class="d-flex">
+        <div >-1.5%  </div>
+        <span> This year</span>
+</div>
+
+</div>
+    
+</div>
      
 
 

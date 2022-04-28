@@ -62,18 +62,12 @@ public class NodeController {
         Optional<Node> parentNode = nodeRepository.findById(nodeForm.getParent_id());
         if (nodeForm.getValue() == null) {
             Node node = new Node(parentNode.get(), nodeForm.getName());
-            if (node.isLeafNode()) {
-                node.getParent().setScript(fileDBRepository.findByName("script_somme.groovy"));
-            }
+
             return ResponseEntity.created(uri).body(nodeService.saveNode(node));
         } else {
 
             Node node = new Node(parentNode.get(), nodeForm.getName(), nodeForm.getValue());
-            if (node.isLeafNode()) {
-                log.info("i'm here now");
 
-                node.getParent().setScript(fileDBRepository.findByName("script_somme.groovy"));
-            }
             return ResponseEntity.created(uri).body(nodeService.saveNode(node));
         }
 
@@ -86,11 +80,6 @@ public class NodeController {
 
     }
 
-    @GetMapping("/nodes/sum")
-    public ResponseEntity<Double> getSum() {
-        Double sum = nodeService.sumNode("TOTAL");
-        return ResponseEntity.ok().body(sum);
-    }
 
     @DeleteMapping(value = "/node/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StringResponse> deleteNode(@PathVariable Long id) {
@@ -156,25 +145,14 @@ public class NodeController {
 
     }
 
+    @GetMapping(value = "/nodes/summary", produces = "application/json")
+    public ResponseEntity<String> getSummary() {
+        nodeService.calculateSum();
+        return ResponseEntity.ok().body("calculation complete");
+    }
 
 
 
-
-/*
-
-    @Transactional
-    @RequestMapping(
-            value = "/update/{nodeId}/parent/{parentId}",
-            method = PUT,
-            produces = "application/json")
-    @ResponseBody
-    public Node replaceParent(@PathVariable("nodeId") long nodeId, @PathVariable("parentId") long parentId) {
-        Node currNode = repo.findById(nodeId).get();
-        Node parNode = repo.findById(parentId).get();
-        currNode.setParent(parNode);
-        repo.save(currNode);
-        return currNode;
-    } */
 }
 @Data
 class ChildToParentForm {

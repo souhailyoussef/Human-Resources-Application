@@ -47,31 +47,18 @@ public class Node {
     @JsonIgnore
     private FileDB script;
 
-    @JsonIgnore
     private Long january;
-    @JsonIgnore
     private Long february;
-    @JsonIgnore
     private Long march;
-    @JsonIgnore
     private Long april;
-    @JsonIgnore
     private Long may;
-    @JsonIgnore
     private Long june;
-    @JsonIgnore
     private Long july;
-    @JsonIgnore
     private Long august;
-    @JsonIgnore
     private Long september;
-    @JsonIgnore
     private Long october;
-    @JsonIgnore
     private Long november;
-    @JsonIgnore
     private Long december;
-  //  private File scriptFile;
 
     public Node(final Node parent, String name) {
         if(parent==null) throw new IllegalArgumentException("parent required");
