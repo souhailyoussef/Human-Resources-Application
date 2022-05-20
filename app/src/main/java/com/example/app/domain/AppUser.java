@@ -43,16 +43,40 @@ public class AppUser {
     private boolean onSite;
     private LocalDate hireDate;
 
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+         name = "team_members",
+         joinColumns = @JoinColumn(name = "member_id"),
+         inverseJoinColumns = @JoinColumn(name = "team_id"))
+    private List<Team> teams;
+
 
 
     @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "employee_task",
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id"))
     List<Task> tasks;
 
+    @OneToMany(mappedBy="employee")
+    private List<Imputation> imputations;
 
 
+
+    public boolean addTask(Task task) {
+     if (!tasks.contains(task)) {
+      tasks.add(task);
+     }
+      return false;
+    }
+
+
+
+    public boolean removeTask(Task task) {
+     return tasks.remove(task);
+    }
+  
 }

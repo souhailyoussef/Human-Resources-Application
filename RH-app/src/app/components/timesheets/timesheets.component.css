@@ -1,9 +1,288 @@
+*:focus {
+  outline: none;
+}
 .timesheets {
     background-color:var(--background-color);
-    width: 100%;
+    width:85%;
+    padding:20px;
     display:inline-block;
     height: 100vh;
     color:black;
-    padding:20px;
-    margin:0;
+    text-transform: capitalize;
 }
+.parameters {
+    color:black;
+    margin:0 auto 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+    row-gap:10px;
+}
+.filter {
+    width:300px;
+    height:110px;
+    margin:0 10px;
+    overflow: hidden;
+}
+.filter > label {
+  margin-bottom: 5px;
+  color:gray;
+  font-weight: thin;
+  font-size: 14px;
+}
+
+.project-filter {
+  width:300px;
+}
+.date-filter {
+  width:400px;
+}
+.task-filter {
+  width:300px;
+}
+
+
+
+
+
+
+
+   .filters {
+     width: 150px;
+    height:100%;
+     display: inline-flex;
+     float:right;
+     margin-top: 0px;
+     padding:0px;
+     border:none;
+     background-color: transparent;
+  
+     /*justify-content: space-between;*/
+   }
+   .filters svg {
+     fill:var(--light-green);
+     margin:auto;
+   }
+  
+   p {
+     width:100px;
+   }
+  
+
+  
+  
+  
+  .text-muted {
+    margin-bottom: 7px;
+  }
+  
+
+
+mat-label {
+    color:black;
+}
+
+mat-datepicker-toggle {
+    width:30px;
+    height:30px;
+    background: var(--light-green) !important;
+}
+
+
+.date {
+    width: 140px;
+    height:30px;
+    border-radius: 5px;
+    display: flex;
+    padding:0;
+    justify-content: left;
+    overflow: hidden;
+    margin:0 8px;
+
+
+}
+.date input {
+    width: 100px;
+    background-color: var(--light-grey);
+    color:black;
+    font-size: 12px;
+    border:0;
+    text-align: center;
+}
+.date-btn {
+    width:30px;
+    height:30px;
+    padding:0;
+    overflow: hidden;
+    background: var(--light-green);
+    font-weight: bold;
+    box-shadow: none;
+    border: none;
+    position: relative;
+}
+ .date-btn mat-icon {
+     color:white;
+     background: var(--light-green);
+    height:50%;
+    width:50%;
+    margin:auto;
+    display: block;
+    position: absolute;
+    top:0%;
+    left:0%;
+    padding-top:3px;
+    padding-left:3px;
+}
+.date .picker .mat-datepicker-content {
+    background-color: #ffffff !important;
+    color: green !important;
+    width:500px;
+}
+
+
+
+.date-picker {
+    background-color: #ffffff !important;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: left;
+  margin:0 0px 10px 0px;
+  padding-left: 0;
+  font-size: 13px;
+}
+
+.select-dropdown,
+.select-dropdown * {
+	margin: 0;
+	padding: 0;
+	position: relative;
+	box-sizing: border-box;
+}
+.select-dropdown {
+	position: relative;
+	background-color: var(--light-grey);
+	border-radius: 4px;
+  height:30px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.select-dropdown select:active, .select-dropdown select:focus {
+	outline: none;
+	box-shadow: none;
+}
+.select-dropdown:after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 8px;
+	width: 0;
+	height: 0;
+	margin-top: -2px;
+	border-top: 5px solid #aaa;
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
+}
+
+
+.apply {
+  display: flex;
+align-items: center;
+margin-left: 5px;
+}
+
+.apply-filter-btn {
+  height:35px !important;
+  outline: none;
+  box-shadow: none !important;
+  width:130px ;
+  color:whitesmoke;
+  font-size: 12px !important;
+  margin-top: -15px;
+  background: var(--light-green);
+  font-weight: bold;
+
+ /* background: #F0AB33;*/
+  
+}
+.apply-icon {
+  height:15px;
+  width:15px;
+  display: inline;
+  fill:whitesmoke
+}
+.refresh-start {
+  
+  animation-name: rotate;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-play-state: running;
+  
+  
+  }
+@keyframes rotate {
+
+  from {transform: rotate(0deg)}
+  to {transform: rotate(360deg)}
+  
+  }
+  
+  
+  
+/*calendar style */
+.calendar,.calendar-header {
+  width:100%;
+}
+
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+
+.select {
+  color:black !important;
+  background: transparent ;
+  width:100%;
+ 
+
+}
+:host ::ng-deep .mat-select-value {    
+  color: black ; 
+  padding:0 10px ;
+  font-size: 13px;
+
+ }
+
+.option {
+  background: #fff;
+  color:black;
+}
+
+.option.mat-selected {
+  background: white !important;
+  color:black;
+}
+.option:hover {
+  background: var(--light-grey) !important;
+  color:black
+}
+
+
+::ng-deep .myPanelClass {
+  width: 250px !important;
+  min-width: unset !important;
+  padding:0;
+  margin:0;
+  position:fixed;
+  top:0;
+  left:20px !important ; /* this works */
+
+}
+
+
+
+

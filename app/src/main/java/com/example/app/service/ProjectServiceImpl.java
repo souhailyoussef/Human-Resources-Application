@@ -35,17 +35,17 @@ public class ProjectServiceImpl implements ProjectService{
         return projectRepository.findAll();
     }
 
-    @Override
-    public Project addTask(Task task, long project_id) {
-        log.info("adding task to project");
-        Project project = projectRepository.findById(project_id);
+  /*  @Override
+    public Project addTask(Task task, long phase_id) {
+        log.info("adding task to phase");
+        Phase phase = projectRepository.findById(project_id);
         log.info("tasks initially : {}",project.getTasks().size());
 
         project.addTask(task);
         task.setProject(project);
         log.info("tasks after : {}",project.getTasks().size());
          return projectRepository.save(project);
-    }
+    }*/
 
     @Override
     public long countProjects(LocalDate date) {

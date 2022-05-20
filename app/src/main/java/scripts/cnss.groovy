@@ -1,12 +1,12 @@
 package scripts
 
-url = "http://localhost:8080/dashboard/salaries/cdi"
+url = "http://localhost:8081/dashboard/salaries/cdi"
 
-url2="http://localhost:8080/dashboard/node/parameters/16"
+url2="http://localhost:8081/dashboard/node/parameters/16"
 
-url3="http://localhost:8080/dashboard/currency_rate"
+url3="http://localhost:8081/dashboard/currency_rate"
 
-url4="http://localhost:8080/dashboard/node/values/16"
+url4="http://localhost:8081/dashboard/node/values/16"
 
 httpClient = new HttpClient()
 salaires_cdi = httpClient.sendGetRequest(url) //charger la liste des salaires de type CDI

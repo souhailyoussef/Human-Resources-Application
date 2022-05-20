@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +32,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Configuration @EnableWebSecurity @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
-
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
@@ -58,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET,"/dashboard").permitAll();
         //httpSecurity.authorizeRequests().antMatchers("/dashboard").denyAll();
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET,"/api/user/**").hasAnyAuthority("COLLABORATOR","PROJECT_MANAGER","MANAGER","ADMIN","ACCOUNTANT");
-        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/save/**").hasAnyAuthority("ADMIN");
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/save/**").hasAuthority("ADMIN");
         httpSecurity.authorizeRequests().anyRequest().authenticated();
         httpSecurity.addFilter(customAuthenticationFilter);
         httpSecurity.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

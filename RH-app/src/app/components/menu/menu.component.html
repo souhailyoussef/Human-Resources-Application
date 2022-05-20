@@ -23,6 +23,15 @@
     </li>
   </ul>
 </ng-container>
+<ng-container class="container" *ngIf="role=='COLLABORATOR'">
+  <ul >
+
+    <li *ngFor="let item of menu_collaborateur" class="active" [ngClass]="{'active': selection===item[0]}" (click)="selection=item[0]" routerLink="/{{item[0].toLowerCase()}}">
+      <mat-icon class="icon">{{item[1]}}</mat-icon> <span> {{item[0]}}</span>
+    </li>
+    
+  </ul>
+</ng-container>
 <ng-container class="container" *ngIf="role=='ADMIN'">
   <ul >
     <li *ngFor="let item of menu_manager" class="active" [ngClass]="{'active': selection===item[0]}" (click)="selection=item[0]" routerLink="/{{item[0].toLowerCase()}}">

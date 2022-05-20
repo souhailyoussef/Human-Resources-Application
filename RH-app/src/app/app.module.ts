@@ -20,7 +20,6 @@ import { CdkTreeModule } from '@angular/cdk/tree';
 import { MenuComponent } from './components/menu/menu.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { TimesheetsComponent } from './components/timesheets/timesheets.component';
-import { TimesheetComponent } from './components/timesheet/timesheet.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -34,7 +33,6 @@ import {MatTableModule} from '@angular/material/table';
 import {AngularTreeGridModule} from 'angular-tree-grid';
 import { TableRowComponent } from './components/table-row/table-row.component';
 
-import {TreeTableModule} from 'primeng/treetable';
 import {Button, ButtonModule} from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
 import {MultiSelectModule} from 'primeng/multiselect';
@@ -57,9 +55,23 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { DashboardComponent } from './modules/dashboard/dashboard/dashboard.component';
 import {MatGridListModule} from '@angular/material/grid-list'; 
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
+import {MatChipsModule} from '@angular/material/chips'; 
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MultiselectAutocompleteComponent } from './components/multiselect-autocomplete/multiselect-autocomplete.component'; 
+import {MatListModule} from '@angular/material/list'; 
 
 
-
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { TaskModalComponent } from './components/task-modal/task-modal.component';
+import { ModalModule, TooltipModule, PopoverModule, ButtonsModule } from 'angular-bootstrap-md';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { TasksComponent } from './components/tasks/tasks.component';
+import { WeeklyTimesheetComponent } from './components/weekly-timesheet/weekly-timesheet.component';
+import { ConvertTimePipe } from './pipes/convert-time.pipe';
 
 
 @NgModule({
@@ -70,7 +82,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     NavbarComponent,
     MenuComponent,
     TimesheetsComponent,
-    TimesheetComponent,
     ProfileComponent,
     DashboardParametersComponent,
     TableRowComponent,
@@ -80,11 +91,17 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     PieComponent,
     AreaComponent,
     DonutChartComponent,
-    DashboardComponent
+    DashboardComponent,
+    MultiselectAutocompleteComponent,
+    TaskModalComponent,
+    TasksComponent,
+    WeeklyTimesheetComponent,
+    ConvertTimePipe
 
   ],
   imports: [
     BrowserModule,
+    ModalModule.forRoot(),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
@@ -109,7 +126,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTreeModule,
     MatTableModule,
     AngularTreeGridModule,
-    TreeTableModule,
     DialogModule,
     ButtonModule,
     MatDialogModule,
@@ -120,9 +136,23 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     FlexLayoutModule,
     HighchartsChartModule,
     MatGridListModule,
-    MatPaginatorModule
-
+    MatPaginatorModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    MatListModule,
+    NgbModalModule,
+    MDBBootstrapModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
+
+
+
+
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

@@ -9,6 +9,9 @@
 @import '~@angular/material/prebuilt-themes/purple-green.css';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
+/* for calendar */
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+
 :root {
     --light-green:#78C848;
     --light-grey:#E6E6E6;

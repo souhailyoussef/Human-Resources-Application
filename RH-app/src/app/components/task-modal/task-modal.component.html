@@ -1,0 +1,54 @@
+<form [formGroup]="imputationForm" (ngSubmit)="onSubmit()" class="form" >
+  <div class="nonboxy-widget">
+    <div class="widget-head">
+        <h5>Imputation Details</h5>
+    </div>
+   <hr class="seperator">
+    </div>
+  <div class="form-group">
+    <label for="name" class="name-label">Task Name</label>
+    <select name="name"  id="name" formControlName="name" 
+    class="form-control"
+    [ngClass]="{ 'is-invalid': imputationForm.controls['name'].invalid && submitted }">
+    <option class="task-option"  *ngFor="let task of tasks" [ngValue]="task" >
+       {{task.name | titlecase}}</option>
+    </select>
+<div class="invalid-feedback">
+  <p *ngIf="imputationForm.controls['name'].invalid && submitted">Task is required</p>
+</div>
+   
+    
+  </div>
+  
+  <div class="form-group">
+    <label for="day">Task Date</label>
+    <input #dateinput type="date"  class="form-control" name="day" formControlName="day"
+    [ngClass]="{ 'is-invalid': imputationForm.controls['day'].invalid && submitted}"
+    >
+    <div class="invalid-feedback">
+      <p *ngIf="imputationForm.controls['day'].invalid && submitted">Date is required</p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="workload">Workload</label>
+    <div name="workload"   class="workload-label">
+      <input     [ngClass]="{ 'is-invalid': imputationForm.controls['workload'].invalid && submitted }"
+
+        placeholder="0" class="workload-input" type="number" class="form-control" [(ngModel)]="workload" formControlName="workload">
+      <small class="time-converted">{{workload | convertTime}}</small>
+      <div class="invalid-feedback">
+        <p *ngIf="imputationForm.controls['workload'].invalid && submitted">Workload must be between 30 and 8 hours!</p>
+      </div>
+    </div>
+   
+  </div>
+  <div class="form-group" >
+    <label for="comment">Comment</label>
+    <textarea  name="comment" type="text" class="form-control comment" placeholder="" formControlName="comment" ></textarea>
+  </div>
+ 
+  <div class="form-group buttons">
+    <button class="btn btn-success btn-block" type="submit" >Submit</button>
+    <button  class="btn btn-secondary btn-block" (click)="onClose()">close</button>
+  </div>
+</form>

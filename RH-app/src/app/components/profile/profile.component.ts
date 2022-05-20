@@ -70,6 +70,7 @@ export class ProfileComponent implements OnInit,AfterViewInit {
   values : any[];
   status : boolean;
   tasks : Array<any>;
+  current_date : Date = new Date()
   
 
   displayedColumns: string[] = ['task_name', 'project_name', 'project_status', 'task_end_date'];
@@ -130,7 +131,7 @@ export class ProfileComponent implements OnInit,AfterViewInit {
       this.attributes = Object.keys(this.user);
       this.values = Object.values(this.user);
         //load current tasks and projects
-    this.userService.getCurrentTasksAndProjects(this.user.id).subscribe(
+    this.userService.getCurrentTasksAndProjects(this.user.id, this.convertDateToText(this.current_date)).subscribe(
       res => {
         this.tasks=res;
 
@@ -158,5 +159,24 @@ export class ProfileComponent implements OnInit,AfterViewInit {
   toggleEdit() {
       this.status= !this.status;
   }
+  convertDateToText(date : Date) : string {
+
+    var text  : string ;
+    if (date.getDate()<10 && date.getMonth()+1 < 10) {
+      text=date.getFullYear()+'-'+'0'+(date.getMonth()+1)+'-'+'0'+date.getDate();
+    }
+    else if (date.getDate()<10 && date.getMonth()+1 >=10)
+    {
+      text=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+'0'+date.getDate();
+    }
+    else if (date.getDate()>=10 && date.getMonth()+1 <10){  
+      text=date.getFullYear()+'-'+'0'+(date.getMonth()+1)+'-'+date.getDate();
+    }
+    else {
+      text=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+    }
+    return text
+    
+}
 
 }

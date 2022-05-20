@@ -31,6 +31,7 @@ public interface UserRepository extends JpaRepository<AppUser, Long> {
     //fetch current tasks and projects related to a specific user (id) starting from a specific (date)
     List<TaskAndProject> getCurrentTasksAndProjects(@Param("id") long id, @Param("date") LocalDate date);
 
+
     @Query(value="SELECT\n" +
             "COUNT(CASE WHEN UPPER(Gender)='MALE' THEN 1  END) As Male,\n" +
             "COUNT(CASE WHEN UPPER(Gender)='FEMALE' THEN 1  END) As Female,\n" +

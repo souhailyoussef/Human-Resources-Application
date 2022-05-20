@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -29,9 +30,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
+
     public CustomAuthenticationFilter (AuthenticationManager authenticationManager){
         this.authenticationManager=authenticationManager;
     }
+
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -57,11 +60,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .withExpiresAt(new Date(System.currentTimeMillis() + 30*60*1000)) //refresh token expires after 10 mns
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
+        String username = user.getUsername();
         response.setHeader("access_token",access_token);
         response.setHeader("refresh_token",refresh_token);
+        response.setHeader("username",username.toLowerCase());
         Map<String,String> tokens = new HashMap<>();
         tokens.put("access_token",access_token);
         tokens.put("refresh_token",refresh_token);
+        tokens.put("username",username.toLowerCase());
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(),tokens);
     }

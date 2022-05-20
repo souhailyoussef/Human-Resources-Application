@@ -4,15 +4,16 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.app.domain.AppUser;
-import com.example.app.domain.GenderRepartition;
-import com.example.app.domain.TaskAndProject;
+import com.example.app.domain.*;
+import com.example.app.service.ImputationService;
 import com.example.app.service.ProjectService;
+import com.example.app.service.TaskService;
 import com.example.app.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,6 +26,7 @@ import java.util.*;
 
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.readOnlyHttpHeaders;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -37,6 +39,77 @@ public class UserController {
 
     private final UserService userService;
     private final ProjectService projectService;
+    private final TaskService taskService;
+    private final ImputationService imputationService;
+
+    @GetMapping("/projects")
+    public ResponseEntity<?> getProjects() {
+        return ResponseEntity.ok().body(projectService.getProjects());
+    }
+    //TODO : move this to another controller
+
+
+    @GetMapping("/imputations")
+    public ResponseEntity<?> getImputations(@RequestParam String username,@RequestParam String start_date,@RequestParam String end_date) {
+        LocalDate start = LocalDate.parse(start_date);
+        LocalDate end = LocalDate.parse(end_date);
+        return ResponseEntity.ok().body(imputationService.getImputations(username, start, end));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/imputation")
+    public ResponseEntity<?> confirmImputation(@RequestBody ConfirmImputationForm form) {
+        Imputation imputation = imputationService.getImputation(form.getId());
+        if (form.isConfirm()) {
+            imputation.setStatus("confirmed");
+            imputationService.saveImputation(imputation);
+            return ResponseEntity.ok().body("confirmed");
+        }
+        imputation.setStatus("refused");
+        imputationService.saveImputation(imputation);
+        return ResponseEntity.ok().body("refused");
+    }
+
+    @PostMapping("/imputation/save")
+    public ResponseEntity<?> saveImputation(@RequestBody ImputationForm imputationForm) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/imputation/save").toUriString());
+        Task task = taskService.getTask(imputationForm.getTask_id());
+        AppUser appuser = userService.getUser(imputationForm.getUsername());
+        double workload = imputationService.getWorkloadPerDay(LocalDate.parse(imputationForm.getDay()), appuser.getId());
+        Long exist_id = imputationService.checkExistingImputation(LocalDate.parse(imputationForm.getDay()),Long.valueOf(appuser.getId()),imputationForm.getTask_id());
+        if (exist_id!= null && workload +imputationForm.getWorkload() <= (60*8))  {
+            System.out.println("updating the value " + exist_id);
+            Imputation imputation = imputationService.getImputation(exist_id);
+            return ResponseEntity.ok().body(imputationService.updateImputation(exist_id,Double.valueOf(imputationForm.getWorkload()),imputationForm.getComment()));
+        }
+        else if (exist_id==null && workload + imputationForm.getWorkload() <= (60 * 8)) {
+            System.out.println("creating new imputation " + exist_id);
+
+            Imputation imputation = new Imputation(task, LocalDate.parse(imputationForm.getDay()), imputationForm.getWorkload(), imputationForm.getComment(), appuser);
+            return ResponseEntity.created(uri).body(imputationService.saveImputation(imputation));
+
+        }
+        else {
+            return ResponseEntity.status(FORBIDDEN).body("Maximum work hours per day surpassed!");
+        }
+    }
+
+
+
+    @PutMapping("/imputation/update")
+    public ResponseEntity<?> updateImputation(@RequestBody ImputationForm imputationForm,@RequestParam long id) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/imputation/update").toUriString());
+        Task task = taskService.getTask(imputationForm.getTask_id());
+        AppUser appuser = userService.getUser(imputationForm.getUsername());
+        double workload = imputationService.getWorkloadPerDay(LocalDate.parse(imputationForm.getDay()), appuser.getId());
+        if (workload + imputationForm.getWorkload() > (60 * 8)) {
+            return ResponseEntity.status(FORBIDDEN).body("Maximum work hours per day surpassed!");
+
+        } else {
+            Imputation imputation = new Imputation(task, LocalDate.parse(imputationForm.getDay()), imputationForm.getWorkload(), imputationForm.getComment(), appuser);
+            return ResponseEntity.created(uri).body(imputationService.saveImputation(imputation));
+        }
+    }
 
     @GetMapping("/users")
     public ResponseEntity<List<AppUser>>getUsers() {
@@ -52,10 +125,11 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getGenderRepartition());
     }
     @GetMapping("/user/projects")
-    public ResponseEntity<List<TaskAndProject>> getCurrentTasksAndProjects(@RequestParam long id) {
-        LocalDate date = LocalDate.now();
+    public ResponseEntity<List<TaskAndProject>> getCurrentTasksAndProjects(@RequestParam long id,@RequestParam String deadline) {
+        LocalDate date = LocalDate.parse(deadline);
         return ResponseEntity.ok().body( userService.getCurrentTasksAndProjects(id,date));
     }
+
 
 
 
@@ -68,6 +142,11 @@ public class UserController {
             return ResponseEntity.status(NOT_FOUND).body(null);
         }
         return ResponseEntity.ok().body(userService.getUser(username));
+    }
+    @GetMapping(value="/user/{username}/tasks", produces = "application/json")
+    public ResponseEntity<?> getTasks(@PathVariable String username) {
+        var tasks = taskService.getTasksByUsername(username);
+        return ResponseEntity.ok().body(tasks);
     }
 
     @PostMapping("/user/save")
@@ -137,11 +216,26 @@ class RoleToUserForm {
     private String username;
     private String roleName;
 }
+@Data
+class ConfirmImputationForm {
+    private long id;
+    private boolean confirm;
+}
+@Data
+class ImputationForm {
+    private long task_id;
+    private String day;
+    private double workload;
+    private String comment;
+    private String username;
+
+}
 //TODO : make controller accept json format and remove this class
 @Data
 class Username {
     private String username;
 }
+
 @Data
 class GeneralInfo{
     private Integer clients;

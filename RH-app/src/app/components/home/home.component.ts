@@ -94,10 +94,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     
     this.loading = true;
-        this.loginUserService.getUsers().pipe(first()).subscribe(users => {
-            this.loading = false;
-            this.users = users;
-        });
+       
 
         this.userService.getBirthdays().subscribe( data => {
           this.birthdays=data;

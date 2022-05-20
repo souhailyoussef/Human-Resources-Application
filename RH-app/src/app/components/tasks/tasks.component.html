@@ -1,0 +1,95 @@
+<!--
+<div class="tasks">
+
+    <table mat-table [dataSource]="tasknames" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="task">
+            <th id="task-column" mat-header-cell *matHeaderCellDef>
+               Project / Task </th>
+            <td mat-cell *matCellDef="let task" class="task-cell">
+              <a href="#" class="grey darken-3 btn"><i class="material-icons">group_work</i>{{task.name}}</a>
+       
+                </td>
+            <td mat-footer-cell *matFooterCellDef class="total"> Total </td>
+          </ng-container>
+        <ng-container matColumnDef="sunday">
+          <th mat-header-cell *matHeaderCellDef> Sunday 
+            <br>
+            <span >{{week[0].getMonth()+1}}/{{week[0].getDate()}}</span>
+          </th>
+          <td class="data-cell" mat-cell *matCellDef="let task"> 
+              <div class="cell-container">
+                {{getImputation(task.name,convertDateToText(week[0]))?.workload ||0}}
+              </div>
+               </td>
+               <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[0]))}} </td>
+
+        </ng-container>
+      
+        <ng-container matColumnDef="monday">
+          <th mat-header-cell *matHeaderCellDef> Monday 
+            <br>
+            <span >{{week[1].getMonth()+1}}/{{week[1].getDate()}}</span>
+          </th>
+          <td class="data-cell" mat-cell (click)="openDialog(getImputation(task.name,convertDateToText(week[1])))" *matCellDef="let task">{{getImputation(task.name,convertDateToText(week[1]))?.workload ||0}}
+          </td>
+          <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[1]))}} </td>
+        </ng-container>
+        <ng-container matColumnDef="tuesday">
+            <th mat-header-cell *matHeaderCellDef> Tuesday 
+                <br>
+                <span >{{week[2].getMonth()+1}}/{{week[2].getDate()}}</span>
+            </th>
+            <td class="data-cell" mat-cell (click)="openDialog(getImputation(task.name,convertDateToText(week[2])))" *matCellDef="let task" >{{getImputation(task.name,convertDateToText(week[2]))?.workload ||0}}
+            </td>
+            <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[2]))}} </td>
+          </ng-container>
+      
+        <ng-container matColumnDef="wednesday">
+          <th mat-header-cell *matHeaderCellDef> Wednesday 
+            <br>
+            <span >{{week[3].getMonth()+1}}/{{week[3].getDate()}}</span>
+          </th>
+          <td class="data-cell" (click)="openDialog(getImputation(task.name,convertDateToText(week[3])))" mat-cell *matCellDef="let task">{{getImputation(task.name,convertDateToText(week[3]))?.workload ||0}}</td>
+          <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[3]))}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="thursday">
+          <th mat-header-cell *matHeaderCellDef> Thursday 
+            <br>
+            <span >{{week[4].getMonth()+1}}/{{week[4].getDate()}}</span>
+          </th>
+          <td class="data-cell" (click)="openDialog(getImputation(task.name,convertDateToText(week[4])))" mat-cell *matCellDef="let task"> {{getImputation(task.name,convertDateToText(week[4]))?.workload ||0}}
+            
+          </td>
+          <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[4]))}} </td>
+        </ng-container>
+        <ng-container matColumnDef="friday">
+            <th mat-header-cell *matHeaderCellDef> Friday 
+                <br>
+            <span >{{week[5].getMonth()+1}}/{{week[5].getDate()}}</span>
+            </th>
+            <td class="data-cell" (click)="openDialog(getImputation(task.name,convertDateToText(week[5])))" mat-cell *matCellDef="let task"> {{getImputation(task,convertDateToText(week[5]))?.workload ||0}} </td>
+            <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[5]))}} </td>
+          </ng-container>
+          <ng-container matColumnDef="saturday">
+            <th mat-header-cell *matHeaderCellDef> Saturday
+                <br>
+            <span >{{week[6].getMonth()+1}}/{{week[6].getDate()}}</span> </th>
+            <td class="data-cell"  mat-cell *matCellDef="let task"> {{getImputation(task.name,convertDateToText(week[6]))?.workload ||0}} </td>
+            <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[6]))}} </td>
+          </ng-container>
+         
+        <tr mat-header-row *matHeaderRowDef="weeklyColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: weeklyColumns;"></tr>
+        <tr class="footer" mat-footer-row sticky *matFooterRowDef="weeklyColumns"></tr>
+      </table>
+      
+
+<div class="buttons">
+    <button (click)="previousWeek()">previous week</button>
+  <button (click)="currentWeek()" [disabled]="!((week[0] > CURRENT_DATE  ) || (CURRENT_DATE > week[6]))">currentweek</button>   
+    <button (click)="nextWeek()">next week</button> 
+    <button (click)="openDialog()">open modal</button>
+</div>
+-->

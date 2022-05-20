@@ -99,6 +99,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void removeTaskFromUser(long task_id, String username) {
+        Task task = taskRepository.findById(task_id);
+        if (task!=null) {
+            log.info("removing task {} from user {}", task.getName(),username);
+            AppUser user = userRepository.findByUsernameIgnoreCase(username);
+            user.removeTask(task);
+        }
+    }
+
+    @Override
     public List<AppUser> getUsersBirthdays() {
        return  userRepository.getUsersBirthdays();
     }

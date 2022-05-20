@@ -11,7 +11,9 @@ import javax.persistence.*;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -28,6 +30,15 @@ public class Project {
     private Date end_date;
     private String status;
     private Integer priority;
+    @ManyToOne
+    @JoinColumn(name = "project_owner")
+    private AppUser projectOwner;
+    private String projectType;
+
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="team_id")
+    private Team team;
 
     @JsonBackReference
     @ManyToOne
@@ -39,14 +50,24 @@ public class Project {
     private Contract contract;
 
     @JsonManagedReference
-    @OneToMany(mappedBy="project",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private List<Task> tasks;
+    @OneToMany(mappedBy="project",fetch = EAGER)
+    private List<Phase> phases;
 
-    public void addTask(Task task) {
-
-        this.tasks.add(task);
-        task.setProject(this);
+    public Project(String projectName, Team team) {
+        this.name=projectName;
+        this.team=team;
     }
+
+    public void addPhase(Phase phase) {
+
+        this.phases.add(phase);
+        phase.setProject(this);
+    }
+
+
+
+
+
 
 
 

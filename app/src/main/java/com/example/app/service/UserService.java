@@ -13,6 +13,7 @@ public interface UserService {
     //usernames are unique!!
     List<AppUser> getUsers(); //if number of users is too much, return pages instead
     AppUser addTaskToUser(long task_id, String username);
+    void removeTaskFromUser(long task_id, String username);
 
 
     List<AppUser> getUsersBirthdays();

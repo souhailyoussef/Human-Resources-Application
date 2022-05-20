@@ -146,7 +146,9 @@ mat-icon {
 }
 .form-control:focus, .btn:focus {
   border-color:var(--light-green);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px var(--light-green)
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px var(--light-green);
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
 }
 #search-icon {
 position:absolute;

@@ -10,7 +10,7 @@ public interface ProjectService {
     Project saveProject(Project project);
     Project getProject(long id);
     List<Project> getProjects();
-    Project addTask(Task task, long project_id);
+   // Project addTask(Task task, long project_id);
     long countProjects(LocalDate date);
     List<List<Integer>> countCurrentProjectsAndClients();
 }
