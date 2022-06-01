@@ -16,9 +16,13 @@ import javax.transaction.Transactional;
 
 import java.io.IOException;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-
-
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 @SpringBootApplication
@@ -41,15 +45,16 @@ public class AppApplication {
 		//manual input
 		return args -> {
 
-			userService.saveUser(new AppUser(null, "John", "Doe","John", "1234", null, "COLLABORATOR","Male",LocalDate.of(1998,10,22),"sousse",Double.valueOf(1850),"IT","CDI",true,null,null,null,null));
-			userService.saveUser(new AppUser(null, "Michael", "Scott", "Michael","xyz", true, "ACCOUNTANT","Male",LocalDate.of(2000,5,10),"sousse",1500.25,"HR","CDI",true,null,null,null,null));
-			userService.saveUser(new AppUser(null, "Emma", "Stone","Emma", "1234", true, "ADMIN","Female",LocalDate.of(1997,9,11),"Ben Arous",Double.valueOf(1850),"HR","CDI",true,null,null,null,null));
-			userService.saveUser(new AppUser(null, "Jack", "Smith","Jack", "a1b2c3", false, "MANAGER","Male",LocalDate.of(1980,1,31),"Sfax",1200.23,"Business","CDI",true,null,null,null,null));
-			userService.saveUser(new AppUser(null,"ADMIN","ADMIN","ADMIN","admin",null,"ADMIN",null,null,null,null,null,null,true,null,null,null,null));
+			userService.saveUser(new AppUser(null, "John", "Doe","John", "1234", null, "COLLABORATOR","Male",LocalDate.of(1998,10,22),"sousse",Double.valueOf(1850),"IT","CDI",true,null,null,null,null,null));
+			userService.saveUser(new AppUser(null, "Michael", "Scott", "Michael","xyz", true, "ACCOUNTANT","Male",LocalDate.of(2000,5,10),"sousse",1500.25,"HR","CDI",true,null,null,null,null,null));
+			userService.saveUser(new AppUser(null, "Emma", "Stone","Emma", "1234", true, "ADMIN","Female",LocalDate.of(1997,9,11),"Ben Arous",Double.valueOf(1850),"HR","CDI",true,null,null,null,null,null));
+			userService.saveUser(new AppUser(null, "Jack", "Smith","Jack", "a1b2c3", false, "MANAGER","Male",LocalDate.of(1980,1,31),"Sfax",1200.23,"Business","CDI",true,null,null,null,null,null));
+			userService.saveUser(new AppUser(null,"ADMIN","ADMIN","ADMIN","admin",null,"ADMIN",null,null,null,null,null,null,true,null,null,null,null,null));
 			userService.addRoleToUser("John", "MANAGER");
 			userService.addRoleToUser("Jack", "ACCOUNTANT");
 			userService.addRoleToUser("Emma", "COLLABORATOR");
 			userService.addRoleToUser("Michael", "MANAGER");
+
 
 		};
 	}

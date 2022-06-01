@@ -1,23 +1,13 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
-import { Observer } from 'rxjs';
-import { Observable, Subject } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { timesheetService } from 'src/app/services/timesheet.service';
 import { UserService } from 'src/app/services/user.service';
-import { WeeklyTimesheetComponent } from '../weekly-timesheet/weekly-timesheet.component';
 
 
 
 
-export class User {
-  constructor(
-    public name: string,
-    public selected: boolean = false
-  ) {
-    if (selected === undefined) selected = false;
-  }
-}
+
 
 export class Project {
   project_id: number
@@ -30,7 +20,7 @@ export class Project {
     this.project_name=project_name
     this.project_status=project_status
     this.project_description=project_description
-    this.selected=false
+    this.selected=true
 
   }
 }
@@ -51,6 +41,14 @@ export class Task {
   }
 }
 
+
+
+interface TaskGroup {
+  disabled? : boolean;
+  project : Project;
+  tasks : Task[];
+}
+
 @Component({
   selector: 'app-timesheets',
   templateUrl: './timesheets.component.html',
@@ -59,30 +57,29 @@ export class Task {
 })
 export class TimesheetsComponent implements OnInit {
 
+  
+///////////////////////////
   viewDate: Date = new Date();
   closeResult = '';
-  @ViewChild('allSelected') private allSelected: MatOption;
 
 
   /* */ 
 
 
   tasks : Task[]  = []
-  displayedTasks : Task[] = []
   loading : boolean = false;
-  date_from : Date = new Date();
-  date_to : Date = new Date();
+  date : Date = new Date();
   projectsAndTasks : any;
   projects :  Project[] = []
   CURRENT_DATE= new Date()
   tasksFormControl = new FormControl();
   projectsControlForm = new FormControl();
-  groupByFormControl = new FormControl('task');
-
+  groupByFormControl = new FormControl('project');
+  dateFormControl = new FormControl()
   filterForm : FormGroup ; 
-
-  
-
+  taskGroups : TaskGroup[] = []
+  outputData : FormGroup; //this data will be passed to weekly-timesheet on btn click
+ 
   selectAllTasks(ev : any){
    
     if(ev._selected){
@@ -97,21 +94,25 @@ export class TimesheetsComponent implements OnInit {
   selectAllProjects(ev : any){
    
     if(ev._selected){
-this.projectsControlForm.setValue(this.projects);
-ev._selected=true;
+      //we select all projects
+      this.projects.forEach(project => project.selected=true)
+      ev._selected=true;
     }
     if(ev._selected==false){
-      this.projectsControlForm.setValue([]);
+      this.projects.forEach(project => project.selected=false)
+      //this.projectsControlForm.setValue([]);
     }
+
     
   }
 
-  constructor(private userService : UserService, private formBuilder : FormBuilder) {
+  constructor(private userService : UserService, private formBuilder : FormBuilder, private timesheetService : timesheetService) {
 
     this.filterForm = this.formBuilder.group({
       'projects' : this.projectsControlForm,
-      'tasks' : [this.tasks,this.tasksFormControl],
-      'group-by' : this.groupByFormControl
+      'tasks' : this.tasksFormControl,
+      'group-by' : this.groupByFormControl,
+      'date' : this.dateFormControl
 
   })
 }
@@ -124,37 +125,53 @@ ev._selected=true;
         //load all projects and tasks 
         for (let x of this.projectsAndTasks) {
             this.projects.push(new Project(x.project_id,x.project_name,x.project_status,x.project_description))
+            
             this.tasks.push(new Task(x.task_id,x.task_name,x.tag,x.project_id,x.project_name))
-            this.displayedTasks=this.tasks
+          
         }
-      })
-      this.projectsControlForm.setValue(this.projects)
-      this.tasksFormControl.setValue(this.tasks)
+        
+        this.projects = this.projects.filter((value, index) => {
+          const _value = JSON.stringify(value);
+          return index === this.projects.findIndex(obj => {
+            return JSON.stringify(obj) === _value;
+          });
+        });
+        this.projects.forEach((project)=> {
+          let relatedTasks  = this.tasks.filter((task) => task.project_id==project.project_id) 
+          this.taskGroups.push({
+            project: project,
+            tasks : relatedTasks
+          })  
+        } )
 
-      this.projectsControlForm.valueChanges.subscribe(data => {
-        this.displayedTasks = this.filterTasks()
-        console.log(this.filterForm.value)
+        this.projectsControlForm.setValue(this.projects)
+        this.tasksFormControl.setValue(this.tasks)
+        this.dateFormControl.setValue(this.date)
       })
-  
+      
+     
      
   }
-
-  filterTasks() : Task[] {
+  filterTasks() : TaskGroup[] {
     var project_ids : number[] =[]
     if (this.projectsControlForm.value!=null){
        project_ids = this.projectsControlForm.value.map( (project : Project)=> {
         return project.project_id
       })
     }
-    const result = this.tasks.filter( task => project_ids.indexOf(task.project_id)!=-1) 
+    const result = this.taskGroups.filter ( group => project_ids.indexOf(group.project.project_id)!=-1)
+
     return result
+
   }
-  
-  loadData() {
-    //fire event to child component to load data !!
-    this.loading=!this.loading;
-  
+
+  ngAfterViewInit() {
+    this.filterForm.valueChanges.subscribe((data) => {
+      this.timesheetService.updateFilter(this.filterForm);
+    })
   }
+
+  
 
   public convertDateToText(date : Date) : string {
 

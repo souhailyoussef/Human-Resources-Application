@@ -21,14 +21,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.*;
 
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.readOnlyHttpHeaders;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController @RequiredArgsConstructor @RequestMapping(value = "/api" )
@@ -55,6 +55,12 @@ public class UserController {
         LocalDate end = LocalDate.parse(end_date);
         return ResponseEntity.ok().body(imputationService.getImputations(username, start, end));
     }
+    @GetMapping("/check")
+    public ResponseEntity<?> getExisting(@RequestParam String date,@RequestParam long employee,@RequestParam long task) {
+        LocalDate myDate = LocalDate.parse(date);
+        return ResponseEntity.ok().body(imputationService.checkExistingImputation(myDate, employee, task));
+    }
+
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/imputation")
@@ -70,46 +76,84 @@ public class UserController {
         return ResponseEntity.ok().body("refused");
     }
 
+
     @PostMapping("/imputation/save")
+    //TODO  : fix random errors!
     public ResponseEntity<?> saveImputation(@RequestBody ImputationForm imputationForm) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/imputation/save").toUriString());
         Task task = taskService.getTask(imputationForm.getTask_id());
         AppUser appuser = userService.getUser(imputationForm.getUsername());
-        double workload = imputationService.getWorkloadPerDay(LocalDate.parse(imputationForm.getDay()), appuser.getId());
-        Long exist_id = imputationService.checkExistingImputation(LocalDate.parse(imputationForm.getDay()),Long.valueOf(appuser.getId()),imputationForm.getTask_id());
-        if (exist_id!= null && workload +imputationForm.getWorkload() <= (60*8))  {
-            System.out.println("updating the value " + exist_id);
-            Imputation imputation = imputationService.getImputation(exist_id);
-            return ResponseEntity.ok().body(imputationService.updateImputation(exist_id,Double.valueOf(imputationForm.getWorkload()),imputationForm.getComment()));
-        }
-        else if (exist_id==null && workload + imputationForm.getWorkload() <= (60 * 8)) {
-            System.out.println("creating new imputation " + exist_id);
+        double total_workload = imputationService.getWorkloadPerDay(LocalDate.parse(imputationForm.getDay()), appuser.getId());
+        Imputation existing_imputation = imputationService.checkExistingImputation(LocalDate.parse(imputationForm.getDay()),Long.valueOf(appuser.getId()),imputationForm.getTask_id());
 
+        System.out.println("total workload : "+total_workload);
+        //CACULATE THE WORKLOAD FOR THAT DAY before updating + reset selected cells on click + only unique cells
+        if (existing_imputation!=null)  {
+            //we update it
+            double oldWorkload=existing_imputation.getWorkload();
+            if (total_workload +imputationForm.getWorkload() - oldWorkload <= 8 && imputationForm.getWorkload() >= 0) {
+                System.out.println("updating the value ");
+                return ResponseEntity.ok().body(imputationService.updateImputation(existing_imputation.getId(),Double.valueOf(imputationForm.getWorkload()),imputationForm.getComment()));
+
+            }
+            return ResponseEntity.status(FORBIDDEN).body(new ServerResponse("maximum work hours per day surpassed"));
+        }
+        else if (existing_imputation==null && (total_workload + imputationForm.getWorkload() <= 8) &&  imputationForm.getWorkload() >= 0 ) {
             Imputation imputation = new Imputation(task, LocalDate.parse(imputationForm.getDay()), imputationForm.getWorkload(), imputationForm.getComment(), appuser);
             return ResponseEntity.created(uri).body(imputationService.saveImputation(imputation));
 
         }
         else {
-            return ResponseEntity.status(FORBIDDEN).body("Maximum work hours per day surpassed!");
+            return ResponseEntity.status(FORBIDDEN).body(new ServerResponse("something went wrong"));
         }
+
+
     }
 
-
-
-    @PutMapping("/imputation/update")
-    public ResponseEntity<?> updateImputation(@RequestBody ImputationForm imputationForm,@RequestParam long id) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/imputation/update").toUriString());
-        Task task = taskService.getTask(imputationForm.getTask_id());
-        AppUser appuser = userService.getUser(imputationForm.getUsername());
-        double workload = imputationService.getWorkloadPerDay(LocalDate.parse(imputationForm.getDay()), appuser.getId());
-        if (workload + imputationForm.getWorkload() > (60 * 8)) {
-            return ResponseEntity.status(FORBIDDEN).body("Maximum work hours per day surpassed!");
-
-        } else {
-            Imputation imputation = new Imputation(task, LocalDate.parse(imputationForm.getDay()), imputationForm.getWorkload(), imputationForm.getComment(), appuser);
-            return ResponseEntity.created(uri).body(imputationService.saveImputation(imputation));
-        }
+    @GetMapping("/leaves")
+    public ResponseEntity<List<Leave>>getLeaves() {
+        return ResponseEntity.ok().body(imputationService.findAll());
     }
+
+    @GetMapping("/leaves/{username}")
+    public ResponseEntity<List<Leave>>getLeavesByEmployee(@PathVariable String username) {
+        AppUser employee = userService.getUser(username);
+        return ResponseEntity.ok().body(imputationService.findByEmployeeId(employee.getId()));
+    }
+    @GetMapping("/leaves/approved/{username}")
+    public ResponseEntity<List<Leave>>getApprovedLeavesByEmployee(@PathVariable String username,@RequestParam String start_date,
+                                                                  @RequestParam String end_date) {
+        LocalDate from = LocalDate.parse(start_date);
+        LocalDate to = LocalDate.parse(end_date);
+        AppUser employee = userService.getUser(username);
+        return ResponseEntity.ok().body(imputationService.findApprovedLeaves(employee.getId(),from,to));
+    }
+
+    @PostMapping("/leaves/save")
+    public ResponseEntity<?> postLeave(@RequestBody LeaveForm leaveForm) {
+        Timestamp start_date = Timestamp.valueOf(leaveForm.getStart_date());
+        Timestamp end_date = Timestamp.valueOf(leaveForm.getEnd_date());
+
+        Date start = new Date(start_date.getTime());
+        Date end = new Date(end_date.getTime());
+        System.out.println("dates");
+        System.out.println(start);
+        System.out.println(end);
+        AppUser employee = userService.getUser(leaveForm.getUsername());
+        Leave leave = new Leave(start,end,leaveForm.getReason(),employee);
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/leaves/save").toUriString());
+        var result = imputationService.saveLeave(leave);
+        if (result==null) return ResponseEntity.badRequest().body(new ServerResponse("dates are overlapping with an existing leave"));
+        return ResponseEntity.created(uri).body(imputationService.saveLeave(leave));
+    }
+
+    @GetMapping("/holidays")
+    public ResponseEntity<List<Holidays>>getHolidays(@RequestParam String start_date,@RequestParam String end_date) {
+        LocalDate from = LocalDate.parse(start_date);
+        LocalDate to = LocalDate.parse(end_date);
+        return ResponseEntity.ok().body(imputationService.findHolidays(from,to));
+    }
+
 
     @GetMapping("/users")
     public ResponseEntity<List<AppUser>>getUsers() {
@@ -228,7 +272,6 @@ class ImputationForm {
     private double workload;
     private String comment;
     private String username;
-
 }
 //TODO : make controller accept json format and remove this class
 @Data
@@ -246,6 +289,26 @@ class GeneralInfo{
         this.projects=projects;
         this.employees=employees;
     }
+}
+@Data
+class LeaveForm {
+    private String start_date;
+    private String end_date;
+    private String reason;
+    private boolean approved;
+    private String username;
+
+}
+@Data
+class ServerResponse {
+
+    private String response;
+
+    public ServerResponse(String s) {
+        this.response = s;
+    }
+
+    // get/set omitted...
 }
 
 

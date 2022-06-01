@@ -35,9 +35,9 @@
       <input     [ngClass]="{ 'is-invalid': imputationForm.controls['workload'].invalid && submitted }"
 
         placeholder="0" class="workload-input" type="number" class="form-control" [(ngModel)]="workload" formControlName="workload">
-      <small class="time-converted">{{workload | convertTime}}</small>
+      <small class="time-converted">{{workload}}h</small>
       <div class="invalid-feedback">
-        <p *ngIf="imputationForm.controls['workload'].invalid && submitted">Workload must be between 30 and 8 hours!</p>
+        <p *ngIf="imputationForm.controls['workload'].invalid && submitted">Workload must be between 0.5 and 8 hours!</p>
       </div>
     </div>
    

@@ -8,149 +8,246 @@
       <span>13</span>
     </time>
         -->
-        
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
-       
-     
+    
 
-          <ng-container matColumnDef="task" >
-            <th id="task-column" mat-header-cell *matHeaderCellDef>
+      <table  mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
 
-               <span>Project / Task</span>  
+      <!-- Group header -->
+      <ng-container matColumnDef="groupHeader" >
+        <td colspan="9999" mat-cell *matCellDef="let groupBy"  class="grouped">{{groupBy.project }}</td>
+      </ng-container>
+
+    
+
+    <tr mat-row  [ngClass]="this.filters.controls['group-by'].value==='project' ? 'visible' : 'collapse'"  class="group-row" *matRowDef="let row; columns: ['groupHeader']; when: isGroup"> </tr>
+   
+        <ng-container matColumnDef="task" class="column">
+          
+          <th id="task-column" mat-header-cell *matHeaderCellDef>
+            <mat-icon [ngClass]="disabled ? 'disabled' : ''" (click)="previousWeek()" class="date-btn" style="  -webkit-transform: scaleX(-1);
+               transform: scaleX(-1); position:absolute; top:5px; right:0;">play_circle_outline</mat-icon>
+               <span></span>  
             </th>
-            <td mat-cell *matCellDef="let row; let i=index" class="task-cell">
-              <a href="" class="grey darken-3 btn"><span class="tag" [ngClass]="[row[0].tag]">{{row[0].tag}}</span>{{row[0].name | titlecase}}</a>
-       
-                </td>
-            <td mat-footer-cell *matFooterCellDef class="total"> Total </td>
-          </ng-container>
-        
-      
-        <ng-container matColumnDef="monday">
-          <th mat-header-cell *matHeaderCellDef style="position: relative; text-align: center !important;"> 
-               <mat-icon (click)="previousWeek()" class="date-btn" style="  -webkit-transform: scaleX(-1);
-                  transform: scaleX(-1); position:absolute; top:0; left:-15px;">play_circle_outline</mat-icon>
-                  Monday 
-                  <br>
-            <span >{{week[1].getMonth()+1}}/{{week[1].getDate()}} </span>
-          </th>
-          <td class="data-cell"  type="text" *matCellDef="let row; let i=index"  mat-cell  >
-           <button class="corner-btn" >
-            <mat-icon (click)="openDialog(getImputation(row[0]?.name,convertDateToText(week[1])) || row[0].id)" >edit</mat-icon>
+          <td  mat-cell *matCellDef="let element" class="task-cell" >
+            <ng-container *ngIf="element.isLeave; else elseBlock">
+              <span>Break</span> 
+            </ng-container>
+            <ng-template #elseBlock>
+              <a href="" class="grey darken-3 btn"><span  class="tag" [ngClass]="[element?.task?.tag]">{{element?.task?.tag}}</span>{{element?.task?.name || element.name | titlecase}}</a>
+            </ng-template>
+          </td>
+          <td mat-footer-cell *matFooterCellDef> Total </td>
+
+        </ng-container>
+  
+        <ng-container matColumnDef="monday" class="column">
+          <th mat-header-cell *matHeaderCellDef > 
+               Monday 
+               <br>
+         <span >{{week[0].getMonth()+1}}/{{week[0].getDate()}} </span>
+       </th>
+     
+          <td class="data-cell"  type="text" *matCellDef="let element; let i=index"  mat-cell>
+            <ng-container *ngIf="element.isLeave; else elseBlock" class="break">
+              <strong>{{element.monday}}</strong>
+            </ng-container>
+            <ng-template #elseBlock>
+              <button class="corner-btn" >
+                <mat-icon (click)="openDialog((element.monday.value) || element.task.id || 0)" >edit</mat-icon>
+               </button>
+    
+                 <input (click)="toggleSelected(element.monday,$event)" [disabled]='!toggleButton' [ngClass]="element?.monday?.selected ? 'selected' : 'not-selected'" (input)="fillCells(element?.task,week[0],$event)" class="input-field" type="number" value="{{element.monday?.value?.workload || '0'}}" >
+            </ng-template>
+              
+          </td>
+
+           <td mat-footer-cell *matFooterCellDef> {{totals[0]}}h </td>
+
+        </ng-container>
+  
+        <ng-container matColumnDef="tuesday" class="column">
+          <th mat-header-cell *matHeaderCellDef> 
+          
+               Tuesday 
+               <br>
+         <span >{{week[1].getMonth()+1}}/{{week[1].getDate()}} </span>
+       </th>
+     
+          <td class="data-cell"  type="text" *matCellDef="let element; let i=index"  mat-cell  >
+            <ng-container *ngIf="element.isLeave; else elseBlock">
+              <strong>{{element.tuesday}}</strong>
+            </ng-container>
+            <ng-template #elseBlock>
+              <button class="corner-btn" >
+                <mat-icon (click)="openDialog((element.tuesday.value) || element.task.id || 0)" >edit</mat-icon>
+               </button>
+    
+                 <input (click)="toggleSelected(element.tuesday,$event)" [disabled]='!toggleButton' [ngClass]="element?.tuesday?.selected ? 'selected' : 'not-selected'" (input)="fillCells(element?.task,week[1],$event,i)" class="input-field" type="number" value="{{element.tuesday.value?.workload || '0'}}" >
+            </ng-template>
+
+          
+        </td>       
+
+           <td mat-footer-cell *matFooterCellDef> {{totals[1]}}h </td>
+
+           </ng-container>
+  
+        <ng-container matColumnDef="wednesday" class="column">
+          <th mat-header-cell *matHeaderCellDef> 
+           
+               Wednesday 
+               <br>
+         <span >{{week[2].getMonth()+1}}/{{week[2].getDate()}} </span>
+       </th>
+          <td class="data-cell"  type="text" *matCellDef="let element; let i=index"  mat-cell  >
+         <!--   {{dataSource2[0]?.isLeave | json}} -->
+         <ng-container *ngIf="element.isLeave; else elseBlock">
+          <strong>{{element.wednesday}}</strong>
+        </ng-container>
+        <ng-template #elseBlock>
+          <button class="corner-btn" >
+            <mat-icon (click)="openDialog((element.wednesday.value) || element.task.id || 0)" >edit</mat-icon>
            </button>
 
-             <input (click)="toggleSelected(row[1][1],$event)" [disabled]='!toggleButton' [ngClass]="row[1][1].selected ? 'selected' : 'not-selected'" (input)="fillCells(row[0],week[1],$event)" class="input-field" type="number" value="{{row[1][1]?.value?.workload || '0'}}" >
-             <span class="duration">{{row[1][1]?.value?.workload || '0' | convertTime}}</span>
-          </td>
-          <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[1])) | convertTime}} 
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="tuesday">
-            <th mat-header-cell *matHeaderCellDef> Tuesday                   <br>
+             <input (click)="toggleSelected(element.wednesday,$event)" [disabled]='!toggleButton' [ngClass]="element?.wednesday?.selected ? 'selected' : 'not-selected'" (input)="fillCells(element?.task,week[2],$event,i)" class="input-field" type="number" value="{{element.wednesday.value?.workload || '0'}}" >
+        </ng-template>
+           
+           </td>       
+           <td mat-footer-cell *matFooterCellDef> {{totals[2]}}h </td>
 
-                <span >{{week[2].getMonth()+1}}/{{week[2].getDate()}}</span>
-            </th>
-            <td class="data-cell" mat-cell *matCellDef="let row" > <input  [ngClass]="row[1][2].selected ? 'selected' : 'not-selected'" (click)="toggleSelected(row[1][2],$event)"  [disabled]='!toggleButton' (input)="fillCells(row[0],week[2],$event)" class="input-field" type="number" value="{{row[1][2]?.value?.workload || '0' }}">
-              <span class="duration">{{row[1][2]?.value?.workload || '0' | convertTime}}</span>
+           </ng-container>
 
-              <button class="corner-btn">
-                <mat-icon  (click)="openDialog(getImputation(row[0]?.name,convertDateToText(week[2])) || row[0]?.id )" >edit</mat-icon>
-
-              </button>
-            </td>
-            <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[2]))  | convertTime }} </td>
-          </ng-container>
-      
-        <ng-container matColumnDef="wednesday">
-          <th mat-header-cell *matHeaderCellDef> Wednesday                   <br>
-
-            <span >{{week[3].getMonth()+1}}/{{week[3].getDate()}}</span>
-          </th>
-          <td  class="data-cell" mat-cell  *matCellDef="let row"><input (click)="toggleSelected(row[1][3],$event)" [ngClass]="row[1][3].selected ? 'selected' : 'not-selected'" [disabled]='!toggleButton' (input)="fillCells(row[0],week[3],$event)" class="input-field" type="number" value="{{row[1][3]?.value?.workload || 0 }}">
-            <button class="corner-btn">
-
-            <mat-icon (click)="openDialog(getImputation(row[0]?.name,convertDateToText(week[3])) || row[0]?.id)" >edit</mat-icon>
-            </button>
-            <span class="duration">{{row[1][3]?.value?.workload || '0' | convertTime}}</span>
-
-          </td>
-          <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[3]))  | convertTime}} </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="thursday">
-          <th mat-header-cell *matHeaderCellDef> Thursday                   <br>
-
-            <span >{{week[4].getMonth()+1}}/{{week[4].getDate()}}</span>
-          </th>
-          <td class="data-cell"   mat-cell  *matCellDef="let row"><input [ngClass]="row[1][4].selected ? 'selected' : 'not-selected'" (click)="toggleSelected(row[1][4],$event)"  [disabled]='!toggleButton' (input)="fillCells(row[0],week[4],$event)" class="input-field" type="number" value="{{row[1][4]?.value?.workload || 0}}">
-            <button class="corner-btn">
-
-            <mat-icon  (click)="openDialog(getImputation(row[0]?.name,convertDateToText(week[4])) || row[0]?.id)" >edit</mat-icon>
-              </button>
-              <span class="duration">{{row[1][4]?.value?.workload || '0' | convertTime}}</span>
-
-          </td>
-          <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[4]))  | convertTime}} </td>
-        </ng-container>
-        <ng-container matColumnDef="friday">
-            <th mat-header-cell *matHeaderCellDef> Friday                   <br>
-
-            <span >{{week[5].getMonth()+1}}/{{week[5].getDate()}}</span>
-            </th>
-            <td class="data-cell"  mat-cell *matCellDef="let row;" > <input  [ngClass]="row[1][5].selected ? 'selected' : 'not-selected'" (click)="toggleSelected(row[1][5],$event)" [disabled]='!toggleButton' (input)="fillCells(row[0],week[5],$event)" class="input-field" type="number" value="{{row[1][5]?.value?.workload || 0}}">  
-              <button class="corner-btn">
-                <mat-icon   (click)="openDialog(getImputation(row[0]?.name,convertDateToText(week[5])) || row[0]?.id )" >edit</mat-icon>
-
-              </button>
-              <span class="duration">{{row[1][5]?.value?.workload || '0' | convertTime}}</span>
-
-            </td>
-            <td mat-footer-cell *matFooterCellDef> {{getTotal(convertDateToText(week[5]))  | convertTime}} </td>
-          </ng-container>
-          <ng-container matColumnDef="saturday">
-            <th mat-header-cell *matHeaderCellDef >
-                Saturday                  <br>
-
-            <td class="data-cell saturday" mat-cell *matCellDef="let row"> {{row[1][6]?.value?.workload || '-'}} </td>
-            <td mat-footer-cell *matFooterCellDef> {{ '-' || getTotal(convertDateToText(week[6]))}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="sunday">
-            <th mat-header-cell *matHeaderCellDef style="position: relative; text-align: center !important;"> 
-              <mat-icon (click)="nextWeek()" class="date-btn" style="position: absolute; top:0; right:0;">play_circle_outline</mat-icon> 
-              Sunday                   <br>
-
-              <span >{{week[0].getMonth()+1}}/{{week[0].getDate()}}</span>
-            </th>
-            <td class="data-cell sunday" mat-cell *matCellDef="let row"> 
-                <div class="cell-container">
-                  {{row[1][0]?.value?.workload || '-' }}
-                  
-                </div>
-                 </td>
-                 <td mat-footer-cell *matFooterCellDef> {{'-' || getTotal(convertDateToText(week[0]))}} </td>
-  
-          </ng-container>
-  
-         
-        <tr mat-header-row *matHeaderRowDef="weeklyColumns" class="table-header">
-
+         <ng-container matColumnDef="thursday" class="column">
+          <th mat-header-cell *matHeaderCellDef> 
             
-        </tr>
-        <tr mat-row *matRowDef="let row; columns: weeklyColumns ; let i=index" >
-        </tr>
-        <tr class="footer" mat-footer-row sticky *matFooterRowDef="weeklyColumns"></tr>
+               Thursday 
+               <br>
+         <span >{{week[3].getMonth()+1}}/{{week[3].getDate()}} </span>
+       </th>
+          <td class="data-cell"  type="text" *matCellDef="let element; let i=index"  mat-cell  >
+            <ng-container *ngIf="element.isLeave; else elseBlock">
+              <strong>{{element.thursday}}</strong>
+            </ng-container>
+            <ng-template #elseBlock>
+              <button class="corner-btn" >
+                <mat-icon (click)="openDialog((element.thursday.value) || element.task.id || 0)" >edit</mat-icon>
+               </button>
+    
+                 <input (click)="toggleSelected(element.thursday,$event)" [disabled]='!toggleButton' [ngClass]="element?.thursday?.selected ? 'selected' : 'not-selected'" (input)="fillCells(element?.task,week[3],$event,i)" class="input-field" type="number" value="{{element.thursday.value?.workload || '0'}}" >
+            </ng-template>
+           
+           </td>       
+           <td mat-footer-cell *matFooterCellDef> {{totals[3]}}h </td>
 
-        <!-- Group header -->
-        <ng-container matColumnDef="groupHeader">
-          <td colspan="999" mat-cell *matCellDef="let groupBy" class="group-cell"><strong>{{groupBy.initial}}</strong></td>
-        </ng-container>
+           </ng-container>
+
+          <ng-container matColumnDef="friday" class="column">
+            <th mat-header-cell *matHeaderCellDef> 
+             
+                 Friday 
+                 <br>
+           <span >{{week[4].getMonth()+1}}/{{week[4].getDate()}} </span>
+         </th>
+            <td class="data-cell"  type="text" *matCellDef="let element;"  mat-cell  >
+              <ng-container *ngIf="element.isLeave; else elseBlock">
+                <strong>{{element.friday}}</strong>
+              </ng-container>
+              <ng-template #elseBlock>
+                <button class="corner-btn" >
+                  <mat-icon (click)="openDialog((element.friday.value) || element.task.id || 0)" >edit</mat-icon>
+                 </button>
       
-        <tr [ngClass]="this.filters.controls['group-by']?.value==='project' ? 'visible' : 'collapse'"  class="group-row" mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup "> </tr>
+                   <input (click)="toggleSelected(element.friday,$event)" [disabled]='!toggleButton' [ngClass]="element?.friday?.selected ? 'selected' : 'not-selected'" (input)="fillCells(element?.task,week[4],$event)" class="input-field" type="number" value="{{element.friday.value?.workload || '0'}}" >
+              </ng-template>
+              
+             </td>          
+             <td mat-footer-cell *matFooterCellDef> {{totals[4]}}h </td>
+
+            </ng-container>
+
+        <ng-container matColumnDef="saturday" class="column">
+          <th mat-header-cell *matHeaderCellDef> 
+
+               Saturday 
+               <br>
+         <span >{{week[5].getMonth()+1}}/{{week[5].getDate()}} </span>
+       </th>
+          <td mat-cell class="data-cell saturday" *matCellDef="let element">
+            <ng-container *ngIf="element.isLeave; else elseBlock">
+              <strong>-</strong>
+            </ng-container>
+            <ng-template #elseBlock>
+              {{element?.saturday?.value?.workload || '-' }}
+            </ng-template>
+             </td>
+          <td mat-footer-cell *matFooterCellDef> {{'-' }} </td>
+
+        </ng-container>
+
+         <ng-container matColumnDef="sunday">
+          <th mat-header-cell *matHeaderCellDef > 
+               Sunday 
+               <br>
+         <span >{{week[6].getMonth()+1}}/{{week[6].getDate()}} </span>
+       </th>
+          <td class="data-cell sunday" mat-cell *matCellDef="let element"> 
+            <ng-container *ngIf="element.isLeave; else elseBlock">
+              <strong>-</strong>
+            </ng-container>
+            <ng-template #elseBlock>
+              {{element?.sunday?.value?.workload || '-' }} 
+
+            </ng-template>
+          </td>
+          <td mat-footer-cell *matFooterCellDef> {{'-'}} </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="total" class="column" >
+          <th mat-header-cell *matHeaderCellDef >
+            <mat-icon [ngClass]="disabled ? 'disabled' : ''" (click)="nextWeek()" class="date-btn" style="position: absolute; top:5px; left:0;">play_circle_outline</mat-icon> 
+
+             total </th>
+          <td mat-cell *matCellDef="let element" class="total-cell">
+            <ng-container *ngIf="element.isLeave; else elseBlock" >
+              <strong>{{element.total}}h</strong>
+            </ng-container>
+            <ng-template #elseBlock>
+              {{element?.total || 0  }}h
+            </ng-template>
+             </td>
+          <td mat-footer-cell *matFooterCellDef> {{totals[7]}}h  </td>
+
+        </ng-container>
+  
+       
+    
+      
+  
+        <tr mat-header-row *matHeaderRowDef="weeklyColumns2" class="table-header"></tr>
+        <tr  mat-row *matRowDef="let row; columns: weeklyColumns2 ; let i=index" ></tr>
+
+        <tr [ngClass]="row.total!=0 ? 'visible' : 'collapse'" class="break" mat-row *matRowDef="let row; columns: weeklyColumns2 ; let i=index; when : isLeave" ></tr>
+
+        
+        <tr class="footer" mat-footer-row sticky *matFooterRowDef="weeklyColumns2"></tr>
+
+        
       </table>
 
+
+      
       <div class="buttons">
-        <button class="btn btn-success" id="add-task-btn" (click)="addTask()">
+        <button mat-button class="btn btn-success" id="add-task-btn" [matMenuTriggerFor]="add_menu">
+
+<mat-menu #add_menu="matMenu" class="my-menu" >
+  <ng-container *ngFor="let group of taskGroups">
+    <button class="option" mat-menu-item [matMenuTriggerFor]="task_menu">{{ group.project.project_name | titlecase}}</button>
+    <mat-menu #task_menu="matMenu">
+       <button class="option" *ngFor="let task of group.tasks" mat-menu-item (click)="addTask(task)" [disabled]="exists(task)">{{ task.task_name | titlecase }}</button>
+    </mat-menu>
+  </ng-container>
+</mat-menu>
           <mat-icon [ngStyle]="{'color':'green'}">add_box</mat-icon>
           Add Task</button>
           <button class="btn btn-success" id="print-btn" (click)="printPreview()">
@@ -160,6 +257,14 @@
           <mat-icon >edit</mat-icon>
           {{editButtonValue |titlecase}}</button>
         <button id="save-btn" class="btn btn-success" [disabled]="editButtonValue=='edit'" (click)="saveChanges()">Save changes</button>
-     
+        
       </div>
-     
+
+      <div>
+        <li *ngFor="let cell of previousSelected">{{cell |json}}</li>
+      </div>
+    
+      <div class="alert-section">
+        <alert></alert>
+      </div>
+      

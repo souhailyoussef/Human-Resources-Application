@@ -25,7 +25,7 @@ public class AppUser {
    // public enum Roles {ADMIN,COLLABORATOR,PROJECT_MANAGER,MANAGER,ACCOUNTANT}
     //TODO : add default values for fields that should not be null?
     @Id @GeneratedValue(strategy = IDENTITY)
-    private Integer id;
+    private Long id;
     private String first_name;
     private String last_name;
     @Column(unique=true)
@@ -64,6 +64,9 @@ public class AppUser {
     @OneToMany(mappedBy="employee")
     private List<Imputation> imputations;
 
+ @JsonManagedReference
+ @OneToMany(mappedBy="employee")
+    private List<Leave> leaves;
 
 
     public boolean addTask(Task task) {

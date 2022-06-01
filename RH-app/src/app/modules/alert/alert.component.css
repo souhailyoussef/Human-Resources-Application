@@ -3,9 +3,8 @@
     margin-bottom: 1rem;
     border-radius: 0.42rem;
     height:100%;
-    position: absolute ;
-    bottom: 80px;
-    left:0;
+  position:absolute;
+top:0;
   }
   
   .alert-primary {
@@ -99,3 +98,24 @@
   .banner.warning {
     background-color: #FFAB01;
   }
+
+  .anim {
+      animation-duration: 1s;
+      animation-name: slidein;
+
+
+  }
+  @keyframes slidein {
+    from {
+      margin-top:-70px;
+    }
+  
+    to {
+      margin-top: 0;
+     
+    }
+  }
+  .anim:after {
+  }
+
+  

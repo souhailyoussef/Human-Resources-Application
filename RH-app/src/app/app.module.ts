@@ -58,7 +58,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 import {MatChipsModule} from '@angular/material/chips'; 
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { MultiselectAutocompleteComponent } from './components/multiselect-autocomplete/multiselect-autocomplete.component'; 
 import {MatListModule} from '@angular/material/list'; 
 
 
@@ -92,7 +91,6 @@ import { ConvertTimePipe } from './pipes/convert-time.pipe';
     AreaComponent,
     DonutChartComponent,
     DashboardComponent,
-    MultiselectAutocompleteComponent,
     TaskModalComponent,
     TasksComponent,
     WeeklyTimesheetComponent,

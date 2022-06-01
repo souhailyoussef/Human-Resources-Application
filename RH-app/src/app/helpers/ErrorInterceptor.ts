@@ -13,7 +13,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
             if (request.url.startsWith(`${baseUrl}/api/nodes`)) {
-                console.log("intercepting nodes requests!!!!")
+                //console.log("intercepting nodes requests!!!!")
             }
 
             if (err.status === 401) {

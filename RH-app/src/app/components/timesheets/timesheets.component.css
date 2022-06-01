@@ -161,7 +161,9 @@ mat-datepicker-toggle {
 	padding: 0;
 	position: relative;
 	box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+
 .select-dropdown {
 	position: relative;
 	background-color: var(--light-grey);
@@ -280,9 +282,80 @@ margin-left: 5px;
   position:fixed;
   top:0;
   left:20px !important ; /* this works */
+  background: blue;
+  color:red
+}
+
+::ng-deep .group {
+  background-color: blue !important;
 
 }
 
 
 
+/* TIHS IS MY CODE */
+/*
+input {
+  outline:none;
+  border:none;
+}
+.select-field, .project,.list {
+  width:100%;
+  padding:0.3rem
+}
+.select-field{
+  border: 1px solid black;
+}
+.project {
+  padding-left: 0;
+}
+.down-arrow {
+  font-size: 1.2rem;
+  cursor:pointer;
+  transition: 0.2s linear;
 
+}
+.project span {
+  float : right;
+  font-size: 0.5rem;
+  padding-top: 6px;
+}
+.project:hover {
+  background-color: aliceblue;
+}
+
+.list {
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+.show {
+  display: block;
+}
+.rotate180 {
+  transform: rotate(180deg);
+}*/
+.menu-btn {
+  border-radius: 48px;
+  border: 0.5px solid lightgrey;
+  font-size: 0.9em;
+  padding: 2px 10px;
+  background-color: white;
+}
+.menu {
+  padding-top: 10px;
+  z-index: 200;
+  margin-top: 4px;
+  background-color: white;
+  position: absolute;
+}
+.menu-option {
+  padding: 6px 20px 6px;
+}
+#overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}

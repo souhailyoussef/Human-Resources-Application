@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+/* You can add global styles to this file, and also import other style files */
+
 
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
 
-@import '~@angular/material/prebuilt-themes/purple-green.css';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 /* for calendar */
@@ -57,7 +57,12 @@ tr.mat-row {
     height: 10px !important;
     }
 
-
+    .my-panel-class  .group {
+      background-color: #fff !important;
+      color: black;
+    } 
+     
+    
 
 
     
@@ -87,3 +92,5 @@ tr.mat-row {
       mat-card {
         background-color: white !important;
       }
+
+    

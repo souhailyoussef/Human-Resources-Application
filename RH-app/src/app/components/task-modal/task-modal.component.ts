@@ -31,7 +31,7 @@ export class TaskModalComponent implements OnInit {
     this.imputationForm= this.formBuilder.group({
       'name': ['', [Validators.required]],
       'day': ['',[Validators.required]],
-      'workload': ['',[Validators.required,Validators.max(60*8),Validators.min(30)]],
+      'workload': ['',[Validators.required,Validators.max(8),Validators.min(0.5)]],
       'comment': [''],
       'status':['']
     });
@@ -67,7 +67,7 @@ ngAfterViewInit() {
     this.submitted=true
     if (this.imputationForm.valid) {
       console.log("valid form")
-      this.taskService.postImputation(this.imputationForm).subscribe()
+      this.taskService.postImputation(this.imputationForm).subscribe(res => this.onClose(), err=> console.log(err))
     }
   }
 

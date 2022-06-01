@@ -22,9 +22,10 @@ public interface ImputationRepository extends JpaRepository<Imputation, Long> {
             "having employee_id= :id",nativeQuery = true)
     Double getWorkloadPerDay(@Param("date") LocalDate date, @Param("id") long id);
 
-    @Query(value="select id from imputation\n" +
+    @Query(value="select * from imputation\n" +
             "where day = :date \n" +
             "and employee_id = :employee_id\n" +
-            "and task_id = :task_id ",nativeQuery = true)
-    Long checkExistingImputation(@Param("date") LocalDate date, @Param("employee_id") long employee_id, @Param("task_id") long task_id);
+            "and task_id = :task_id\n " +
+            "LIMIT 1",nativeQuery = true)
+    Imputation checkExistingImputation(@Param("date") LocalDate date, @Param("employee_id") long employee_id, @Param("task_id") long task_id);
 }
