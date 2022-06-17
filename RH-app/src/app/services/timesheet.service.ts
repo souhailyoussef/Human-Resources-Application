@@ -2,15 +2,18 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { tomorrow } from '@igniteui/material-icons-extended';
+import { getDay } from 'date-fns';
 import { truncate } from 'lodash';
+import { start } from 'repl';
 import { BehaviorSubject, catchError, filter, map, Observable, of, Subject, tap } from 'rxjs';
 import { baseUrl } from 'src/environments/environment';
 import { EventEmitter } from 'stream';
+import { Client } from '../client';
 import { Imputation } from '../imputation';
 import { Leave } from '../leave';
+import { Project } from '../Project';
 import { LoginuserService } from './loginuser.service';
 
-const CHECK_IN_TIME = 8*60*60*1000; // 8 am : in milliseconds
 
 export class Cell {
   id : string;
@@ -50,15 +53,31 @@ export interface Group {
   isGroup: boolean;
 }
 
+export class ClientData {
+  client : Client;
+  project : Project;
+}
+
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class timesheetService {
+
+
+
 
   filters$: Observable<any>;
   private filtersSubject = new Subject<any>();
 
+  private currentFilterSubject: BehaviorSubject<any>;
+  public currentFilter: Observable<any>; 
+
+
   private _refreshNeeded$ = new Subject<void>();
+
+
 
   get refreshNeeded$() {
     return this._refreshNeeded$;
@@ -67,23 +86,62 @@ export class timesheetService {
 
   constructor(private http: HttpClient, private loginUserService : LoginuserService) { 
     this.filters$ = this.filtersSubject.asObservable();
+
   }
 
+  
   updateFilter(data : FormGroup) {
 
     this.filtersSubject.next(data);
+    this.currentFilterSubject = new BehaviorSubject<any>(data);
+    this.currentFilter = this.currentFilterSubject.asObservable()
+
+
 }
 
-  loadData(start_date:string, end_date:string) : Observable<(TableElement | Group |Break)[]>  {
+  loadData(start_date:string, end_date:string) : Observable<any>  {
     let params = new HttpParams().set("username",this.loginUserService.currentUserValue.username)
     .set("start_date",start_date)
     .set("end_date",end_date)
-    return this.http.get<(TableElement | Group |Break)[]>(`${baseUrl}/api/imputations`,{params})
+    return this.http.get<any>(`${baseUrl}/api/imputations`,{params})
+    
    
   }
 
+  public getWeeklyImputations(start_date:string, end_date:string) : Observable<any> {
+    let params = new HttpParams().set("username",this.loginUserService.currentUserValue.username)
+    .set("start_date",start_date)
+    .set("end_date",end_date)
+    return this.http.get<any>(`${baseUrl}/api/weekly/imputations`,{params})
+  }
+
+  public getMonthlyImputations(start_date:string, end_date:string, project_id:number) : Observable<any> {
+    let params = new HttpParams().set("project_id",project_id)
+    .set("start_date",start_date)
+    .set("end_date",end_date)
+    return this.http.get<any>(`${baseUrl}/api/monthly/imputations`,{params})
+  }
+
+  public getHolidays(start_date:string, end_date:string) : Observable<string[]> {
+    let params = new HttpParams().set("start_date",start_date)
+    .set("end_date",end_date)
+    return this.http.get<any>(`${baseUrl}/api/holidays`,{params}).pipe(map(days =>  days?.response?.toLowerCase().split(',')))
+  }
+
+  public getMonthlyNonBusinessDays(start_date:string, end_date:string, employee_id : number ) : Observable<number[]> {
+      let params = new HttpParams().set("employee_id",employee_id)
+      .set("start_date",start_date)
+      .set("end_date",end_date)
+      return this.http.get<number[]>(`${baseUrl}/api/monthly/nonBusinessDays`,{params})
+
+  }
+  
+
+  
+ 
+
   public postImputation(form : FormGroup) : Observable<any> {
-    const body = { task_id : form.controls['name'].value.id,
+    const body = { task_id : form.controls['name'].value.task_id || form.controls['name'].value.id,
       day : form.controls['day'].value,
       workload : form.controls['workload'].value,
       comment : form.controls['comment'].value,
@@ -103,80 +161,41 @@ export class timesheetService {
     let params = new HttpParams().set("start_date",start_date)
     .set("end_date",end_date)
     return this.http.get<Leave[]>(`${baseUrl}/api/leaves/approved/${username}`,{params}).pipe(map((data)=>
-     {return this.transformData(data,monday,sunday)}))
+     {return this.transformData(data)}))
     }
 
-  transformData(leaves : Leave[], monday:Date, sunday:Date) : any {
+    public getUserLeaves(start_date:string, end_date:string, employee_id : number)  : Observable<Break>{
+      let monday = new Date(start_date);
+      let sunday = new Date(end_date);
+      let params = new HttpParams().set("start_date",start_date)
+      .set("end_date",end_date)
+      return this.http.get<Leave[]>(`${baseUrl}/api/leaves/approved/id/${employee_id}`,{params}).pipe(map((data)=>
+       {return this.transformData(data)}))
+      }
+
+  transformData(leaves : any[]) : Break {
     var array =[0,0,0,0,0]
   
-    leaves.forEach(leave => {
-      //THIS WORKS!!!!
-      let leave_array = [0,0,0,0,0]
-      let leave_start_date = (new Date(leave.start_date))
-      let leave_end_date = (new Date(leave.end_date))
+    let monday = leaves.find(elt => elt.day.trim()=='monday')
+    let tuesday = leaves.find(elt => elt.day.trim()=='tuesday')
+    let wednesday = leaves.find(elt => elt.day.trim()=='wednesday')
+    let thursday = leaves.find(elt => elt.day.trim()=='thursday')
+    let friday = leaves.find(elt => elt.day.trim()=='friday')
 
-      const MONDAY = new Date(monday.getTime()) //create constant copy of current_week monday
-      let check = this.isFirstOrLastDay(MONDAY,leave)
-      var next_day = MONDAY; 
-      next_day.setDate(next_day.getDate() + 1) 
-   
-      for(let i=0;i<5;i++) {
-        if(check=='first') {leave_array[i]=this.extractHours(leave_start_date,false); }
-        else if (check=='last') {leave_array[i]=this.extractHours(leave_end_date,true) ; }
-        else if(check=='between') {leave_array[i]=8;  }
-        check = this.isFirstOrLastDay(next_day,leave);  next_day.setDate(next_day.getDate() + 1)
-      }
-      array = array.map((element,index) => {
-        return element+leave_array[index]})
+    array[0]=monday?.leave_duration || 0
+    array[1]=tuesday?.leave_duration || 0
+    array[2]=wednesday?.leave_duration || 0
+    array[3]=thursday?.leave_duration || 0
+    array[4]=friday?.leave_duration || 0
 
-    } )
-
-    let result : Break = {
-      monday: array[0], tuesday: array[1], wednesday: array[2], thursday: array[3], friday: array[4], saturday: 0, sunday: 0, total: array.reduce((a, b) => a + b, 0), isLeave: true}
+    var result : Break = {monday:array[0],tuesday:array[1],wednesday:array[2],thursday:array[3],friday:array[4], total: array.reduce((a,b)=>a+b),saturday:0 , sunday:0 , isLeave:true}
     return result
 
-    
   }
 
-
-
-  isFirstOrLastDay(date : Date,leave : Leave) : string{
-          //check if date provided is the first or last day of the Leave
-          //this works
-      let leave_start_date= new Date(leave.start_date)
-      leave_start_date.setHours(0,0,0,0)
-      let leave_end_date = new Date(leave.end_date)
-      leave_end_date.setHours(0,0,0,0)
-      date.setHours(0,0,0,0)
-      let leave_start_date_string = new Date(leave.start_date).toDateString()
-      let leave_end_date_string = new Date(leave.end_date).toDateString() 
-      let result = (date.toDateString() == leave_start_date_string) ? 'first' :
-      (date.toDateString() == leave_end_date_string) ? 'last' :
-      (date < leave_start_date || date > leave_end_date) ? 'none' :
-      'between';
-      return result
+  public getAllClientsAndProjects() : Observable<ClientData[]> {
+    return this.http.get<ClientData[]>(`${baseUrl}/api/clients`)
   }
-
-  
-    extractHours(day : Date, param : boolean) : number {
-        //calculates how much time did the employee skip in hours
-        //TODO : round this up 
-        let hours = day.getHours();
-
-        if(param) { //date is end date
-          let diff = (hours+(day.getMinutes()/60) - 8)
-          if (hours>=14) return diff- 2 //substract 2 hours of lunch
-          return diff
-
-        }
-        //date is start date
-        let diff = 18-(hours+(day.getMinutes()/60) )
-        if (hours<=12) return diff- 2 //substract 2 hours of lunch
-        return diff
-        
-    }
-   
-  
 }
 
 

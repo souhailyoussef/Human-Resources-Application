@@ -1,5 +1,7 @@
 package com.example.app.service;
 
+import com.example.app.domain.ClientData;
+import com.example.app.domain.Invoice;
 import com.example.app.domain.Project;
 import com.example.app.domain.Task;
 
@@ -13,4 +15,7 @@ public interface ProjectService {
    // Project addTask(Task task, long project_id);
     long countProjects(LocalDate date);
     List<List<Integer>> countCurrentProjectsAndClients();
+    Invoice getInvoiceInfo(long client_id, long project_id);
+
+    List<ClientData>  getAllClientsAndProjects();
 }

@@ -5,7 +5,7 @@
             <label for="">project filter</label>
             <div class="select-dropdown" >
                 <mat-select  panelClass="myPanelClass" disableOptionCentering placeholder="Projects" [formControl]="projectsControlForm" multiple class="select">
-                     <mat-option (click)="project.selected=!project.selected" class="option" *ngFor="let project of projects" [value]="project">{{project.project_name}}</mat-option>              
+                     <mat-option  (click)="project.selected=!project.selected" class="option" *ngFor="let project of projects" [value]="project">{{project.project_name}}</mat-option>              
                 </mat-select>
             </div>
         </div>
@@ -18,8 +18,8 @@
                     #ev_tasks> SelectAll</mat-option>
                    <mat-optgroup class="group" *ngFor="let group of filterTasks()"   [label]="group.project.project_name"
                              [disabled]="group.disabled">
-                             {{group.tasks |json}}
                  <mat-option (click)="task.selected=!task.selected" class="option" *ngFor="let task of group.tasks" [value]="task">
+                    <span  class="tag" [ngClass]="[task?.tag]">{{task?.tag}}</span>
                    {{task.task_name}}
                  </mat-option>
                </mat-optgroup>
@@ -62,12 +62,9 @@
             </div>
            
         </div>
-     
-              
-
-           
+               
     </mat-card>
 
-    <app-weekly-timesheet [taskGroups]="taskGroups" [current_date]="date"></app-weekly-timesheet>
+    <app-weekly-timesheet [allProjects]="projects" [taskGroups]="taskGroups" [current_date]="date"></app-weekly-timesheet>
   
  </div>    

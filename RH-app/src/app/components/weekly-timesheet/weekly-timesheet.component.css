@@ -55,12 +55,12 @@
   border:1px solid #fff;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   font-size: 14px;
-  
 }
 #add-task-btn {
   margin-left: 0px;
 
 }
+
 #save-btn {
   background: var(--light-green);
   border: 1px solid var(--light-green);
@@ -162,17 +162,7 @@ tr {
 }
 
 
-.tag {
-  color:white ;
-  border-radius: 3px;
-  font-size: 10px;
-  font-weight: bold;
-  padding:3px 3px 2px;
-  margin-right:5px;
-  font-family: lato;
-   text-transform: uppercase;
-   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-}
+
 
  .task-cell > a {
    text-align: left;
@@ -187,17 +177,7 @@ tr {
 
  }
 
- .bug {
-   background: linear-gradient(to right, rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%) !important;
 
- }
- .testing {
-   background: linear-gradient(to right, rgba(129,166,16,1) 0%, rgba(95,150,44,1) 100%);
-
- }
- .issue {
-   background: linear-gradient(to right, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 100%);
- }
 
  /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -253,6 +233,12 @@ button.mat-menu-item:hover {
   height:35px ;
   max-width: 150px;
   line-height: 1;
+
+}
+
+.holiday  {
+  color:black !important;
+  background: #f3f3f3 !important;
 
 }
 

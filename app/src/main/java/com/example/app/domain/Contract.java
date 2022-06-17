@@ -21,6 +21,7 @@ public class Contract {
     private int id;
     private Date start_date;
     private Date end_date;
+    private String codeTVA;
     private double cost;
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)

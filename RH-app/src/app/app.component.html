@@ -1,6 +1,6 @@
 
 <app-navbar *ngIf="currentUser" (toggle)="toggle()">
-    
+   
 </app-navbar>
 
 <!-- <app-menu *ngIf="currentUser"></app-menu>
@@ -8,7 +8,7 @@
 
 <mat-sidenav-container>
     
-    <mat-sidenav mode="side" [(opened)]="leftOpened" opened  #sidenav="matSidenav" *ngIf="currentUser" >
+    <mat-sidenav mode="side" [(opened)]="leftOpened" opened  #sidenav="matSidenav" *ngIf="currentUser  && router.url!=='/invoice'" >
         
         <app-menu >        </app-menu>
 
@@ -20,3 +20,4 @@
 
 </mat-sidenav-container>
  
+

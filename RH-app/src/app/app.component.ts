@@ -19,7 +19,7 @@ export class AppComponent {
   
 
     constructor(
-        private router: Router,
+        public router: Router,
         private loginUserService: LoginuserService,
         private observer : BreakpointObserver
     ) 

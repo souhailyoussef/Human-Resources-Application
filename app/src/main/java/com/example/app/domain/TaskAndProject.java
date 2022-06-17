@@ -19,6 +19,7 @@ public interface TaskAndProject {
      LocalDate getProject_start_date();
      String getProject_status();
      long getClient_id();
+     String getTask_tag();
 
 
 }

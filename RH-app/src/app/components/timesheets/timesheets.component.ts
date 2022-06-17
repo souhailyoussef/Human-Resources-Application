@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Client } from 'src/app/client';
 
 import { timesheetService } from 'src/app/services/timesheet.service';
 import { UserService } from 'src/app/services/user.service';
@@ -31,6 +32,7 @@ export class Task {
   project_id: number;
   project_name : string;
   selected : boolean;
+
   constructor(task_id : number,task_name : string,tag : string,project_id : number,project_name: string) {
     this.task_id=task_id
     this.task_name=task_name
@@ -126,7 +128,7 @@ export class TimesheetsComponent implements OnInit {
         for (let x of this.projectsAndTasks) {
             this.projects.push(new Project(x.project_id,x.project_name,x.project_status,x.project_description))
             
-            this.tasks.push(new Task(x.task_id,x.task_name,x.tag,x.project_id,x.project_name))
+            this.tasks.push(new Task(x.task_id,x.task_name,x.task_tag,x.project_id,x.project_name))
           
         }
         
@@ -194,7 +196,7 @@ export class TimesheetsComponent implements OnInit {
 }
   
  
-  
+ 
   
  
 

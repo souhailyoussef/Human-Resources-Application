@@ -188,7 +188,9 @@ mat-datepicker-toggle {
 	border-right: 5px solid transparent;
 	border-left: 5px solid transparent;
 }
-
+::ng-deep .mat-select-arrow {
+  border: none !important;
+}
 
 .apply {
   display: flex;
@@ -282,17 +284,16 @@ margin-left: 5px;
   position:fixed;
   top:0;
   left:20px !important ; /* this works */
-  background: blue;
-  color:red
 }
 
 ::ng-deep .group {
-  background-color: blue !important;
-
+  text-transform: capitalize;
 }
 
 
-
+::ng-deep .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+  background: #005691 !important;
+}
 /* TIHS IS MY CODE */
 /*
 input {

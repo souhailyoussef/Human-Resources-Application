@@ -51,15 +51,7 @@ public class Leave {
         this.approved=true;
         this.employee=employee;
         Timestamp stamp = new Timestamp(System.currentTimeMillis());
-        System.out.println("it should be: " + stamp);
-
         Date date = new Date(stamp.getTime());
-
-        System.out.println("from constrcutor: " + date);
-        System.out.println("from constrcutor: " + end_date);
-
-
-
         this.submittedAt=date;
     }
 }

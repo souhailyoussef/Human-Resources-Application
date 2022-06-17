@@ -71,6 +71,8 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { WeeklyTimesheetComponent } from './components/weekly-timesheet/weekly-timesheet.component';
 import { ConvertTimePipe } from './pipes/convert-time.pipe';
+import { MonthlySheetModelComponent } from './components/monthly-sheet-model/monthly-sheet-model.component';
+import { InvoiceComponent } from './components/invoice/invoice.component';
 
 
 @NgModule({
@@ -94,7 +96,9 @@ import { ConvertTimePipe } from './pipes/convert-time.pipe';
     TaskModalComponent,
     TasksComponent,
     WeeklyTimesheetComponent,
-    ConvertTimePipe
+    ConvertTimePipe,
+    MonthlySheetModelComponent,
+    InvoiceComponent
 
   ],
   imports: [

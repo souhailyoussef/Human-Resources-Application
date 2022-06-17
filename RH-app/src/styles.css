@@ -49,9 +49,10 @@ body {
     background: white !important;
 }
 .mat-tooltip {
-    background: var(--light-green) !important;
+    background: var(--light-green) ;
     font-size: 13px;
 }
+
 tr.mat-row {
 
     height: 10px !important;
@@ -94,3 +95,25 @@ tr.mat-row {
       }
 
     
+      .tag {
+        color:white ;
+        border-radius: 3px;
+        font-size: 10px;
+        font-weight: bold;
+        padding:3px 3px 2px;
+        margin-right:5px;
+        font-family: lato;
+         text-transform: uppercase;
+         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+      }
+      .bug {
+        background: linear-gradient(to right, rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%) !important;
+      
+      }
+      .testing {
+        background: linear-gradient(to right, rgba(129,166,16,1) 0%, rgba(95,150,44,1) 100%);
+      
+      }
+      .issue {
+        background: linear-gradient(to right, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 100%);
+      }

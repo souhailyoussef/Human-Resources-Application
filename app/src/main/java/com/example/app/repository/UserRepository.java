@@ -15,10 +15,10 @@ public interface UserRepository extends JpaRepository<AppUser, Long> {
 
     String findByRolename(String rolename);
 
-    @Query(value="SELECT task_id,task_description as task_description,task_end_date as task_end_date,task_name as task_name,task_start_date as task_start_date,project_id,employee_id,description as project_description, end_date as project_end_date, name as project_name,priority as project_priority, start_date as project_start_date, status as project_status,client_id \n" +
+    @Query(value="SELECT task_id,task_description as task_description,task_tag,task_end_date as task_end_date,task_name as task_name,task_start_date as task_start_date,project_id,employee_id,description as project_description, end_date as project_end_date, name as project_name,priority as project_priority, start_date as project_start_date, status as project_status,client_id \n" +
             " FROM\n" +
 
-            "(SELECT id as task_id,description as task_description,end_date as task_end_date,name as task_name,start_date as task_start_date,project_id,employee_id\n" +
+            "(SELECT id as task_id,tag as task_tag, description as task_description,end_date as task_end_date,name as task_name,start_date as task_start_date,project_id,employee_id\n" +
             "FROM task\n" +
             "INNER JOIN employee_task as et\n" +
             "ON et.task_id = task.id\n" +

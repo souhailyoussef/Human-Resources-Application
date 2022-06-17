@@ -1,4 +1,4 @@
-<div *ngFor="let alert of alerts" class="anim {{cssClass(alert)}}" style="display: flex; text-align: center; width: 300px; margin: 0 auto; height:70px;">
+<div *ngFor="let alert of alerts" class="anim {{cssClass(alert)}}" style="display: flex; text-align: center; width: 300px; margin: 0 auto; min-height: 70px; max-height: 100px;">
     <div class="banner" [ngClass]="{
         'success':alert.alertType === 'success',
         'error':alert.alertType === 'error',

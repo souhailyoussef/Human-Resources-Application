@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LoginuserService } from 'src/app/services/loginuser.service';
 import jwt_decode from 'jwt-decode';
+import { Router } from '@angular/router';
+import { GlobalConstants } from 'src/app/global-constants';
+
+
 
 @Component({
   selector: 'app-menu',
@@ -13,19 +17,23 @@ export class MenuComponent implements OnInit {
   selection:any;
   role: string;
   //TODO : put in seperate file
-  menu_admin : any[] = [['Home','home'],['Employees','person'],['Settings','settings']];
-  menu_collaborateur : any[] = [['Home','home'],['Timesheets','calendar_today'],['Tasks','work'],['Projects','file_copy']];
-  menu_chefDeProjet : any[] = [['Home','home'],['Timesheets','calendar_today'],['Projects','file_copy'],['Employees','person'],['Settings','settings'],['Dashboard','bubble_chart']];
-  menu_manager : any[] = [['Home','home'],['Timesheets','calendar_today'],['Projects','file_copy'],['Employees','person'],['Dashboard','bubble_chart'],['Settings','settings']];
-  menu_comptable : any[] = [['Home','home'],['Projects','file_copy'],['Bills','attach_money']];
+menu_admin = GlobalConstants.menu_admin;
+menu_collaborateur = GlobalConstants.menu_collaborator;
+menu_manager = GlobalConstants.menu_manager;
+menu_project_manager = GlobalConstants.menu_project_manager;
+menu_accountant = GlobalConstants.menu_accountant
 
-    constructor(private loginUserService : LoginuserService) { }
+
+
+
+
+    constructor(private loginUserService : LoginuserService, public router : Router) { }
 
 
   ngOnInit(): void {
     this.selection="Home";
     this.role=this.getUserRole();
-
+    
     
   }
  

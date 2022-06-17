@@ -1,8 +1,6 @@
 package com.example.app.service;
 
-import com.example.app.domain.Holidays;
-import com.example.app.domain.Imputation;
-import com.example.app.domain.Leave;
+import com.example.app.domain.*;
 import com.example.app.repository.HolidaysRepository;
 import com.example.app.repository.ImputationRepository;
 import com.example.app.repository.LeaveRepository;
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -66,6 +64,17 @@ public class ImputationServiceImpl implements ImputationService{
         return imputationRepository.checkExistingImputation(date,employee_id,task_id);
     }
 
+    @Override
+    public List<DailyImputation> getWeeklyImputations(LocalDate start_date, LocalDate end_date, String username) {
+        long employee_id = userService.getUser(username).getId();
+        return imputationRepository.getWeeklyImputations(start_date,end_date,employee_id);
+    }
+
+    @Override
+    public List<MonthlyImputation> getMonthlyImputations(LocalDate start_date, LocalDate end_date, Long project_id) {
+        return imputationRepository.getMonthlyImputations(start_date,end_date,project_id);
+    }
+
     //LEAVES
     @Override
     public Leave getLeave(long id) {
@@ -81,7 +90,10 @@ public class ImputationServiceImpl implements ImputationService{
         if ( end.compareTo(start)<0) return null;
         log.info("saving new leave");
         //TODO : check logic for duration!!!
-        return leaveRepository.save(leave);
+        Leave saved_leave =leaveRepository.save(leave);
+        log.info("my leave id {}", saved_leave.getId());
+        leave.setNumberOfDays(leaveRepository.calculateLeaveDuration(saved_leave.getId()));
+        return saved_leave;
     }
 
     @Override
@@ -91,8 +103,8 @@ public class ImputationServiceImpl implements ImputationService{
     }
 
     @Override
-    public List<Leave> findApprovedLeaves(long employee_id, LocalDate start_date, LocalDate end_date) {
-        return leaveRepository.findApprovedLeaves(employee_id,start_date,end_date);
+    public List<DailyLeave> findApprovedLeaves(long employee_id, LocalDate start_date, LocalDate end_date) {
+        return leaveRepository.getWeeklyLeaves(employee_id,start_date,end_date);
     }
 
     @Override
@@ -111,9 +123,36 @@ public class ImputationServiceImpl implements ImputationService{
     }
 
     @Override
-    public List<Holidays> findHolidays(LocalDate start_date, LocalDate end_date) {
+    public String findHolidays(LocalDate start_date, LocalDate end_date) {
         log.info("fetching holidays between {} -> {}", start_date,end_date);
         return holidaysRepository.getHolidays(start_date,end_date);
+    }
+
+    @Override
+    public List<Double> getMonthlyNonBusinessDays(long employee_id, LocalDate start_date, LocalDate end_date) {
+        List<MonthlyLeave> leaves = leaveRepository.getMonthlyLeaves(employee_id,start_date,end_date);
+        List<MonthlyHoliday> holidays = holidaysRepository.getMonthlyHolidays(start_date,end_date);
+        List<Double> nonBusinessDays = Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0);
+
+
+        for(int i=0;i < leaves.size(); i++) {
+            var current_week = Integer.parseInt(leaves.get(i).getWeek().trim());
+            var new_value= leaves.get(i).getLeave_duration() + nonBusinessDays.get(current_week);
+            nonBusinessDays.set(current_week,new_value);
+        }
+        for(int i=0;i < holidays.size(); i++) {
+            var current_week = Integer.parseInt(holidays.get(i).getWeek().trim());
+            var new_value= holidays.get(i).getDuration() + nonBusinessDays.get(current_week);
+            nonBusinessDays.set(current_week,new_value);
+        }
+
+        Double sum = nonBusinessDays.stream()
+                .reduce(0.0, (a, b) -> a + b);
+
+         nonBusinessDays.set(nonBusinessDays.size() - 1,sum);
+
+
+        return nonBusinessDays;
     }
 
 

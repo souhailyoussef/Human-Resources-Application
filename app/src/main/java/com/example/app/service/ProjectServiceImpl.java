@@ -1,5 +1,7 @@
 package com.example.app.service;
 
+import com.example.app.domain.ClientData;
+import com.example.app.domain.Invoice;
 import com.example.app.domain.Project;
 import com.example.app.domain.Task;
 import com.example.app.repository.ClientRepository;
@@ -55,5 +57,15 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public List<List<Integer>> countCurrentProjectsAndClients() {
         return projectRepository.countCurrentProjectsAndClients();
+    }
+
+    @Override
+    public Invoice getInvoiceInfo(long client_id, long project_id) {
+        return projectRepository.getInvoiceInfo(client_id, project_id);
+    }
+
+    @Override
+    public List<ClientData> getAllClientsAndProjects() {
+        return projectRepository.getAllClientsAndProjects();
     }
 }

@@ -9,6 +9,8 @@ import { AuthGuard } from './helpers/AuthGuard';
 import { DashboardComponent } from './modules/dashboard/dashboard/dashboard.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { WeeklyTimesheetComponent } from './components/weekly-timesheet/weekly-timesheet.component';
+import { MonthlySheetModelComponent } from './components/monthly-sheet-model/monthly-sheet-model.component';
+import { InvoiceComponent } from './components/invoice/invoice.component';
 
 
 const routes: Routes = [
@@ -23,6 +25,8 @@ const routes: Routes = [
   { path: 'settings', component: DashboardParametersComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'tasks', component : TasksComponent},
+  { path: 'model', component : MonthlySheetModelComponent},
+  {path: 'invoice', component:InvoiceComponent},
 
   // otherwise redirect to home
   { path: '**', redirectTo: '' }

@@ -55,6 +55,27 @@ public class UserController {
         LocalDate end = LocalDate.parse(end_date);
         return ResponseEntity.ok().body(imputationService.getImputations(username, start, end));
     }
+    @GetMapping("/weekly/imputations")
+    public ResponseEntity<List<DailyImputation>> getWeeklyImputations(@RequestParam String username,@RequestParam String start_date,@RequestParam String end_date) {
+        LocalDate start = LocalDate.parse(start_date);
+        LocalDate end = LocalDate.parse(end_date);
+        return ResponseEntity.ok().body(imputationService.getWeeklyImputations(start, end,username));
+    }
+    @GetMapping("/monthly/imputations")
+    public ResponseEntity<List<MonthlyImputation>> getMonthlyImputations(@RequestParam Long project_id,@RequestParam String start_date,@RequestParam String end_date) {
+        LocalDate start = LocalDate.parse(start_date);
+        LocalDate end = LocalDate.parse(end_date);
+        return ResponseEntity.ok().body(imputationService.getMonthlyImputations(start, end,project_id));
+    }
+
+    @GetMapping("/monthly/nonBusinessDays")
+    //returns array of nonBusinessDays(employee leaves + holidays) per week : [week1,week2,..,week5,total]
+    public ResponseEntity<?> getMonthlyNonBusinessDays(@RequestParam long employee_id,@RequestParam String start_date,@RequestParam String end_date) {
+        LocalDate start = LocalDate.parse(start_date);
+        LocalDate end = LocalDate.parse(end_date);
+        return ResponseEntity.ok().body(imputationService.getMonthlyNonBusinessDays(employee_id,start,end));
+    }
+
     @GetMapping("/check")
     public ResponseEntity<?> getExisting(@RequestParam String date,@RequestParam long employee,@RequestParam long task) {
         LocalDate myDate = LocalDate.parse(date);
@@ -121,12 +142,20 @@ public class UserController {
         return ResponseEntity.ok().body(imputationService.findByEmployeeId(employee.getId()));
     }
     @GetMapping("/leaves/approved/{username}")
-    public ResponseEntity<List<Leave>>getApprovedLeavesByEmployee(@PathVariable String username,@RequestParam String start_date,
+    public ResponseEntity<List<DailyLeave>>getApprovedLeavesByEmployee(@PathVariable String username,@RequestParam String start_date,
                                                                   @RequestParam String end_date) {
         LocalDate from = LocalDate.parse(start_date);
         LocalDate to = LocalDate.parse(end_date);
         AppUser employee = userService.getUser(username);
         return ResponseEntity.ok().body(imputationService.findApprovedLeaves(employee.getId(),from,to));
+    }
+    @GetMapping("/leaves/approved/id/{employee_id}")
+    public ResponseEntity<List<DailyLeave>>getApprovedLeavesByEmployeeId(@PathVariable long employee_id,@RequestParam String start_date,
+                                                                       @RequestParam String end_date) {
+        LocalDate from = LocalDate.parse(start_date);
+        LocalDate to = LocalDate.parse(end_date);
+
+        return ResponseEntity.ok().body(imputationService.findApprovedLeaves(employee_id,from,to));
     }
 
     @PostMapping("/leaves/save")
@@ -136,9 +165,7 @@ public class UserController {
 
         Date start = new Date(start_date.getTime());
         Date end = new Date(end_date.getTime());
-        System.out.println("dates");
-        System.out.println(start);
-        System.out.println(end);
+
         AppUser employee = userService.getUser(leaveForm.getUsername());
         Leave leave = new Leave(start,end,leaveForm.getReason(),employee);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/leaves/save").toUriString());
@@ -148,10 +175,14 @@ public class UserController {
     }
 
     @GetMapping("/holidays")
-    public ResponseEntity<List<Holidays>>getHolidays(@RequestParam String start_date,@RequestParam String end_date) {
+    public ResponseEntity<ServerResponse> getHolidays(@RequestParam String start_date,@RequestParam String end_date) {
         LocalDate from = LocalDate.parse(start_date);
         LocalDate to = LocalDate.parse(end_date);
-        return ResponseEntity.ok().body(imputationService.findHolidays(from,to));
+        String result = imputationService.findHolidays(from,to);
+        if(result!=null) { //remove { and } at the start
+            result = result.substring(1,result.length()-1);
+        }
+        return ResponseEntity.ok().body(new ServerResponse(result));
     }
 
 

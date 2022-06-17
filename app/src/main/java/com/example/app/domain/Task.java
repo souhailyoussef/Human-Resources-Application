@@ -49,6 +49,7 @@ public class Task {
     @OneToMany(mappedBy="task")
     private List<Imputation> imputations;
 
+    //TODO add project_id column and initialize it in constructor
 
 
     public Task(long id,String name) {

@@ -4,6 +4,7 @@ import com.example.app.domain.*;
 
 import com.example.app.service.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,6 +28,7 @@ import java.util.GregorianCalendar;
 
 @SpringBootApplication
 public class AppApplication {
+
 
 
 	public static void main(String[] args) {
@@ -62,13 +64,17 @@ public class AppApplication {
 
 	@Transactional
 	@Bean
-	CommandLineRunner run_again(NodeService nodeService) {
+	CommandLineRunner run_again(NodeService nodeService,PdfService pdfService) {
 		//manual input
 		return args -> {
 
 			Node root = new Node();
-			nodeService.saveNode(root);
-			//runScripts();
+			nodeService.saveNode(root);/*
+			System.out.println("creating pdf...");
+			pdfService.createPDF();
+			System.out.println("pdf creation complete!");*/
+
+
 
 
 		};

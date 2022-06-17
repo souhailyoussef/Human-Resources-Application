@@ -28,6 +28,11 @@ export class UserService {
     
   }
 
+  public getCurrentUserDetails() : Observable<User> {
+    return this.http.get<User>(`${baseUrl}/api/users/user/${this.loginUserService.currentUserValue.username}`);
+
+  }
+
   public getGenderRepartition() : Observable<Repartition> {
       return this.http.get<Repartition>(`${baseUrl}/api/users/gender`);
   }
